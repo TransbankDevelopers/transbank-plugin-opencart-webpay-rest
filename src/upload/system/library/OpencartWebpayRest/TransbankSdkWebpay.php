@@ -17,8 +17,8 @@ class TransbankSdkWebpay
     {
         $this->log = $log;
         if (isset($config)) {
-            $environment = isset($config["MODO"]) ? $config["MODO"] : 'INTEGRACION';
-            if ($environment != "INTEGRACION") {
+            $environment = isset($config["MODO"]) ? $config["MODO"] : 'TEST';
+            if ($environment != "TEST") {
                 WebpayPlus::setApiKey($config['API_KEY']);
                 WebpayPlus::setCommerceCode($config['COMMERCE_CODE']);
                 WebpayPlus::setIntegrationType($environment);

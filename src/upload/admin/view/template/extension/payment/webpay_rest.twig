@@ -58,12 +58,12 @@
                         </label>
                         <div class="col-sm-5">
                             <select class="form-control" name="payment_webpay_rest_test_mode" id="payment_webpay_rest_test_mode">
-                                {% if payment_webpay_rest_test_mode == 'PRODUCCION' %}
-                                <option value="INTEGRACION">INTEGRACION</option>
-                                <option value="PRODUCCION" selected="selected">PRODUCCION</option>
+                                {% if payment_webpay_rest_test_mode == 'LIVE' %}
+                                <option value="TEST">Integración</option>
+                                <option value="LIVE" selected="selected">Producción</option>
                                 {% else %}
-                                <option value="INTEGRACION" selected="selected">INTEGRACION</option>
-                                <option value="PRODUCCION">PRODUCCION</option>
+                                <option value="TEST" selected="selected">Integración</option>
+                                <option value="LIVE">Producción</option>
                                 {% endif %}
                             </select>
                         </div>
