@@ -6,7 +6,7 @@ y este proyecto adhiere a [Semantic Versioning](http://semver.org/spec/v2.0.0.ht
 
 ## [1.0.2] - 2021-02-02
 ### Changed
-- Configura version de PHP 5.6.1.
+- Configura versión de PHP 5.6.1.
 
 ## [1.0.1] - 2021-02-01
 ### Changed
