@@ -7,3 +7,9 @@ y este proyecto adhiere a [Semantic Versioning](http://semver.org/spec/v2.0.0.ht
 ## [1.0.0] - 2020-11-04
 ### Added
 - Release inicial
+
+
+## [1.0.1] - 2021-02-01
+### Changed
+- Corrige [error en variables](https://github.com/TransbankDevelopers/transbank-plugin-opencart-webpay-rest/issues/7) de Producción ('LIVE') e Integración ('TEST').
+- Actualiza la versión de SDK PHP a la última disponible (1.10.1).
