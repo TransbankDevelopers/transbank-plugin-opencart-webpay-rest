@@ -14,7 +14,6 @@ class HealthCheck {
     var $versioninfo;
     var $resume;
     var $fullResume;
-    var $certficados;
     var $ecommerce;
     var $config;
 
@@ -32,10 +31,10 @@ class HealthCheck {
             'dom'
         );
     }
-    
+
     // valida version de php
     private function getValidatephp(){
-        if (version_compare(phpversion(), '7.1.25', '<=') and version_compare(phpversion(), '5.5.0', '>=')) {
+        if (version_compare(phpversion(), '7.3', '<=') and version_compare(phpversion(), '5.5.0', '>=')) {
             $this->versioninfo = array(
                 'status' => 'OK',
                 'version' => phpversion()
@@ -221,10 +220,6 @@ class HealthCheck {
         return json_encode($this->getPhpInfo());
     }
 
-    // imprime resultado la consistencia de certificados y llabves
-    public function printCertificatesStatus() {
-        return json_encode($this->getValidateCertificates());
-    }
 
     // imprime en formato json la validacion de extensiones / modulos de php
     public function printExtensionStatus() {

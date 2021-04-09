@@ -46,7 +46,7 @@ class ControllerExtensionPaymentWebpayRest extends Controller {
         $transbankSdk = $this->getTransbankSdkWebpay();
 
         $config = $this->getConfig();
-        
+
         $itemsId = [];
         foreach ($this->cart->getProducts() as $product) {
             $itemsId[] = $product['product_id'];
@@ -93,18 +93,18 @@ class ControllerExtensionPaymentWebpayRest extends Controller {
         } else {
             $tokenWs = $this->request->get['token_ws'] ?? null;
         }
-        
-        $tbk_id_sesion = $_POST['TBK_ID_SESION'] ?? $_GET['TBK_ID_SESION'] ?? null;
-        if ($tbk_id_sesion) {
+
+        $transbankSessionId = $_POST['TBK_ID_SESION'] ?? $_GET['TBK_ID_SESION'] ?? null;
+        if ($transbankSessionId) {
             $comment = array(
                 'error' => 'Compra cancelada',
                 'detail' => 'La compra ha sido cancelada por el usuario durante el proceso de pago'
             );
-    
+
             $orderStatusId = $this->config->get('payment_webpay_rest_canceled_order_status');
             $orderComment = 'Pago cancelado: ' . json_encode($comment);
             $orderNotifyToUser = false;
-    
+
             $this->model_checkout_order->addOrderHistory($orderId, $orderStatusId, $orderComment, $orderNotifyToUser);
             $this->session->data['reject_text'] = 'Pago cancelado por el usuario';
             $this->session->data['reject_date'] = date('d-m-Y');
@@ -128,7 +128,7 @@ class ControllerExtensionPaymentWebpayRest extends Controller {
             $this->errorView('error_token');
             return;
         }
-    
+
         $itemsId = [];
         foreach ($this->cart->getProducts() as $product) {
             $itemsId[] = $product['product_id'];
@@ -167,7 +167,7 @@ class ControllerExtensionPaymentWebpayRest extends Controller {
             $result = $transbankSdk->commitTransaction($tokenWs);
 
             $this->session->data['result'] = $result;
-            
+
             if (isset($result->buyOrder) && $result->getResponseCode() == 0) {
 
                 $this->session->data['paymentOk'] = 'SUCCESS';
