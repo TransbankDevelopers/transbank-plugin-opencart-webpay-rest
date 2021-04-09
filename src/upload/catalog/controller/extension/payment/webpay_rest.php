@@ -1,7 +1,7 @@
 <?php
 
 use OpencartWebpayRest\TransbankSdkWebpay;
-use Transbank\Webpay\WebpayPlus\TransactionCommitResponse;
+use Transbank\Webpay\WebpayPlus\Responses\TransactionCommitResponse;
 
 require_once(DIR_SYSTEM . 'library/OpencartWebpayRest/TransbankSdkWebpay.php');
 require_once('libwebpay_rest/LogHandler.php');
@@ -47,6 +47,7 @@ class ControllerExtensionPaymentWebpayRest extends Controller {
 
         $config = $this->getConfig();
 
+        $itemsId = [];
         foreach ($this->cart->getProducts() as $product) {
             $itemsId[] = $product['product_id'];
         }
@@ -88,19 +89,22 @@ class ControllerExtensionPaymentWebpayRest extends Controller {
         $orderId = $this->session->data['order_id'];
 
         if (($this->request->server['REQUEST_METHOD'] == 'POST')) {
-            $tokenWs = isset($this->request->post['token_ws']) ? $this->request->post['token_ws'] : null;
+            $tokenWs = $this->request->post['token_ws'] ?? null;
+        } else {
+            $tokenWs = $this->request->get['token_ws'] ?? null;
         }
-        
-        if (isset($_POST['TBK_ID_SESION'])) {
+
+        $transbankSessionId = $_POST['TBK_ID_SESION'] ?? $_GET['TBK_ID_SESION'] ?? null;
+        if ($transbankSessionId) {
             $comment = array(
                 'error' => 'Compra cancelada',
                 'detail' => 'La compra ha sido cancelada por el usuario durante el proceso de pago'
             );
-    
+
             $orderStatusId = $this->config->get('payment_webpay_rest_canceled_order_status');
             $orderComment = 'Pago cancelado: ' . json_encode($comment);
             $orderNotifyToUser = false;
-    
+
             $this->model_checkout_order->addOrderHistory($orderId, $orderStatusId, $orderComment, $orderNotifyToUser);
             $this->session->data['reject_text'] = 'Pago cancelado por el usuario';
             $this->session->data['reject_date'] = date('d-m-Y');
@@ -125,6 +129,7 @@ class ControllerExtensionPaymentWebpayRest extends Controller {
             return;
         }
 
+        $itemsId = [];
         foreach ($this->cart->getProducts() as $product) {
             $itemsId[] = $product['product_id'];
         }
@@ -162,7 +167,7 @@ class ControllerExtensionPaymentWebpayRest extends Controller {
             $result = $transbankSdk->commitTransaction($tokenWs);
 
             $this->session->data['result'] = $result;
-            
+
             if (isset($result->buyOrder) && $result->getResponseCode() == 0) {
 
                 $this->session->data['paymentOk'] = 'SUCCESS';

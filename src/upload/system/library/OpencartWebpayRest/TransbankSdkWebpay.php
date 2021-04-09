@@ -10,22 +10,20 @@ use Transbank\Webpay\WebpayPlus\Transaction;
 
 class TransbankSdkWebpay
 {
-    
+
     const PLUGIN_VERSION = '1.0.0'; //version of plugin payment
-    
+
     function __construct($config = null, $log = null)
     {
         $this->log = $log;
         if (isset($config)) {
             $environment = isset($config["MODO"]) ? $config["MODO"] : 'TEST';
             if ($environment != "TEST") {
-                WebpayPlus::setApiKey($config['API_KEY']);
-                WebpayPlus::setCommerceCode($config['COMMERCE_CODE']);
-                WebpayPlus::setIntegrationType($environment);
+                WebpayPlus::configureForProduction($config['API_KEY'], $config['COMMERCE_CODE']);
             }
         }
     }
-    
+
     public function initTransaction($amount, $sessionId, $buyOrder, $returnUrl)
     {
         $result = [];
@@ -33,8 +31,8 @@ class TransbankSdkWebpay
             $txDate = date('d-m-Y');
             $txTime = date('H:i:s');
             $this->log->logInfo('initTransaction - amount: ' . $amount . ', sessionId: ' . $sessionId . ', buyOrder: ' . $buyOrder . ', txDate: ' . $txDate . ', txTime: ' . $txTime);
-            
-            $response = Transaction::create($buyOrder, $sessionId, $amount, $returnUrl);
+
+            $response = Transaction::build()->create($buyOrder, $sessionId, $amount, $returnUrl);
             $this->log->logInfo('initTransaction - initResult: ' . json_encode($response));
             if (isset($response) && isset($response->url) && isset($response->token)) {
                 $result = [
@@ -51,10 +49,10 @@ class TransbankSdkWebpay
             ];
             $this->log->logError(json_encode($result));
         }
-        
+
         return $result;
     }
-    
+
     public function commitTransaction($tokenWs)
     {
         $result = [];
@@ -63,8 +61,8 @@ class TransbankSdkWebpay
             if ($tokenWs == null) {
                 throw new \Exception("El token webpay es requerido");
             }
-            
-            return Transaction::commit($tokenWs);
+
+            return Transaction::build()->commit($tokenWs);
         } catch (\Exception $e) {
             $result = [
                 "error" => 'Error al confirmar la transacción',
@@ -72,7 +70,7 @@ class TransbankSdkWebpay
             ];
             $this->log->logError(json_encode($result));
         }
-        
+
         return $result;
     }
 }
