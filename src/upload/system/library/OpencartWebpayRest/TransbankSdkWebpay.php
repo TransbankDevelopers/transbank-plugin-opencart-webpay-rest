@@ -19,7 +19,7 @@ class TransbankSdkWebpay
         if (isset($config)) {
             $environment = isset($config["MODO"]) ? $config["MODO"] : 'TEST';
             if ($environment != "TEST") {
-                WebpayPlus::configureForProduction($config['API_KEY'], $config['COMMERCE_CODE']);
+                WebpayPlus::configureForProduction($config['COMMERCE_CODE'], $config['API_KEY']);
             }
         }
     }
