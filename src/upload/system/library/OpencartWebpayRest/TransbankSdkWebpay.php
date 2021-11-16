@@ -32,7 +32,7 @@ class TransbankSdkWebpay
             $txTime = date('H:i:s');
             $this->log->logInfo('initTransaction - amount: ' . $amount . ', sessionId: ' . $sessionId . ', buyOrder: ' . $buyOrder . ', txDate: ' . $txDate . ', txTime: ' . $txTime);
 
-            $response = Transaction::build()->create($buyOrder, $sessionId, $amount, $returnUrl);
+            $response = (new Transaction)->create($buyOrder, $sessionId, $amount, $returnUrl);
             $this->log->logInfo('initTransaction - initResult: ' . json_encode($response));
             if (isset($response) && isset($response->url) && isset($response->token)) {
                 $result = [
@@ -62,7 +62,7 @@ class TransbankSdkWebpay
                 throw new \Exception("El token webpay es requerido");
             }
 
-            return Transaction::build()->commit($tokenWs);
+            return (new Transaction)->commit($tokenWs);
         } catch (\Exception $e) {
             $result = [
                 "error" => 'Error al confirmar la transacción',

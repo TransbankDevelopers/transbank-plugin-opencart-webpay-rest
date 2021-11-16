@@ -34,7 +34,7 @@ class HealthCheck {
 
     // valida version de php
     private function getValidatephp(){
-        if (version_compare(phpversion(), '7.3', '<=') and version_compare(phpversion(), '5.5.0', '>=')) {
+        if (version_compare(phpversion(), '8.0', '<=') and version_compare(phpversion(), '7.0', '>=')) {
             $this->versioninfo = array(
                 'status' => 'OK',
                 'version' => phpversion()
@@ -73,7 +73,7 @@ class HealthCheck {
         return $result;
     }
 
-    //obtiene ultimas versiones
+    // obtiene ultimas versiones
     // obtiene versiones ultima publica en github (no compatible con virtuemart) lo ideal es que el :usuario/:repo sean entregados como string
     // permite un maximo de 60 consultas por hora
     private function getLastGitHubReleaseVersion($string){
