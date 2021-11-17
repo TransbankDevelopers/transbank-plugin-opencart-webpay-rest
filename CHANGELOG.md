@@ -6,7 +6,7 @@ y este proyecto adhiere a [Semantic Versioning](http://semver.org/spec/v2.0.0.ht
 
 ## [1.1.2] - 2021-11-17
 ### Fixed
-- Se actualiza versión del SDK de PHP a la última versión.
+- Se actualiza versión del SDK de PHP a la última versión (2.0.7).
 - Se actualizan métodos create y commit en TransbankSdkWebpay. 
 - Se corrige error con librería tcpdf que impedía generar reportes y mostrar el estado de la conexión con Transbank.
 
