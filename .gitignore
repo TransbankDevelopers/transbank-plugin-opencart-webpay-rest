@@ -3,3 +3,4 @@
 .vscode/
 src/upload/system/library/transbank/vendor/
 plugin-transbank-webpay-**.zip
+opencart_data
