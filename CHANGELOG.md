@@ -4,6 +4,11 @@ Todos los cambios notables a este proyecto serán documentados en este archivo.
 El formato está basado en [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 y este proyecto adhiere a [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [1.1.3] - 2022-12-02
+### Fixed
+- Se realizan actualizaciones de seguridad.
+- Se incluye la imagen del logo para evitar referencias externas. 
+
 ## [1.1.2] - 2021-11-17
 ### Fixed
 - Se actualiza versión del SDK de PHP a la última versión (2.0.7).
