@@ -32,7 +32,7 @@ services:
       - '80:80'
       - '443:443'
     volumes:
-      - 'opencart_data:/bitnami'
+      - './opencart_data:/bitnami'
     depends_on:
       - mariadb
 
