@@ -14,7 +14,7 @@ Habilitar los siguientes módulos / extensiones para PHP:
 
 ## Instalación de Plugin
 
-1. Dirígete a [https://github.com/TransbankDevelopers/transbank-plugin-opencart-webpay/releases/latest](https://github.com/TransbankDevelopers/transbank-plugin-opencart-webpay/releases/latest), y descargue la última versión disponible del plugin.
+1. Dirígete a [[https://github.com/TransbankDevelopers/transbank-plugin-opencart-webpay/releases/latest](https://github.com/TransbankDevelopers/transbank-plugin-opencart-webpay-rest/releases)]([https://github.com/TransbankDevelopers/transbank-plugin-opencart-webpay/releases/latest](https://github.com/TransbankDevelopers/transbank-plugin-opencart-webpay-rest/releases)), y descargue la última versión disponible del plugin.
 
   Una vez descargado el plugin, ingresa a la página de administración de Opencart (usualmente en _misitio.com_/admin), y dirígete a (Extensions / Intaller) indicado a continuación:
 
