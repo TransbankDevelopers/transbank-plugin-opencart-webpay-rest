@@ -148,10 +148,8 @@ class LogHandler {
     private function setLogList() {
         $arr = array_diff(scandir($this->logDir), array('.', '..'));
         foreach ($arr as $key => $value) {
-            $oldmask = umask(0);
-            chmod($this->logDir."/".$value, 0777);
+            chmod($this->logDir."/".$value, 0660);
             $var[] = "<a href='{$this->logURL}/{$value}' download>{$value}</a>";
-            umask($oldmask);
         }
         if (isset($var)) {
             $this->logList = $var;
