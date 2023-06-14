@@ -189,7 +189,6 @@
 <span class='label label-danger'>{{ string }}</span> {% endif %} {% endmacro %}
 
 <!-- Modal con la informacion para desplegar -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.4/css/bootstrap3/bootstrap-switch.min.css">
 <div class="modal fade" id="tb_commerce_mod_info" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -473,10 +472,10 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <a id="boton_pdf" class="btn btn-danger" href="{{ url_create_pdf_report }}" target="_blank">
+                <a id="boton_pdf" rel="noopener" class="btn btn-danger" href="{{ url_create_pdf_report }}" target="_blank">
                     <i class="fa fa-file-pdf-o" aria-hidden="true"></i> {{ btn_pdfmain }}
                 </a>
-                <a id="boton_php_info" class="btn btn-warning" href="{{ url_create_pdf_php_info }}" target="_blank">
+                <a id="boton_php_info" rel="noopener" class="btn btn-warning" href="{{ url_create_pdf_php_info }}" target="_blank">
                     <i class="fa fa-info-circle" aria-hidden="true"></i> {{ button_pdfinfo }}
                 </a>
                 <button type="button" class="btn btn-default" data-dismiss="modal">{{ btn_close }}</button>
@@ -486,7 +485,6 @@
 </div>
 
 <!-- Script para limpiar parametros -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.4/js/bootstrap-switch.min.js" charset="utf-8"></script>
 
 <script type="text/javascript">
 

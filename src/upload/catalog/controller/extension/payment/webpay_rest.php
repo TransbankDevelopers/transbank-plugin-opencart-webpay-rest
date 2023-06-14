@@ -59,7 +59,7 @@ class ControllerExtensionPaymentWebpayRest extends Controller {
 
         //patch for error with parallels carts
         $dataPaymentHash = $amount . $orderId. json_encode($itemsId);
-        $paymentHash = md5($dataPaymentHash);
+        $paymentHash = hash("sha512", $dataPaymentHash);
 
         $url = $this->url->link('extension/payment/webpay_rest/callback', '', 'SSL');
         $url .= (parse_url($url, PHP_URL_QUERY) ? '&' : '?') . ('ph_=' . $paymentHash);
@@ -139,7 +139,7 @@ class ControllerExtensionPaymentWebpayRest extends Controller {
 
         //patch for error with parallels carts
         $dataPaymentHash = $amount . $orderId. json_encode($itemsId);
-        $paymentHash = md5($dataPaymentHash);
+        $paymentHash = hash("sha512", $dataPaymentHash);
         $dataPaymentHashOriginal = $_GET['ph_'];
 
         //patch for error with parallels carts
