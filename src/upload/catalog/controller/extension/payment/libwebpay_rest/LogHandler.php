@@ -103,7 +103,7 @@ class LogHandler {
         if (! file_exists($this->lockfile)) {
             $file = fopen($this->lockfile, "w") or die("No se puede crear archivo de bloqueo");
             if (! is_numeric($this->confdays) or $this->confdays == null or $this->confdays == '' or $this->confdays === false) {
-                $this->confdays = $days;
+                $this->confdays = 7;
             }
             $txt = "{$this->confdays}\n";
             fwrite($file, $txt);
