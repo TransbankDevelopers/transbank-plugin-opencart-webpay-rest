@@ -436,56 +436,6 @@
                     {{ healthcheck.php_info.string.content }}
                 </div>
                 <div class="tab-pane fade" id="tb_logs">
-                    <div class="form_validate" style="display:none;">
-                        <h3 class="menu-head">Configuraci&oacute;n</h3>
-                        <table class="table table-borderless">
-                            <tr>
-                                <td>
-                                    <span class="label label-info" title="{{ label_active_logs }}">
-                                        <b>{{ l_logs_active }}</b>
-                                    </span>
-                                </td>
-                                <td>
-                                    {% if loghandler.config.status == true %}
-                                    <input type='checkbox' name='tb_reg_checkbox' id='tb_reg_checkbox' checked> {% else %}
-                                    <input type='checkbox' name='tb_reg_checkbox' id='tb_reg_checkbox'> {% endif %}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <span class="label label-info" title="{{ label_logs_days }}">
-                                        <b>{{ l_ldays }}</b>
-                                    </span>
-                                </td>
-                                <td>
-                                    <input type="number" name="tb_regs_days" id="tb_regs_days" value="{{ tb_max_logs_days }}" placeholder="1" maxlength="2" size="2" min="1" max="30">
-                                    <span>D&iacute;as</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <span class="label label-info" title="{{ label_logs_weight }}">
-                                        <b>{{ l_lweight }}</b>
-                                    </span>
-                                </td>
-                                <td>
-                                    <input type="number" name="tb_regs_weight" id="tb_regs_weight" value="{{ tb_max_logs_weight }}" placeholder="2" maxlength="2" size="2" min="1" max="10">
-                                    <span>Mb</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                {% if loghandler.config.status == true %}
-                                <td>
-                                    <button type="button" name="tb_update" id="tb_update" class="btn btn-info btn-sm">{{btn_params}}</button>
-                                </td>
-                                {% else %}
-                                <td>
-                                    <button type="button" name="tb_update" id="tb_update" class="btn btn-default btn-sm disabled">{{ btn_params }}</button>
-                                </td>
-                                {% endif %}
-                            </tr>
-                        </table>
-                    </div>
                     <div class="maininfo">
                         <h3 class="menu-head">Informaci&oacute;n de Registros</h3>
                         <table class="table table-borderless">
