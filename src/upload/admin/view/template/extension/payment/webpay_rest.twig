@@ -181,6 +181,30 @@
     .table-borderless > thead > tr > th {
         border: none;
     }
+
+    .grid-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-gap: 5px;
+    }
+
+    .info-column {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    .label {
+        font-weight: bold;
+    }
+
+    .info-header {
+        border-radius: 5px;
+        padding: 5px;
+    }
+    .info-value {
+        text-align: left;
+    }
+
 </style>
 
 {% macro class_response(string) %} {% if string == 'OK' %}
@@ -211,44 +235,48 @@
             <div class="modal-body">
                 <div class="tab-pane fade active in" id="tb_main_info">
                     <h3 class="menu-head">Informaci&oacute;n Plugin / Ambiente</h3>
-                    <table class="table table-borderless">
-                        <tr>
-                            <td>
-                                <span class="label label-info" title="{{ label_ecommerce_name }}">
-                                    <b>{{ l_ecommerce }}</b>
-                                </span>
-                            </td>
-                            <td>
-                                <input type="hidden" name="tb_ecommece" id="tb_ecommerce" value="{{ healthcheck.server_resume.plugin_info.ecommerce }}"> {{ healthcheck.server_resume.plugin_info.ecommerce }}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <span class="label label-info" title="{{ label_ecommerce_version }}">
-                                    <b>{{ l_version }}</b>
-                                </span>
-                            </td>
-                            <td>
+                    <div class="grid-container">
+                        <div class="info-column" >
+                            <span class="label label-info info-header" title="{{ label_ecommerce_name }}">
+                                {{ l_ecommerce }}
+                            </span>
+                        </div>
+                        <div class="info-column">
+                            <div class="info-value">
+                                {{ healthcheck.server_resume.plugin_info.ecommerce }}
+                            </div>
+                        </div>
+                        <div class="info-column" >
+                            <span class="label label-info info-header" title="{{ label_ecommerce_version }}">
+                                {{ l_version }}
+                            </span>
+                        </div>
+                        <div class="info-column">
+                            <div class="info-value">
                                 {{ healthcheck.server_resume.plugin_info.ecommerce_version }}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <span class="label label-info" title="{{ label_ecommerce_webpay }}">
-                                    <b>{{ l_webpay }}</b>
-                                </span>
-                            </td>
-                            <td>{{ healthcheck.server_resume.plugin_info.current_plugin_version }}</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <span class="label label-info" title="{{ label_ecommerce_last }}">
-                                    <b>{{ l_last_webpay }}</b>
-                                </span>
-                            </td>
-                            <td>{{ healthcheck.server_resume.plugin_info.last_plugin_version }}</td>
-                        </tr>
-                    </table>
+                            </div>
+                        </div>
+                        <div class="info-column" >
+                            <span class="label label-info info-header" title="{{ label_ecommerce_webpay }}">
+                                {{ l_webpay }}
+                            </span>
+                        </div>
+                        <div class="info-column">
+                            <div class="info-value">
+                                {{ healthcheck.server_resume.plugin_info.current_plugin_version }}
+                            </div>
+                        </div>
+                        <div class="info-column" >
+                            <span class="label label-info info-header" title="{{ label_ecommerce_last }}">
+                                {{ l_last_webpay }}
+                            </span>
+                        </div>
+                        <div class="info-column">
+                            <div class="info-value">
+                                {{ healthcheck.server_resume.plugin_info.last_plugin_version }}
+                            </div>
+                        </div>
+                    </div>
                     <hr>
 
                     <h3 class="menu-head">Informaci&oacute;n de Servidor</h3>
