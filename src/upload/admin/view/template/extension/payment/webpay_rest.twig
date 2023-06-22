@@ -281,35 +281,41 @@
 
                     <h3 class="menu-head">Informaci&oacute;n de Servidor</h3>
                     <h4>Informaci&oacute;n Principal</h4>
-                    <table class="table table-borderless">
-                        <tr>
-                            <td>
-                                <span class="label label-info" title="{{ label_webserver }}">
-                                    <b>{{ l_webserver }}</b>
-                                </span>
-                            </td>
-                            <td>{{ healthcheck.server_resume.server_version.server_software }}</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <h4>PHP</h4>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <span class="label label-info" title="{{ label_php_version_validate}}">
-                                    <b>{{ l_php_validate}}</b>
-                                </span>
-                            </td>
-                            <td>{{ _self.class_response(healthcheck.server_resume.php_version.status)}}</td>
-                        </tr>
-                        <td>
-                            <span class="label label-info" title="{{ label_php_version }}">
-                                <b>{{ l_php_version }}</b>
+                    <div class="grid-container">
+                        <div class="info-column" >
+                            <span class="label label-info info-header" title="{{ label_webserver }}">
+                                {{ l_webserver }}
                             </span>
-                        </td>
-                        <td>{{ healthcheck.server_resume.php_version.version }}</td>
-                    </table>
+                        </div>
+                        <div class="info-column">
+                            <div class="info-value">
+                                {{ healthcheck.server_resume.server_version.server_software }}
+                            </div>
+                        </div>
+                    </div>
+                    <h4>PHP</h4>
+                    <div class="grid-container">
+                        <div class="info-column" >
+                            <span class="label label-info info-header" title="{{ label_php_version_validate }}">
+                                {{ l_php_validate }}
+                            </span>
+                        </div>
+                        <div class="info-column">
+                            <div class="info-value">
+                                {{ _self.class_response(healthcheck.server_resume.php_version.status) }}
+                            </div>
+                        </div>
+                        <div class="info-column" >
+                            <span class="label label-info info-header" title="{{ label_php_version }}">
+                                {{ l_php_version }}
+                            </span>
+                        </div>
+                        <div class="info-column">
+                            <div class="info-value">
+                                {{ healthcheck.server_resume.php_version.version }}
+                            </div>
+                        </div>
+                    </div>
                     <hr>
                     <table class="table table-responsive table-striped">
                         <thead>
