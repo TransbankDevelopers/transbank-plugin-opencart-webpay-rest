@@ -600,36 +600,32 @@
         $(".check_conn").click(function() {
 
             $(".check_conn").text("Verificando ...");
-            $("#row_response_status").hide();
-            $("#row_response_url").hide();
-            $("#row_response_token").hide();
-            $("#row_error_message").hide();
-            $("#row_error_detail").hide();
             $(".tbk_table_trans").empty();
 
             $.post('{{ url_check_conn }}', {}, function(response){
 
                 $(".check_conn").text("Verificar Conexión");
-                $("#row_response_status").show();
-                $("#row_response_status_text").removeClass("label-success").removeClass("label-danger");
+                $("#div_response_status").removeClass("tbk-hide");
+                $("#response_title").removeClass("tbk-hide");
+                $("#response_status_text").removeClass("label-success").removeClass("label-danger");
 
                 if(response.status.string == "OK") {
 
-                    $("#row_response_status_text").addClass("label-success").text("OK").show();
-                    $("#row_response_url_text").append(response.response.url);
-                    $("#row_response_token_text").append('<pre>'+response.response.token_ws+'</pre>');
+                    $("#response_status_text").addClass("label-success").text("OK").show();
+                    $("#response_url_text").text(response.response.url);
+                    $("#response_token_text").html('<pre>'+response.response.token_ws+'</pre>');
 
-                    $("#row_response_url").show();
-                    $("#row_response_token").show();
+                    $("#div_response_url").removeClass("tbk-hide");
+                    $("#div_response_token").removeClass("tbk-hide");
 
                 } else {
 
-                    $("#row_response_status_text").addClass("label-danger").text("ERROR").show();
-                    $("#row_error_message_text").append(response.response.error);
-                    $("#row_error_detail_text").append('<pre>'+response.response.detail+'</pre>');
+                    $("#response_status_text").addClass("label-danger").text("ERROR").show();
+                    $("#error_response_text").text(response.response.error);
+                    $("#error_detail_response_text").html('<pre>'+response.response.detail+'</pre>');
 
-                    $("#row_error_message").show();
-                    $("#row_error_detail").show();
+                    $("#div_error_response").removeClass("tbk-hide");
+                    $("#div_error_detail_response").removeClass("tbk-hide");
                 }
 
             },'json');
