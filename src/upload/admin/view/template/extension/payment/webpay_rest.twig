@@ -208,6 +208,12 @@
         grid-gap: 5px;
     }
 
+    .register-container {
+        display: grid;
+        grid-template-columns: 30% 1fr;
+        grid-gap: 5px;
+    }
+
     .tbk-hide {
         display: none !important;
     }
@@ -442,50 +448,54 @@
                 <div class="tab-pane fade" id="tb_logs">
                     <div class="maininfo">
                         <h3 class="menu-head">Informaci&oacute;n de Registros</h3>
-                        <table class="table table-borderless">
-                            <tr>
-                                <td>
-                                    <span class="label label-info" title="{{ label_regs_status }}">
-                                        <b>{{ l_regs_status }}</b>
-                                    </span>
-                                </td>
-                                <td>
+                        <div class="register-container">
+                            <div class="info-column" >
+                                <span class="label label-info info-header" title="{{ label_regs_status }}">
+                                    {{ l_regs_status }}
+                                </span>
+                            </div>
+                            <div class="info-column">
+                                <div class="info-value">
                                     {% if loghandler.config.status == true %}
                                     <span class='label label-success'>Activado sistema de Registros</span> {% else %}
                                     <span class='label label-warning'>Desactivado sistema de Registros</span> {% endif %}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <span class="label label-info" title="{{ label_regs_dir }}">
-                                        <b>{{ l_regs_dir }}</b>
-                                    </span>
-                                </td>
-                                <td>{{ log_dir }}</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <span class="label label-info" title="{{ label_regs_count }}">
-                                        <b>{{ l_regs_count }}</b>
-                                    </span>
-                                </td>
-                                <td>{{ log_count }}</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <span class="label label-info" title="{{ label_regs_list }}">
-                                        <b>{{ l_regs_list }}</b>
-                                    </span>
-                                </td>
-                                <td>
+                                </div>
+                            </div>
+                            <div class="info-column" >
+                                <span class="label label-info info-header" title="{{ label_regs_dir }}">
+                                    {{ l_regs_dir }}
+                                </span>
+                            </div>
+                            <div class="info-column">
+                                <div class="info-value">
+                                    {{ log_dir }}
+                                </div>
+                            </div>
+                            <div class="info-column" >
+                                <span class="label label-info info-header" title="{{ label_regs_count }}">
+                                    {{ l_regs_count }}
+                                </span>
+                            </div>
+                            <div class="info-column">
+                                <div class="info-value">
+                                    {{ log_count }}
+                                </div>
+                            </div>
+                            <div class="info-column" >
+                                <span class="label label-info info-header" title="{{ label_regs_list }}">
+                                    {{ l_regs_list }}
+                                </span>
+                            </div>
+                            <div class="info-column">
+                                <div class="info-value">
                                     <ul>
                                         {% for item in log_list %}
                                         <li>{{ item }}</li>
                                         {% endfor %}
                                     </ul>
-                                </td>
-                            </tr>
-                        </table>
+                                </div>
+                            </div>
+                        </div>
                         <hr>
                         <b>{{ l_last_log }}</b>
                         <div class="log_content">
