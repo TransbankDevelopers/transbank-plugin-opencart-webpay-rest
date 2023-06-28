@@ -202,6 +202,20 @@
         text-align: left;
     }
 
+    .tbk-response-container {
+        display: grid;
+        grid-template-columns: 20px 80px 1fr;
+        grid-gap: 5px;
+    }
+
+    .tbk-hide {
+        display: none !important;
+    }
+
+    .highlight-text {
+        font-weight: bold;
+    }
+
 </style>
 
 {% macro class_response(string) %} {% if string == 'OK' %}
@@ -359,43 +373,68 @@
                         </tbody>
                     </table>
                     <hr>
-                    <h4>Respuesta de Transbank</h4>
-                    <table class="table table-borderless">
-                        <tbody>
-                            <tr id="row_response_status" style="display:none">
-                                <td>
-                                    <div title="Informa el estado de la comunicación con Transbank mediante método init_transaction" class="label label-info">?</div> <strong>Estado: </strong>
-                                </td>
-                                <td>
-                                    <span id="row_response_status_text" class="label tbk_table_trans" style="display:none"></span>
-                                </td>
-                            </tr>
-                            <tr id="row_response_url" style="display:none">
-                                <td>
-                                    <div title="URL entregada por Transbank para realizar la transacción" class="label label-info">?</div> <strong>URL: </strong>
-                                </td>
-                                <td id="row_response_url_text" class="tbk_table_trans"></td>
-                            </tr>
-                            <tr id="row_response_token" style="display:none">
-                                <td>
-                                    <div title="Token entregada por Transbank para realizar la transacción" class="label label-info">?</div> <strong>Token: </strong>
-                                </td>
-                                <td id="row_response_token_text" class="tbk_table_trans"></td>
-                            </tr>
-                            <tr id="row_error_message" style="display:none">
-                                <td>
-                                    <div title="Mensaje de error devuelto por Transbank al fallar init_transaction" class="label label-info">?</div> <strong>Error: </strong>
-                                </td>
-                                <td id="row_error_message_text" class="tbk_table_trans"></td>
-                            </tr>
-                            <tr id="row_error_detail" style="display:none">
-                                <td>
-                                    <div title="Detalle del error devuelto por Transbank al fallar init_transaction" class="label label-info">?</div> <strong>Detalle: </strong>
-                                </td>
-                                <td id="row_error_detail_text" class="tbk_table_trans"></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <h4 class="tbk-hide" id="response_title">Respuesta de Transbank</h4>
+                    <div class="tbk-response-container tbk-hide" id="div_response_status">
+                        <div class="info-column">
+                            <div title="Informa el estado de la comunicación con Transbank mediante método init_transaction" class="label label-info">
+                                ?
+                            </div>
+                        </div>
+                        <div class="info-column">
+                            <span class="highlight-text"> Estado: </span>
+                        </div>
+                        <div class="info-column">
+                            <span class="label tbk_table_trans" id="response_status_text"></span>
+                        </div>
+                    </div>
+                    <div class="tbk-response-container tbk-hide"  id="div_response_url">
+                        <div class="info-column">
+                            <div title="URL entregada por Transbank para realizar la transacción" class="label label-info">
+                                ?
+                            </div>
+                        </div>
+                        <div class="info-column">
+                            <span class="highlight-text"> URL: </span>
+                        </div>
+                        <div class="info-column" id="response_url_text">
+                        </div>
+                    </div>
+                    <div class="tbk-response-container tbk-hide" id="div_response_token">
+                        <div class="info-column" >
+                            <div title="Token entregada por Transbank para realizar la transacción" class="label label-info">
+                                ?
+                            </div>
+                        </div>
+                        <div class="info-column">
+                            <span class="highlight-text"> Token: </span>
+                        </div>
+                        <div class="info-column" id="response_token_text">
+                        </div>
+                    </div>
+                    <div class="tbk-response-container tbk-hide" id="div_error_response">
+                        <div class="info-column" >
+                            <div title="Mensaje de error devuelto por Transbank al fallar init_transaction" class="label label-info">
+                                ?
+                            </div>
+                        </div>
+                        <div class="info-column">
+                            <span class="highlight-text"> Error: </span>
+                        </div>
+                        <div class="info-column" id="error_response_text">
+                        </div>
+                    </div>
+                    <div class="tbk-response-container tbk-hide" id="div_error_detail_response">
+                        <div class="info-column" >
+                            <div title="Detalle del error devuelto por Transbank al fallar init_transaction" class="label label-info">
+                                ?
+                            </div>
+                        </div>
+                        <div class="info-column">
+                            <span class="highlight-text"> Detalle: </span>
+                        </div>
+                        <div class="info-column" id="error_detail_response_text">
+                        </div>
+                    </div>
                 </div>
                 <div class="tab-pane fade" id="tb_php_info">
                     {{ healthcheck.php_info.string.content }}
