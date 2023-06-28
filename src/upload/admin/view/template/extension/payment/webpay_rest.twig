@@ -181,6 +181,47 @@
     .table-borderless > thead > tr > th {
         border: none;
     }
+
+    .grid-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-gap: 5px;
+    }
+
+    .info-column {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    .info-header {
+        border-radius: 5px;
+        padding: 5px;
+    }
+
+    .info-value {
+        text-align: left;
+    }
+
+    .tbk-response-container {
+        display: grid;
+        grid-template-columns: 20px 80px 1fr;
+        grid-gap: 5px;
+    }
+
+    .register-container {
+        display: grid;
+        grid-template-columns: 30% 1fr;
+        grid-gap: 5px;
+    }
+
+    .tbk-hide {
+        display: none !important;
+    }
+
+    .highlight-text {
+        font-weight: bold;
+    }
+
 </style>
 
 {% macro class_response(string) %} {% if string == 'OK' %}
@@ -211,79 +252,92 @@
             <div class="modal-body">
                 <div class="tab-pane fade active in" id="tb_main_info">
                     <h3 class="menu-head">Informaci&oacute;n Plugin / Ambiente</h3>
-                    <table class="table table-borderless">
-                        <tr>
-                            <td>
-                                <span class="label label-info" title="{{ label_ecommerce_name }}">
-                                    <b>{{ l_ecommerce }}</b>
-                                </span>
-                            </td>
-                            <td>
-                                <input type="hidden" name="tb_ecommece" id="tb_ecommerce" value="{{ healthcheck.server_resume.plugin_info.ecommerce }}"> {{ healthcheck.server_resume.plugin_info.ecommerce }}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <span class="label label-info" title="{{ label_ecommerce_version }}">
-                                    <b>{{ l_version }}</b>
-                                </span>
-                            </td>
-                            <td>
+                    <div class="grid-container">
+                        <div class="info-column" >
+                            <span class="label label-info info-header" title="{{ label_ecommerce_name }}">
+                                {{ l_ecommerce }}
+                            </span>
+                        </div>
+                        <div class="info-column">
+                            <div class="info-value">
+                                {{ healthcheck.server_resume.plugin_info.ecommerce }}
+                            </div>
+                        </div>
+                        <div class="info-column" >
+                            <span class="label label-info info-header" title="{{ label_ecommerce_version }}">
+                                {{ l_version }}
+                            </span>
+                        </div>
+                        <div class="info-column">
+                            <div class="info-value">
                                 {{ healthcheck.server_resume.plugin_info.ecommerce_version }}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <span class="label label-info" title="{{ label_ecommerce_webpay }}">
-                                    <b>{{ l_webpay }}</b>
-                                </span>
-                            </td>
-                            <td>{{ healthcheck.server_resume.plugin_info.current_plugin_version }}</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <span class="label label-info" title="{{ label_ecommerce_last }}">
-                                    <b>{{ l_last_webpay }}</b>
-                                </span>
-                            </td>
-                            <td>{{ healthcheck.server_resume.plugin_info.last_plugin_version }}</td>
-                        </tr>
-                    </table>
+                            </div>
+                        </div>
+                        <div class="info-column" >
+                            <span class="label label-info info-header" title="{{ label_ecommerce_webpay }}">
+                                {{ l_webpay }}
+                            </span>
+                        </div>
+                        <div class="info-column">
+                            <div class="info-value">
+                                {{ healthcheck.server_resume.plugin_info.current_plugin_version }}
+                            </div>
+                        </div>
+                        <div class="info-column" >
+                            <span class="label label-info info-header" title="{{ label_ecommerce_last }}">
+                                {{ l_last_webpay }}
+                            </span>
+                        </div>
+                        <div class="info-column">
+                            <div class="info-value">
+                                {{ healthcheck.server_resume.plugin_info.last_plugin_version }}
+                            </div>
+                        </div>
+                    </div>
                     <hr>
 
                     <h3 class="menu-head">Informaci&oacute;n de Servidor</h3>
                     <h4>Informaci&oacute;n Principal</h4>
-                    <table class="table table-borderless">
-                        <tr>
-                            <td>
-                                <span class="label label-info" title="{{ label_webserver }}">
-                                    <b>{{ l_webserver }}</b>
-                                </span>
-                            </td>
-                            <td>{{ healthcheck.server_resume.server_version.server_software }}</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <h4>PHP</h4>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <span class="label label-info" title="{{ label_php_version_validate}}">
-                                    <b>{{ l_php_validate}}</b>
-                                </span>
-                            </td>
-                            <td>{{ _self.class_response(healthcheck.server_resume.php_version.status)}}</td>
-                        </tr>
-                        <td>
-                            <span class="label label-info" title="{{ label_php_version }}">
-                                <b>{{ l_php_version }}</b>
+                    <div class="grid-container">
+                        <div class="info-column" >
+                            <span class="label label-info info-header" title="{{ label_webserver }}">
+                                {{ l_webserver }}
                             </span>
-                        </td>
-                        <td>{{ healthcheck.server_resume.php_version.version }}</td>
-                    </table>
+                        </div>
+                        <div class="info-column">
+                            <div class="info-value">
+                                {{ healthcheck.server_resume.server_version.server_software }}
+                            </div>
+                        </div>
+                    </div>
+                    <h4>PHP</h4>
+                    <div class="grid-container">
+                        <div class="info-column" >
+                            <span class="label label-info info-header" title="{{ label_php_version_validate }}">
+                                {{ l_php_validate }}
+                            </span>
+                        </div>
+                        <div class="info-column">
+                            <div class="info-value">
+                                {{ _self.class_response(healthcheck.server_resume.php_version.status) }}
+                            </div>
+                        </div>
+                        <div class="info-column" >
+                            <span class="label label-info info-header" title="{{ label_php_version }}">
+                                {{ l_php_version }}
+                            </span>
+                        </div>
+                        <div class="info-column">
+                            <div class="info-value">
+                                {{ healthcheck.server_resume.php_version.version }}
+                            </div>
+                        </div>
+                    </div>
                     <hr>
                     <table class="table table-responsive table-striped">
+                        <caption>
+                            <h4>Dependencias</h4>
+                        </caption>
                         <thead>
                             <th>Extension</th>
                             <th>Estado</th>
@@ -325,144 +379,123 @@
                         </tbody>
                     </table>
                     <hr>
-                    <h4>Respuesta de Transbank</h4>
-                    <table class="table table-borderless">
-                        <tbody>
-                            <tr id="row_response_status" style="display:none">
-                                <td>
-                                    <div title="Informa el estado de la comunicación con Transbank mediante método init_transaction" class="label label-info">?</div> <strong>Estado: </strong>
-                                </td>
-                                <td>
-                                    <span id="row_response_status_text" class="label tbk_table_trans" style="display:none"></span>
-                                </td>
-                            </tr>
-                            <tr id="row_response_url" style="display:none">
-                                <td>
-                                    <div title="URL entregada por Transbank para realizar la transacción" class="label label-info">?</div> <strong>URL: </strong>
-                                </td>
-                                <td id="row_response_url_text" class="tbk_table_trans"></td>
-                            </tr>
-                            <tr id="row_response_token" style="display:none">
-                                <td>
-                                    <div title="Token entregada por Transbank para realizar la transacción" class="label label-info">?</div> <strong>Token: </strong>
-                                </td>
-                                <td id="row_response_token_text" class="tbk_table_trans"></td>
-                            </tr>
-                            <tr id="row_error_message" style="display:none">
-                                <td>
-                                    <div title="Mensaje de error devuelto por Transbank al fallar init_transaction" class="label label-info">?</div> <strong>Error: </strong>
-                                </td>
-                                <td id="row_error_message_text" class="tbk_table_trans"></td>
-                            </tr>
-                            <tr id="row_error_detail" style="display:none">
-                                <td>
-                                    <div title="Detalle del error devuelto por Transbank al fallar init_transaction" class="label label-info">?</div> <strong>Detalle: </strong>
-                                </td>
-                                <td id="row_error_detail_text" class="tbk_table_trans"></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <h4 class="tbk-hide" id="response_title">Respuesta de Transbank</h4>
+                    <div class="tbk-response-container tbk-hide" id="div_response_status">
+                        <div class="info-column">
+                            <div title="Informa el estado de la comunicación con Transbank mediante método init_transaction" class="label label-info">
+                                ?
+                            </div>
+                        </div>
+                        <div class="info-column">
+                            <span class="highlight-text"> Estado: </span>
+                        </div>
+                        <div class="info-column">
+                            <span class="label tbk_table_trans" id="response_status_text"></span>
+                        </div>
+                    </div>
+                    <div class="tbk-response-container tbk-hide"  id="div_response_url">
+                        <div class="info-column">
+                            <div title="URL entregada por Transbank para realizar la transacción" class="label label-info">
+                                ?
+                            </div>
+                        </div>
+                        <div class="info-column">
+                            <span class="highlight-text"> URL: </span>
+                        </div>
+                        <div class="info-column" id="response_url_text">
+                        </div>
+                    </div>
+                    <div class="tbk-response-container tbk-hide" id="div_response_token">
+                        <div class="info-column" >
+                            <div title="Token entregada por Transbank para realizar la transacción" class="label label-info">
+                                ?
+                            </div>
+                        </div>
+                        <div class="info-column">
+                            <span class="highlight-text"> Token: </span>
+                        </div>
+                        <div class="info-column" id="response_token_text">
+                        </div>
+                    </div>
+                    <div class="tbk-response-container tbk-hide" id="div_error_response">
+                        <div class="info-column" >
+                            <div title="Mensaje de error devuelto por Transbank al fallar init_transaction" class="label label-info">
+                                ?
+                            </div>
+                        </div>
+                        <div class="info-column">
+                            <span class="highlight-text"> Error: </span>
+                        </div>
+                        <div class="info-column" id="error_response_text">
+                        </div>
+                    </div>
+                    <div class="tbk-response-container tbk-hide" id="div_error_detail_response">
+                        <div class="info-column" >
+                            <div title="Detalle del error devuelto por Transbank al fallar init_transaction" class="label label-info">
+                                ?
+                            </div>
+                        </div>
+                        <div class="info-column">
+                            <span class="highlight-text"> Detalle: </span>
+                        </div>
+                        <div class="info-column" id="error_detail_response_text">
+                        </div>
+                    </div>
                 </div>
                 <div class="tab-pane fade" id="tb_php_info">
                     {{ healthcheck.php_info.string.content }}
                 </div>
                 <div class="tab-pane fade" id="tb_logs">
-                    <div class="form_validate" style="display:none;">
-                        <h3 class="menu-head">Configuraci&oacute;n</h3>
-                        <table class="table table-borderless">
-                            <tr>
-                                <td>
-                                    <span class="label label-info" title="{{ label_active_logs }}">
-                                        <b>{{ l_logs_active }}</b>
-                                    </span>
-                                </td>
-                                <td>
-                                    {% if loghandler.config.status == true %}
-                                    <input type='checkbox' name='tb_reg_checkbox' id='tb_reg_checkbox' checked> {% else %}
-                                    <input type='checkbox' name='tb_reg_checkbox' id='tb_reg_checkbox'> {% endif %}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <span class="label label-info" title="{{ label_logs_days }}">
-                                        <b>{{ l_ldays }}</b>
-                                    </span>
-                                </td>
-                                <td>
-                                    <input type="number" name="tb_regs_days" id="tb_regs_days" value="{{ tb_max_logs_days }}" placeholder="1" maxlength="2" size="2" min="1" max="30">
-                                    <span>D&iacute;as</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <span class="label label-info" title="{{ label_logs_weight }}">
-                                        <b>{{ l_lweight }}</b>
-                                    </span>
-                                </td>
-                                <td>
-                                    <input type="number" name="tb_regs_weight" id="tb_regs_weight" value="{{ tb_max_logs_weight }}" placeholder="2" maxlength="2" size="2" min="1" max="10">
-                                    <span>Mb</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                {% if loghandler.config.status == true %}
-                                <td>
-                                    <button type="button" name="tb_update" id="tb_update" class="btn btn-info btn-sm">{{btn_params}}</button>
-                                </td>
-                                {% else %}
-                                <td>
-                                    <button type="button" name="tb_update" id="tb_update" class="btn btn-default btn-sm disabled">{{ btn_params }}</button>
-                                </td>
-                                {% endif %}
-                            </tr>
-                        </table>
-                    </div>
                     <div class="maininfo">
                         <h3 class="menu-head">Informaci&oacute;n de Registros</h3>
-                        <table class="table table-borderless">
-                            <tr>
-                                <td>
-                                    <span class="label label-info" title="{{ label_regs_status }}">
-                                        <b>{{ l_regs_status }}</b>
-                                    </span>
-                                </td>
-                                <td>
+                        <div class="register-container">
+                            <div class="info-column" >
+                                <span class="label label-info info-header" title="{{ label_regs_status }}">
+                                    {{ l_regs_status }}
+                                </span>
+                            </div>
+                            <div class="info-column">
+                                <div class="info-value">
                                     {% if loghandler.config.status == true %}
                                     <span class='label label-success'>Activado sistema de Registros</span> {% else %}
                                     <span class='label label-warning'>Desactivado sistema de Registros</span> {% endif %}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <span class="label label-info" title="{{ label_regs_dir }}">
-                                        <b>{{ l_regs_dir }}</b>
-                                    </span>
-                                </td>
-                                <td>{{ log_dir }}</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <span class="label label-info" title="{{ label_regs_count }}">
-                                        <b>{{ l_regs_count }}</b>
-                                    </span>
-                                </td>
-                                <td>{{ log_count }}</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <span class="label label-info" title="{{ label_regs_list }}">
-                                        <b>{{ l_regs_list }}</b>
-                                    </span>
-                                </td>
-                                <td>
+                                </div>
+                            </div>
+                            <div class="info-column" >
+                                <span class="label label-info info-header" title="{{ label_regs_dir }}">
+                                    {{ l_regs_dir }}
+                                </span>
+                            </div>
+                            <div class="info-column">
+                                <div class="info-value">
+                                    {{ log_dir }}
+                                </div>
+                            </div>
+                            <div class="info-column" >
+                                <span class="label label-info info-header" title="{{ label_regs_count }}">
+                                    {{ l_regs_count }}
+                                </span>
+                            </div>
+                            <div class="info-column">
+                                <div class="info-value">
+                                    {{ log_count }}
+                                </div>
+                            </div>
+                            <div class="info-column" >
+                                <span class="label label-info info-header" title="{{ label_regs_list }}">
+                                    {{ l_regs_list }}
+                                </span>
+                            </div>
+                            <div class="info-column">
+                                <div class="info-value">
                                     <ul>
                                         {% for item in log_list %}
                                         <li>{{ item }}</li>
                                         {% endfor %}
                                     </ul>
-                                </td>
-                            </tr>
-                        </table>
+                                </div>
+                            </div>
+                        </div>
                         <hr>
                         <b>{{ l_last_log }}</b>
                         <div class="log_content">
@@ -527,36 +560,32 @@
         $(".check_conn").click(function() {
 
             $(".check_conn").text("Verificando ...");
-            $("#row_response_status").hide();
-            $("#row_response_url").hide();
-            $("#row_response_token").hide();
-            $("#row_error_message").hide();
-            $("#row_error_detail").hide();
             $(".tbk_table_trans").empty();
 
             $.post('{{ url_check_conn }}', {}, function(response){
 
                 $(".check_conn").text("Verificar Conexión");
-                $("#row_response_status").show();
-                $("#row_response_status_text").removeClass("label-success").removeClass("label-danger");
+                $("#div_response_status").removeClass("tbk-hide");
+                $("#response_title").removeClass("tbk-hide");
+                $("#response_status_text").removeClass("label-success").removeClass("label-danger");
 
                 if(response.status.string == "OK") {
 
-                    $("#row_response_status_text").addClass("label-success").text("OK").show();
-                    $("#row_response_url_text").append(response.response.url);
-                    $("#row_response_token_text").append('<pre>'+response.response.token_ws+'</pre>');
+                    $("#response_status_text").addClass("label-success").text("OK").show();
+                    $("#response_url_text").text(response.response.url);
+                    $("#response_token_text").html('<pre>'+response.response.token_ws+'</pre>');
 
-                    $("#row_response_url").show();
-                    $("#row_response_token").show();
+                    $("#div_response_url").removeClass("tbk-hide");
+                    $("#div_response_token").removeClass("tbk-hide");
 
                 } else {
 
-                    $("#row_response_status_text").addClass("label-danger").text("ERROR").show();
-                    $("#row_error_message_text").append(response.response.error);
-                    $("#row_error_detail_text").append('<pre>'+response.response.detail+'</pre>');
+                    $("#response_status_text").addClass("label-danger").text("ERROR").show();
+                    $("#error_response_text").text(response.response.error);
+                    $("#error_detail_response_text").html('<pre>'+response.response.detail+'</pre>');
 
-                    $("#row_error_message").show();
-                    $("#row_error_detail").show();
+                    $("#div_error_response").removeClass("tbk-hide");
+                    $("#div_error_detail_response").removeClass("tbk-hide");
                 }
 
             },'json');
