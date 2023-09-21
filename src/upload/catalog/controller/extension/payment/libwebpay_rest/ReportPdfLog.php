@@ -8,7 +8,7 @@ class ReportPdfLog {
         $this->document = $document;
     }
 
-    function getReport($myJSON){
+    public function getReport($myJSON){
         $log = new LogHandler();
         $json = json_decode($log->getLastLog(),true);
 
