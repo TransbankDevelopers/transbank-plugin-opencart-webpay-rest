@@ -4,7 +4,7 @@ require_once('ReportPdf.php');
 
 class ReportPdfLog {
 
-    function __construct($document){
+    public function __construct($document){
         $this->document = $document;
     }
 
