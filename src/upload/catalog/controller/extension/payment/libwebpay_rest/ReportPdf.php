@@ -5,7 +5,7 @@ class ReportPdf {
 
     var $buffer;
 
-    function __construct(){
+    public function __construct(){
         $this->buffer='<html>
                         <head>
                             <link href="'.__DIR__.'/css/ReportPdf.css" rel="stylesheet" type="text/css" media="all" />
