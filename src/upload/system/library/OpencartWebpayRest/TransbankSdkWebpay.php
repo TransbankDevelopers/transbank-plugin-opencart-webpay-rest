@@ -13,7 +13,7 @@ class TransbankSdkWebpay
 
     const PLUGIN_VERSION = '1.0.0'; //version of plugin payment
 
-    function __construct($config = null, $log = null)
+    public function __construct($config = null, $log = null)
     {
         $this->log = $log;
         if (isset($config)) {

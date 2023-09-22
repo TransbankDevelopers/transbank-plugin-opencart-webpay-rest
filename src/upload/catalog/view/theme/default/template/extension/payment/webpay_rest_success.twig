@@ -2,9 +2,11 @@
 <div class="container alert alert-success">
     <div class="row">
         <div class="col-sm-12">
-            <h2>{{ text_success }}</h2>
+            <h2 id="success_title">{{ text_success }}</h2>
             <br/>
-            <table class="table table-bordered table-hover" style="margin-left: automargin-right: autotext-align: left;">
+            <table aria-describedby="success_title"
+                   class="table table-bordered table-hover"
+                   style="margin-left: auto; margin-right: auto; text-align: left;">
                 <tr>
                     <th colspan="2" style="text-align: center;">Detalles del pago</th>
                 </tr>

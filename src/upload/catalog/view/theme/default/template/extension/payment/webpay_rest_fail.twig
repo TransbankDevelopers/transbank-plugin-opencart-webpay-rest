@@ -1,10 +1,10 @@
 {{ header }}{{ column_left }}{{ column_right }}
 <div class="container">
 
-  <h2>{{ text_failure }}</h2>
+  <h2 id="error_title">{{ text_failure }}</h2>
   <h3>{{ text_response }}</h3>
 
-  <table class="table table-bordered table-hover" style="margin-left: auto; margin-right: auto; text-align: left;">
+  <table aria-describedby="error_title" class="table table-bordered table-hover" style="margin-left: auto; margin-right: auto; text-align: left;">
     <tr>
       <th colspan="2" style="text-align: center;">Descripci&oacute;n del error</th>
     </tr>

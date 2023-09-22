@@ -4,11 +4,11 @@ require_once('ReportPdf.php');
 
 class ReportPdfLog {
 
-    function __construct($document){
+    public function __construct($document){
         $this->document = $document;
     }
 
-    function getReport($myJSON){
+    public function getReport($myJSON){
         $log = new LogHandler();
         $json = json_decode($log->getLastLog(),true);
 
