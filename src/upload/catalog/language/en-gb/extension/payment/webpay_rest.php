@@ -4,7 +4,7 @@ $_['heading_title'] = 'Gracias por comprar con %s';
 $_['button_confirm'] = 'Continuar a Webpay';
 
 // Text
-$_['text_title'] = 'Pago con Tarjetas de Cr&eacute;dito o Redcompra &nbsp; <img src="admin/view/image/payment/1.WebpayPlus_FB_80px.png" alt="WebPay" title="WebPay" align="middle";" />';
+$_['text_title'] = 'Pago con Tarjetas de Cr&eacute;dito o Redcompra &nbsp; <img src="src="admin/view/image/payment/webpay_logo-small.svg" alt="WebPay" title="WebPay" align="middle" style="width: 80px;" />';
 $_['text_response'] = 'Respuesta desde Webpay:';
 $_['text_success'] = 'Su pago fue recibido exitosamente.';
 $_['text_success_wait'] = '<b><span style="color: #FF0000">Por favor espere...</span></b> mientras finalizamos su orden. Si Ud. no es autom&aacute;ticamente redirigido en 10 segundos, por favor haga clic aqu&iacute;.';
