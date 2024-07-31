@@ -106,13 +106,13 @@ class HealthCheck {
 
     // funcion para obtener info de cada ecommerce, si el ecommerce es incorrecto o no esta seteado se escapa como respuesta "NO APLICA"
     private function getEcommerceInfo($ecommerce){
-        $actualversion = $this->getLastGitHubReleaseVersion('opencart/opencart');
-        $lastversionplugin = $this->getLastGitHubReleaseVersion('TransbankDevelopers/transbank-plugin-opencart-webpay-rest');
-        $currentplugin = TransbankSdkWebpay::PLUGIN_VERSION;
+        $currentOpenCartVersion = $this->getOpenCartVersion();
+        $latestTransbankPluginVersion = $this->getLastGitHubReleaseVersion('TransbankDevelopers/transbank-plugin-opencart-webpay-rest');
+        $currentTransbankPluginVersion = TransbankSdkWebpay::PLUGIN_VERSION;
         $result = array(
-            'current_ecommerce_version' => $actualversion,
-            'current_plugin_version' => $currentplugin,
-            'last_version_plugin' => $lastversionplugin
+            'current_opencart_version' => $currentOpenCartVersion,
+            'current_transbank_plugin_version' => $currentTransbankPluginVersion,
+            'latest_transbank_plugin_version' => $latestTransbankPluginVersion
         );
         return $result;
     }
@@ -123,9 +123,9 @@ class HealthCheck {
         $data = $this->getEcommerceInfo($ecommerce);
         $result = array(
             'ecommerce' => $ecommerce,
-            'ecommerce_version' => $data['current_ecommerce_version'],
-            'current_plugin_version' => $data['current_plugin_version'],
-            'last_plugin_version' => $data['last_version_plugin'] // ultimo declarado
+            'ecommerce_version' => $data['current_opencart_version'],
+            'current_plugin_version' => $data['current_transbank_plugin_version'],
+            'last_plugin_version' => $data['latest_transbank_plugin_version'] // ultimo declarado
         );
         return $result;
     }
