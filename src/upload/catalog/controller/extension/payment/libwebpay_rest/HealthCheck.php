@@ -55,9 +55,8 @@ class HealthCheck {
             if (preg_match("/define\('VERSION', '([^']+)'\);/", $fileContent, $matches)) {
                 return $matches[1];
             }
-        } else {
-            return 'Versión no encontrada';
         }
+            return 'Versión no encontrada';
     }
     // verifica si existe la extension y cual es la version de esta
     private function getCheckExtension($extension){
