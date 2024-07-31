@@ -49,7 +49,18 @@ class HealthCheck {
         }
         return $this->versioninfo;
     }
-
+    private function getOpenCartVersion() {
+        if (file_exists($this->configFile)) {
+            $fileContent = file_get_contents($this->configFile);
+            if (preg_match("/define\('VERSION', '([^']+)'\);/", $fileContent, $matches)) {
+                return $matches[1];
+            } else {
+                throw new Exception('No se pudo encontrar la versión de OpenCart.');
+            }
+        } else {
+            throw new Exception('El archivo admin/index.php no existe.');
+        }
+    }
     // verifica si existe la extension y cual es la version de esta
     private function getCheckExtension($extension){
         if (extension_loaded($extension)) {
