@@ -16,9 +16,11 @@ class HealthCheck {
     var $fullResume;
     var $ecommerce;
     var $config;
+    var $configFile;
 
     public function __construct($config) {
         $this->config = $config;
+        $this->configFile = '/opt/bitnami/opencart/admin/index.php';
         $this->environment = $config['MODO'];
         $this->commerceCode = $config['COMMERCE_CODE'];
         $this->apiKey = $config['API_KEY'];
