@@ -4,7 +4,7 @@ use OpencartWebpayRest\TransbankSdkWebpay;
 
 require_once(DIR_SYSTEM . 'library/OpencartWebpayRest/TransbankSdkWebpay.php');
 require_once('LogHandler.php');
-require_once('/opt/bitnami/opencart/admin/index.php');
+
 class HealthCheck {
 
     var $commerceCode;
@@ -20,7 +20,7 @@ class HealthCheck {
 
     public function __construct($config) {
         $this->config = $config;
-        $this->configFile = '/opt/bitnami/opencart/admin/index.php';
+        $this->configFile = dirname(DIR_SYSTEM) . '/admin/index.php';
         $this->environment = $config['MODO'];
         $this->commerceCode = $config['COMMERCE_CODE'];
         $this->apiKey = $config['API_KEY'];
