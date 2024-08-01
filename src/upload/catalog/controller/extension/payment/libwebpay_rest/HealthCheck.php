@@ -28,19 +28,13 @@ class HealthCheck {
     }
 
     // valida version de php
-    private function getValidatephp(){
-        if (version_compare(phpversion(), '8.0', '<=') and version_compare(phpversion(), '7.0', '>=')) {
-            $this->versioninfo = array(
-                'status' => 'OK',
-                'version' => phpversion()
-            );
-        } else {
-            $this->versioninfo = array(
-                'status' => 'Error!: Version no soportada',
-                'version' => phpversion()
-            );
-        }
-        return $this->versioninfo;
+    private function getValidatephp(): array{
+        $phpVersion = phpversion();
+        $status = (version_compare($phpVersion, '8.0', '<=') && version_compare($phpVersion, '7.0', '>=')) ? 'OK' : 'Error!: Version no soportada';
+        return [
+            'status' => $status,
+            'version' => $phpVersion
+        ];
     }
 
     // verifica si existe la extension y cual es la version de esta
