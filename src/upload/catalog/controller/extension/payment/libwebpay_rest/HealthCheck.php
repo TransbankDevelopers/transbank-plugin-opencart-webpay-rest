@@ -7,15 +7,15 @@ require_once('LogHandler.php');
 
 class HealthCheck {
 
-    var $commerceCode;
-    var $apiKey;
-    var $environment;
-    var $extensions;
-    var $versioninfo;
-    var $resume;
-    var $fullResume;
-    var $ecommerce;
-    var $config;
+    private $commerceCode;
+    private $apiKey;
+    private $environment;
+    private $extensions;
+    private $versioninfo;
+    private $resume;
+    private $fullResume;
+    private $ecommerce;
+    private $config;
 
     public function __construct($config) {
         $this->config = $config;
