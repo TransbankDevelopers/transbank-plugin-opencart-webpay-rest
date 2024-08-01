@@ -24,12 +24,7 @@ class HealthCheck {
         $this->apiKey = $config['API_KEY'];
         $this->ecommerce = $config['ECOMMERCE'];
         // extensiones necesarias
-        $this->extensions = array(
-            'openssl',
-            'SimpleXML',
-            'soap',
-            'dom'
-        );
+        $this->extensions  = ['openssl', 'SimpleXML', 'soap', 'dom'];
     }
 
     // valida version de php
