@@ -56,19 +56,19 @@ class HealthCheck {
     // obtiene ultimas versiones
     // obtiene versiones ultima publica en github (no compatible con virtuemart) lo ideal es que el :usuario/:repo sean entregados como string
     // permite un maximo de 60 consultas por hora
-    private function getLastGitHubReleaseVersion($string){
+    private function getLastGitHubReleaseVersion($string): string{
         $baseurl = 'https://api.github.com/repos/'.$string.'/releases/latest';
         $agent = 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)';
         $ch = curl_init();
         curl_setopt($ch,CURLOPT_URL,$baseurl);
         curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
         curl_setopt($ch, CURLOPT_USERAGENT, $agent);
-        //curl_setopt($ch,CURLOPT_HEADER, false);
+        
         $content=curl_exec($ch);
         curl_close($ch);
         $con = json_decode($content, true);
         $version = array_key_exists('tag_name',$con) ? $con['tag_name'] : '';
-        return $version;
+        return $con['tag_name'] ?? '';
     }
 
     // funcion para obtener info de cada ecommerce, si el ecommerce es incorrecto o no esta seteado se escapa como respuesta "NO APLICA"
