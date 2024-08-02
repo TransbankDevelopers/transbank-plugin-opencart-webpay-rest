@@ -155,8 +155,6 @@ class HealthCheck {
         $status = (!empty($result["error"]) && isset($result["error"])) ? 'Error' : 'OK';
         if (!$result && array_key_exists('error', $result)) {
             $status = 'Error';
-            } else {
-                $status = 'OK';
         }
 
         return [
