@@ -113,14 +113,12 @@ class HealthCheck {
     }
 
     // crea resumen de informacion del servidor. NO incluye a PHP info
-    private function getServerResume() {
-        // arma array de despliegue
-        $this->resume = array(
+    private function getServerResume(): array {
+        return [
             'php_version' => $this->getValidatephp(),
-            'server_version' => array('server_software' => $_SERVER['SERVER_SOFTWARE']),
+            'server_version' => ['server_software' => $_SERVER['SERVER_SOFTWARE']],
             'plugin_info' => $this->getPluginInfo($this->ecommerce)
-        );
-        return $this->resume;
+        ];
     }
 
     // crea array con la informacion de comercio para posteriormente exportarla via json
