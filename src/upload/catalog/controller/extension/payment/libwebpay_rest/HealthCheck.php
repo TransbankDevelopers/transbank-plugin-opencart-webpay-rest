@@ -81,15 +81,14 @@ class HealthCheck {
 
     // creacion de retornos
     // arma array que entrega informacion del ecommerce: nombre, version instalada, ultima version disponible
-    private function getPluginInfo($ecommerce){
+    private function getPluginInfo($ecommerce): array {
         $data = $this->getEcommerceInfo($ecommerce);
-        $result = array(
+        return [
             'ecommerce' => $ecommerce,
             'ecommerce_version' => $data['current_ecommerce_version'],
             'current_plugin_version' => $data['current_plugin_version'],
-            'last_plugin_version' => $this->getPluginLastVersion($ecommerce, $data['current_ecommerce_version']) // ultimo declarado
-        );
-        return $result;
+            'last_plugin_version' => $this->getPluginLastVersion($ecommerce, $data['current_ecommerce_version'])
+        ];
     }
 
     // arma array con informacion del ultimo plugin compatible con el ecommerce
