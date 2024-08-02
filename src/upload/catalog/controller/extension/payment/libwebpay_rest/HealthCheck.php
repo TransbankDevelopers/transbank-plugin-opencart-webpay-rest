@@ -165,15 +165,13 @@ class HealthCheck {
     }
 
     //compila en solo un metodo toda la informacion obtenida, lista para imprimir
-    private function getFullResume() {
-        $this->fullResume = array(
-            //'validate_init_transaction' => $this->setInitTransaction(),
+    private function getFullResume(): array {
+        return [
             'server_resume' => $this->getServerResume(),
-            'php_extensions_status'  => $this->getExtensionsValidate(),
+            'php_extensions_status' => $this->getExtensionsValidate(),
             'commerce_info' => $this->getCommerceInfo(),
             'php_info' => $this->getPhpInfo()
-        );
-        return $this->fullResume;
+        ];
     }
 
     private function setpostinstall() {
