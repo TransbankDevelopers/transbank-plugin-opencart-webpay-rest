@@ -63,7 +63,6 @@ class HealthCheck {
         curl_setopt($ch,CURLOPT_URL,$baseurl);
         curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
         curl_setopt($ch, CURLOPT_USERAGENT, $agent);
-        
         $content=curl_exec($ch);
         curl_close($ch);
         $con = json_decode($content, true);
@@ -72,16 +71,12 @@ class HealthCheck {
     }
 
     // funcion para obtener info de cada ecommerce, si el ecommerce es incorrecto o no esta seteado se escapa como respuesta "NO APLICA"
-    private function getEcommerceInfo($ecommerce){
-        $actualversion = TransbankSdkWebpay::PLUGIN_VERSION;
-        $lastversion = $this->getLastGitHubReleaseVersion('opencart/opencart');
-        $currentplugin = TransbankSdkWebpay::PLUGIN_VERSION;
-        $result = array(
-            'current_ecommerce_version' => $actualversion,
-            'last_ecommerce_version' => $lastversion,
-            'current_plugin_version' => $currentplugin
-        );
-        return $result;
+    private function getEcommerceInfo($ecommerce): array{
+        return [
+            'current_ecommerce_version' => TransbankSdkWebpay::PLUGIN_VERSION,
+            'last_ecommerce_version' => $this->getLastGitHubReleaseVersion('opencart/opencart'),
+            'current_plugin_version' => TransbankSdkWebpay::PLUGIN_VERSION
+        ];
     }
 
     // creacion de retornos
