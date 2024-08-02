@@ -104,11 +104,12 @@ class HealthCheck {
     }
 
     // lista y valida extensiones/ modulos de php en servidor ademas mostrar version
-    private function getExtensionsValidate(){
+    private function getExtensionsValidate(): array{
+        $result = [];
         foreach ($this->extensions as $value) {
-            $this->resExtensions[$value] = $this->getCheckExtension($value);
+            $result[$value] = $this->getCheckExtension($value);
         }
-        return $this->resExtensions;
+        return $result;
     }
 
     // crea resumen de informacion del servidor. NO incluye a PHP info
