@@ -63,7 +63,6 @@ class HealthCheck {
         $content=curl_exec($ch);
         curl_close($ch);
         $con = json_decode($content, true);
-        $version = array_key_exists('tag_name',$con) ? $con['tag_name'] : '';
         return $con['tag_name'] ?? '';
     }
 
