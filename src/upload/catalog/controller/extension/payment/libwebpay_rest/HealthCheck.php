@@ -68,7 +68,7 @@ class HealthCheck {
     }
 
     // funcion para obtener info de cada ecommerce, si el ecommerce es incorrecto o no esta seteado se escapa como respuesta "NO APLICA"
-    private function getEcommerceInfo($ecommerce): array{
+    private function getEcommerceInfo(): array{
         return [
             'current_ecommerce_version' => TransbankSdkWebpay::PLUGIN_VERSION,
             'last_ecommerce_version' => $this->getLastGitHubReleaseVersion('opencart/opencart'),
