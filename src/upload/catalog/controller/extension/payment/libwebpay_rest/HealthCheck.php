@@ -27,7 +27,7 @@ class HealthCheck {
     // valida version de php
     private function getValidatephp(): array{
         $phpVersion = phpversion();
-        $status = (version_compare($phpVersion, '8.0', '<=') && version_compare($phpVersion, '7.0', '>=')) ? 'OK' : 'Error!: Version no soportada';
+        $status = (version_compare($phpVersion, '8.0', '<=') && version_compare($phpVersion, '7.0', '>=')) ? 'OK' : 'Error!: Unsupported version';
         return [
             'status' => $status,
             'version' => $phpVersion
