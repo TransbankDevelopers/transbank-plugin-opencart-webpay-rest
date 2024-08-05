@@ -36,16 +36,19 @@ class HealthCheck {
 
     // verifica si existe la extension y cual es la version de esta
     private function getCheckExtension($extension): array{
-        if (extension_loaded($extension)) {
-            $version = $extension === 'openssl' ? OPENSSL_VERSION_TEXT : phpversion($extension) ?? 'PHP Extension Compiled. ver:' . phpversion();
+        if (!extension_loaded($extension)) {
             return [
-                'status' => 'OK',
-                'version' => $version
+                'status' => 'Error!',
+                'version' => 'Unavailable'
             ];
         }
+        $extensionIsSsl = $extension === 'openssl';
+        $extensionVersion = $extensionIsSsl ? OPENSSL_VERSION_TEXT : phpversion($extension);
+        $version = $extensionVersion ?: 'PHP Extension Compiled. ver:' . phpversion();
+
         return [
-            'status' => 'Error!',
-            'version' => 'No Disponible'
+            'status' => 'OK',
+            'version' => $version
         ];
 
     }
