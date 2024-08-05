@@ -11,10 +11,6 @@ class HealthCheck {
     private $apiKey;
     private $environment;
     private $extensions;
-    private $versioninfo;
-    private $resume;
-    private $fullResume;
-    private $ecommerce;
     private $config;
 
     public function __construct($config) {
