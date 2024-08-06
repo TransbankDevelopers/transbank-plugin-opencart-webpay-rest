@@ -27,7 +27,7 @@ class HealthCheck {
     // valida version de php
     private function getValidatephp(): array{
         $phpVersion = phpversion();
-        $status = (version_compare($phpVersion, '8.0', '<=') && version_compare($phpVersion, '7.0', '>=')) ? 'OK' : 'Error!: Unsupported version';
+        $status = (version_compare($phpVersion, '8.0', '<=') && version_compare($phpVersion, '7.0', '>=')) ? 'OK' : 'Error!: Versión no soportad';
         return [
             'status' => $status,
             'version' => $phpVersion
@@ -39,12 +39,12 @@ class HealthCheck {
         if (!extension_loaded($extension)) {
             return [
                 'status' => 'Error!',
-                'version' => 'Unavailable'
+                'version' => 'No disponible'
             ];
         }
         $extensionIsSsl = $extension === 'openssl';
         $extensionVersion = $extensionIsSsl ? OPENSSL_VERSION_TEXT : phpversion($extension);
-        $version = $extensionVersion ?: 'PHP Extension Compiled. ver:' . phpversion();
+        $version = $extensionVersion ?: 'Extensión PHP compilada. ver:' . phpversion();
 
         return [
             'status' => 'OK',
