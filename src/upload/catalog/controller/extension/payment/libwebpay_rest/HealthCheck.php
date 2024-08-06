@@ -93,9 +93,9 @@ class HealthCheck {
         $data = $this->getEcommerceInfo();
         return [
             'ecommerce' => $ecommerce,
-            'ecommerce_version' => $data['current_ecommerce_version'],
-            'current_plugin_version' => $data['current_plugin_version'],
-            'last_plugin_version' => $this->getPluginLastVersion($ecommerce, $data['current_ecommerce_version'])
+            'ecommerce_version' => $data['current_opencart_version'],
+            'current_plugin_version' => $data['current_transbank_plugin_version'],
+            'last_plugin_version' => $data['latest_transbank_plugin_version']
         ];
     }
 
