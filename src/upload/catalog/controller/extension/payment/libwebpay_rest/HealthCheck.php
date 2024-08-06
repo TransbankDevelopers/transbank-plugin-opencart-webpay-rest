@@ -53,7 +53,15 @@ class HealthCheck {
         ];
 
     }
-
+    private function getOpenCartVersion() {
+        if (file_exists($this->configFile)) {
+            $fileContent = file_get_contents($this->configFile);
+            if (preg_match("/define\('VERSION', '([^']+)'\);/", $fileContent, $matches)) {
+                return $matches[1];
+            }
+        }
+            return 'Versión no encontrada';
+    }
     // obtiene ultimas versiones
     // obtiene versiones ultima publica en github (no compatible con virtuemart) lo ideal es que el :usuario/:repo sean entregados como string
     // permite un maximo de 60 consultas por hora
