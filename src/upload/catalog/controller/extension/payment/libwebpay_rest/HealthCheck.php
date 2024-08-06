@@ -168,6 +168,7 @@ class HealthCheck {
     //compila en solo un metodo toda la informacion obtenida, lista para imprimir
     private function getFullResume(): array {
         return [
+            'validate_init_transaction' => $this->setInitTransaction(),
             'server_resume' => $this->getServerResume(),
             'php_extensions_status' => $this->getExtensionsValidate(),
             'commerce_info' => $this->getCommerceInfo(),
