@@ -107,9 +107,7 @@ class HealthCheck {
     3 => PatPass
     4 => OnePay
     */
-    private function getPluginLastVersion($ecommerce, $currentversion){
-        return 'Indefinido';
-    }
+
 
     // lista y valida extensiones/ modulos de php en servidor ademas mostrar version
     private function getExtensionsValidate(): array{
