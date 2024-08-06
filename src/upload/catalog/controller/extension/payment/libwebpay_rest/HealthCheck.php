@@ -151,7 +151,7 @@ class HealthCheck {
         $returnUrl = "https://webpay3gint.transbank.cl/filtroUnificado/initTransaction";
         $result = $transbankSdkWebpay->initTransaction($amount, $sessionId, $buyOrder, $returnUrl);
 
-        $status = (!$result || !empty($result["error"])) ? 'Error' : 'OK';
+        $status = (isset($result["error"])) ? 'Error' : 'OK';
         return [
             'status' => ['string' => $status],
             'response' => preg_replace('/<!--(.*)-->/Uis', '', $result)
