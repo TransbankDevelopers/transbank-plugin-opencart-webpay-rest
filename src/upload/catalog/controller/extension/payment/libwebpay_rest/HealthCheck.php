@@ -47,6 +47,7 @@ class HealthCheck {
     * Checks if an extension is loaded and retrieves its version.
     *
     * @param string $extension The name of the extension to check.
+    *
     * @return array The status and the extension version.
     */
     private function getCheckExtension($extension): array{
@@ -66,6 +67,7 @@ class HealthCheck {
         ];
 
     }
+
    /**
     * Gets the currently installed OpenCart version.
     *
@@ -80,20 +82,22 @@ class HealthCheck {
         }
             return 'Versión no encontrada';
     }
+
    /**
     * Gets the latest public release version from a specified GitHub repository.
     *
     * @param string $repository In the format 'user/repo'.
+    *
     * @return string The latest release version.
     */
     private function getLastGitHubReleaseVersion($string): string{
         $baseurl = 'https://api.github.com/repos/'.$string.'/releases/latest';
         $agent = 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)';
         $ch = curl_init();
-        curl_setopt($ch,CURLOPT_URL,$baseurl);
-        curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
+        curl_setopt($ch, CURLOPT_URL,$baseurl);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER,true);
         curl_setopt($ch, CURLOPT_USERAGENT, $agent);
-        $content=curl_exec($ch);
+        $content = curl_exec($ch);
         curl_close($ch);
         $con = json_decode($content, true);
         return $con['tag_name'] ?? '';
@@ -117,6 +121,7 @@ class HealthCheck {
     * Constructs an array providing information about the eCommerce platform and the plugin.
     *
     * @param string $ecommerce
+    *
     * @return array Array containing the eCommerce name,
     *               the installed version, the current plugin version, and the latest plugin version available.
     */
@@ -129,8 +134,6 @@ class HealthCheck {
             'last_plugin_version' => $data['latest_transbank_plugin_version']
         ];
     }
-
-
 
    /**
     * Lists and validates PHP extensions/modules
@@ -188,6 +191,7 @@ class HealthCheck {
             'string' => ['content' => str_replace('</div></body></html>', '', $newinfo)]
         ];
     }
+
     /**
      * Initializes a transaction.
      *
@@ -235,6 +239,7 @@ class HealthCheck {
     public function printCommerceInfo() {
         return json_encode($this->getCommerceInfo());
     }
+
    /**
     * Return Php information.
     *
@@ -243,7 +248,6 @@ class HealthCheck {
     public function printPhpInfo() {
         return json_encode($this->getPhpInfo());
     }
-
 
    /**
     * Return the validation status of PHP extensions/modules in JSON format.
