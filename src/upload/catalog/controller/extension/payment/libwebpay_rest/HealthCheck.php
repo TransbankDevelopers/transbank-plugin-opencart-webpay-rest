@@ -227,46 +227,6 @@ class HealthCheck {
         ];
     }
 
-    private function setpostinstall() {
-        return false;
-    }
-
-   /**
-    * Return commerce information and keys.
-    *
-    * @return string A JSON  containing the commerce information.
-    */
-    public function printCommerceInfo() {
-        return json_encode($this->getCommerceInfo());
-    }
-
-   /**
-    * Return Php information.
-    *
-    * @return string A JSON containing the Php information.
-    */
-    public function printPhpInfo() {
-        return json_encode($this->getPhpInfo());
-    }
-
-   /**
-    * Return the validation status of PHP extensions/modules in JSON format.
-    *
-    * @return string A JSON containing the validation status of PHP extensions/modules.
-    */
-    public function printExtensionStatus() {
-        return json_encode($this->getExtensionsValidate());
-    }
-
-   /**
-    * Return server information in JSON format.
-    *
-    * @return string A JSON containing the server information.
-    */
-    public function printServerResume() {
-        return json_encode($this->getServerResume());
-    }
-
    /**
     * Return the full resume information in JSON format.
     *
@@ -274,14 +234,6 @@ class HealthCheck {
     */
     public function printFullResume() {
         return json_encode($this->getFullResume());
-    }
-
-    public function getInitTransaction() {
-        return json_encode($this->setInitTransaction());
-    }
-
-    public function getpostinstallinfo() {
-        return json_encode($this->setpostinstall());
     }
 }
 ?>
