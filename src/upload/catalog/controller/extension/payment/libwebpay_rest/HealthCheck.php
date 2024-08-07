@@ -21,7 +21,6 @@ class HealthCheck {
         $this->commerceCode = $config['COMMERCE_CODE'];
         $this->apiKey = $config['API_KEY'];
         $this->ecommerce = $config['ECOMMERCE'];
-        // extensiones necesarias
         $this->extensions  = ['openssl', 'SimpleXML', 'soap', 'dom'];
     }
 
