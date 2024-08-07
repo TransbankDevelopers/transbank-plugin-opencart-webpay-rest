@@ -159,7 +159,7 @@ class HealthCheck {
     }
 
    /**
-    * Creates an array with commerce information to be exported via JSON.
+    * Creates an array with commerce information
     *
     * @return array  Array containing the environment, commerce code, and API key.
     */
@@ -174,9 +174,9 @@ class HealthCheck {
     }
 
    /**
-    * Creates an array with commerce information to be exported via JSON.
+    * Creates an array with PHP information.
     *
-    * @return array Array containing the environment, commerce code, and API key.
+    * @return array Array containing the PHP information
     */
     private function getPhpInfo(): array {
         ob_start();
@@ -209,7 +209,7 @@ class HealthCheck {
     }
 
     /**
-    * gets all information into a single method, ready for printing.
+    * Gets all information into a single method.
     *
     * @return array Array containing server resume, PHP extensions status,
     *               commerce information, and PHP info.
@@ -228,7 +228,7 @@ class HealthCheck {
     }
 
    /**
-    * Prints commerce information and keys.
+    * Return commerce information and keys.
     *
     * @return string A JSON  containing the commerce information.
     */
@@ -236,7 +236,7 @@ class HealthCheck {
         return json_encode($this->getCommerceInfo());
     }
    /**
-    * Prints Php information.
+    * Return Php information.
     *
     * @return string A JSON containing the Php information.
     */
@@ -246,7 +246,7 @@ class HealthCheck {
 
 
    /**
-    * Prints the validation status of PHP extensions/modules in JSON format.
+    * Return the validation status of PHP extensions/modules in JSON format.
     *
     * @return string A JSON containing the validation status of PHP extensions/modules.
     */
@@ -255,7 +255,7 @@ class HealthCheck {
     }
 
    /**
-    * Prints server information in JSON format.
+    * Return server information in JSON format.
     *
     * @return string A JSON containing the server information.
     */
@@ -264,7 +264,7 @@ class HealthCheck {
     }
 
    /**
-    * Prints the full resume information in JSON format.
+    * Return the full resume information in JSON format.
     *
     * @return string A JSON containing the full resume information.
     */
