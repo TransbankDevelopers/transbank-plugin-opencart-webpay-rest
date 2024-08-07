@@ -126,12 +126,12 @@ class HealthCheck {
     *               the installed version, the current plugin version, and the latest plugin version available.
     */
     private function getPluginInfo($ecommerce): array {
-        $plugin_data = $this->getEcommerceInfo();
+        $pluginData = $this->getEcommerceInfo();
         return [
             'ecommerce' => $ecommerce,
-            'ecommerce_version' => $plugin_data['current_opencart_version'],
-            'current_plugin_version' => $plugin_data['current_transbank_plugin_version'],
-            'last_plugin_version' => $plugin_data['latest_transbank_plugin_version']
+            'ecommerce_version' => $pluginData['current_opencart_version'],
+            'current_plugin_version' => $pluginData['current_transbank_plugin_version'],
+            'last_plugin_version' => $pluginData['latest_transbank_plugin_version']
         ];
     }
 
