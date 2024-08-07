@@ -14,17 +14,26 @@ class HealthCheck {
     private $ecommerce;
     private $config;
 
+    /**
+    * Constructor for initializing the configuration.
+    *
+    * @param array $config Array containing configuration values.
+    */
     public function __construct($config) {
         $this->config = $config;
+        $this->configFile = dirname(DIR_SYSTEM) . '/admin/index.php';
         $this->environment = $config['MODO'];
         $this->commerceCode = $config['COMMERCE_CODE'];
         $this->apiKey = $config['API_KEY'];
         $this->ecommerce = $config['ECOMMERCE'];
-        // extensiones necesarias
         $this->extensions  = ['openssl', 'SimpleXML', 'soap', 'dom'];
     }
 
-    // valida version de php
+   /**
+    * Validates the current PHP version.
+    *
+    * @return array The status and the current PHP version.
+    */
     private function getValidatephp(): array{
         $phpVersion = phpversion();
         $status = (version_compare($phpVersion, '8.0', '<=') && version_compare($phpVersion, '7.0', '>=')) ? 'OK' : 'Error!: Versión no soportad';
@@ -34,7 +43,13 @@ class HealthCheck {
         ];
     }
 
-    // verifica si existe la extension y cual es la version de esta
+   /**
+    * Checks if an extension is loaded and retrieves its version.
+    *
+    * @param string $extension The name of the extension to check.
+    *
+    * @return array The status and the extension version.
+    */
     private function getCheckExtension($extension): array{
         if (!extension_loaded($extension)) {
             return [
@@ -53,56 +68,78 @@ class HealthCheck {
 
     }
 
-    // obtiene ultimas versiones
-    // obtiene versiones ultima publica en github (no compatible con virtuemart) lo ideal es que el :usuario/:repo sean entregados como string
-    // permite un maximo de 60 consultas por hora
+   /**
+    * Gets the currently installed OpenCart version.
+    *
+    * @return string The installed OpenCart version
+    */
+    private function getOpenCartVersion() {
+        if (file_exists($this->configFile)) {
+            $fileContent = file_get_contents($this->configFile);
+            if (preg_match("/define\('VERSION', '([^']+)'\);/", $fileContent, $matches)) {
+                return $matches[1];
+            }
+        }
+            return 'Versión no encontrada';
+    }
+
+   /**
+    * Gets the latest public release version from a specified GitHub repository.
+    *
+    * @param string $repository In the format 'user/repo'.
+    *
+    * @return string The latest release version.
+    */
     private function getLastGitHubReleaseVersion($string): string{
         $baseurl = 'https://api.github.com/repos/'.$string.'/releases/latest';
         $agent = 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)';
         $ch = curl_init();
-        curl_setopt($ch,CURLOPT_URL,$baseurl);
-        curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
+        curl_setopt($ch, CURLOPT_URL, $baseurl);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_USERAGENT, $agent);
-        $content=curl_exec($ch);
+        $content = curl_exec($ch);
         curl_close($ch);
         $con = json_decode($content, true);
         return $con['tag_name'] ?? '';
     }
 
-    // funcion para obtener info de cada ecommerce, si el ecommerce es incorrecto o no esta seteado se escapa como respuesta "NO APLICA"
+   /**
+    * Retrieves information about the current ecommerce setup.
+    *
+    * @return array Array containing the current OpenCart version,
+    *               the current Transbank plugin version, and the latest Transbank plugin version.
+    */
     private function getEcommerceInfo(): array{
         return [
-            'current_ecommerce_version' => TransbankSdkWebpay::PLUGIN_VERSION,
-            'last_ecommerce_version' => $this->getLastGitHubReleaseVersion('opencart/opencart'),
-            'current_plugin_version' => TransbankSdkWebpay::PLUGIN_VERSION
+            'current_opencart_version' => $this->getOpenCartVersion(),
+            'current_transbank_plugin_version' => TransbankSdkWebpay::PLUGIN_VERSION,
+            'latest_transbank_plugin_version' => $this->getLastGitHubReleaseVersion('TransbankDevelopers/transbank-plugin-opencart-webpay-rest')
         ];
     }
 
-    // creacion de retornos
-    // arma array que entrega informacion del ecommerce: nombre, version instalada, ultima version disponible
+   /**
+    * Constructs an array providing information about the eCommerce platform and the plugin.
+    *
+    * @param string $ecommerce
+    *
+    * @return array Array containing the eCommerce name,
+    *               the installed version, the current plugin version, and the latest plugin version available.
+    */
     private function getPluginInfo($ecommerce): array {
-        $data = $this->getEcommerceInfo();
+        $pluginData = $this->getEcommerceInfo();
         return [
             'ecommerce' => $ecommerce,
-            'ecommerce_version' => $data['current_ecommerce_version'],
-            'current_plugin_version' => $data['current_plugin_version'],
-            'last_plugin_version' => $this->getPluginLastVersion($ecommerce, $data['current_ecommerce_version'])
+            'ecommerce_version' => $pluginData['current_opencart_version'],
+            'current_plugin_version' => $pluginData['current_transbank_plugin_version'],
+            'last_plugin_version' => $pluginData['latest_transbank_plugin_version']
         ];
     }
 
-    // arma array con informacion del ultimo plugin compatible con el ecommerce
-    /*
-    vers_product:
-    1 => WebPay Soap
-    2 => WebPay REST
-    3 => PatPass
-    4 => OnePay
+   /**
+    * Lists and validates PHP extensions/modules
+    *
+    * @return array The values are arrays containing the status and version of each extension.
     */
-    private function getPluginLastVersion($ecommerce, $currentversion){
-        return 'Indefinido';
-    }
-
-    // lista y valida extensiones/ modulos de php en servidor ademas mostrar version
     private function getExtensionsValidate(): array{
         $extensions = [];
         foreach ($this->extensions as $value) {
@@ -111,7 +148,11 @@ class HealthCheck {
         return $extensions;
     }
 
-    // crea resumen de informacion del servidor. NO incluye a PHP info
+   /**
+    * Gets server information. Does not include PHP info.
+    *
+    * @return array Array containing the PHP version, server version, and plugin information
+    */
     private function getServerResume(): array {
         return [
             'php_version' => $this->getValidatephp(),
@@ -120,7 +161,11 @@ class HealthCheck {
         ];
     }
 
-    // crea array con la informacion de comercio para posteriormente exportarla via json
+   /**
+    * Creates an array with commerce information
+    *
+    * @return array  Array containing the environment, commerce code, and API key.
+    */
     private function getCommerceInfo(): array {
         return [
             'data' => [
@@ -131,7 +176,11 @@ class HealthCheck {
         ];
     }
 
-    // guarda en array informacion de funcion phpinfo
+   /**
+    * Creates an array with PHP information.
+    *
+    * @return array Array containing the PHP information
+    */
     private function getPhpInfo(): array {
         ob_start();
         phpinfo();
@@ -143,6 +192,11 @@ class HealthCheck {
         ];
     }
 
+    /**
+     * Initializes a transaction.
+     *
+     * @return array Array containing the status and the response.
+     */
     public function setInitTransaction(): array {
         $transbankSdkWebpay = new TransbankSdkWebpay($this->config, new LogHandler());
         $amount = 990;
@@ -158,7 +212,12 @@ class HealthCheck {
         ];
     }
 
-    //compila en solo un metodo toda la informacion obtenida, lista para imprimir
+    /**
+    * Gets all information into a single method.
+    *
+    * @return array Array containing server resume, PHP extensions status,
+    *               commerce information, and PHP info.
+    */
     private function getFullResume(): array {
         return [
             'server_resume' => $this->getServerResume(),
@@ -168,41 +227,13 @@ class HealthCheck {
         ];
     }
 
-    private function setpostinstall() {
-        return false;
-    }
-
-    // imprime informacion de comercio y llaves
-    public function printCommerceInfo() {
-        return json_encode($this->getCommerceInfo());
-    }
-
-    public function printPhpInfo() {
-        return json_encode($this->getPhpInfo());
-    }
-
-
-    // imprime en formato json la validacion de extensiones / modulos de php
-    public function printExtensionStatus() {
-        return json_encode($this->getExtensionsValidate());
-    }
-
-    // imprime en formato json informacion del servidor
-    public function printServerResume() {
-        return json_encode($this->getServerResume());
-    }
-
-    // imprime en formato json el resumen completo
+   /**
+    * Return the full resume information in JSON format.
+    *
+    * @return string A JSON containing the full resume information.
+    */
     public function printFullResume() {
         return json_encode($this->getFullResume());
-    }
-
-    public function getInitTransaction() {
-        return json_encode($this->setInitTransaction());
-    }
-
-    public function getpostinstallinfo() {
-        return json_encode($this->setpostinstall());
     }
 }
 ?>
