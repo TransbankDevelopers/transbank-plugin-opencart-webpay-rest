@@ -94,8 +94,8 @@ class HealthCheck {
         $baseurl = 'https://api.github.com/repos/'.$string.'/releases/latest';
         $agent = 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)';
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL,$baseurl);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER,true);
+        curl_setopt($ch, CURLOPT_URL, $baseurl);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_USERAGENT, $agent);
         $content = curl_exec($ch);
         curl_close($ch);
