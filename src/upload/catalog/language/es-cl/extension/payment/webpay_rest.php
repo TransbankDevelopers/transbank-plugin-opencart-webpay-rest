@@ -12,10 +12,10 @@ $_['text_failure'] = '¡Su pago termin&oacute; de forma inesperada!';
 $_['text_failure_wait'] = '<b><span style="color: #FF0000">Por favor espere...</span></b> Si Ud. no es autom&aacute;ticamente redirigido en 10 segundos, por favor haga clic aqu&iacute;.';
 
 // Error
-$_['error_required'] = 'Advertencia: Toda la informacion de pago es requerida';
-$_['error_general'] = 'Advertencia: Un error general ha ocurrido con la transacción, favor intente nuevamente.';
-$_['error_config'] = 'Advertencia: Error en el modulo de pago, favor revisar configuracion.';
-$_['error_conection_webpay'] = 'Error!: Ocurri&oacute; un error al intentar conectar con WebPay Plus. Por favor intenta mas tarde.';
+$_['error_required'] = 'Advertencia: Toda la informaci&oacute;n de pago es requerida';
+$_['error_general'] = 'Advertencia: Un error general ha ocurrido con la transacci&oacute;n, favor intente nuevamente.';
+$_['error_config'] = 'Advertencia: Error en el m&oacute;dulo de pago, favor revisar configuraci&oacute;n.';
+$_['error_conection_webpay'] = 'Error!: Ocurri&oacute; un error al intentar conectar con WebPay Plus. Por favor intenta m&aacute;s tarde.';
 $_['error_token'] = 'Error, no se ha podido obtener correctamente el token.';
 $_['error_response'] = 'Error en respuesta desde Webpay.';
-$_['error_invalid_cart'] = 'Error en el pago, carro inválido';
+$_['error_invalid_cart'] = 'Error en el pago, carro inv&aacute;lido';
