@@ -111,5 +111,3 @@ $_['l_last_log'] = 'Contenido Ultimo Log';
 
 $_['btn_params'] = 'Actualizar Par&aacute;metros';
 $_['btn_close'] = 'Cerrar';
-$_['btn_pdfmain'] = 'Crear Reporte';
-$_['button_pdfinfo'] = 'Crear PHP info';

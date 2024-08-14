@@ -223,7 +223,6 @@ class HealthCheck {
             'server_resume' => $this->getServerResume(),
             'php_extensions_status' => $this->getExtensionsValidate(),
             'commerce_info' => $this->getCommerceInfo(),
-            'php_info' => $this->getPhpInfo()
         ];
     }
 
