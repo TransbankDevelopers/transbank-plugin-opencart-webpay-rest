@@ -1,5 +1,9 @@
 <?php
-require_once('log4php/main/php/Logger.php');
+require __DIR__ . '/../../../../../vendor/autoload.php';
+
+use Monolog\Logger;
+use Monolog\Handler\RotatingFileHandler;
+
 define('Webpay_ROOT', dirname(__DIR__));
 
 class LogHandler {
