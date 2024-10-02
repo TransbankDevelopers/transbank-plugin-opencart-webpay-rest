@@ -193,31 +193,30 @@ class LogHandler {
 
 
 
-    private function setLogDir() {
+    /**
+     * Returns the directory where the logs are stored.
+     * @return string
+     */
+    private function getLogDir(): string {
         return $this->logDir;
     }
 
-    private function setLogCount() {
+     /**
+     * Count the number of logs in the directory.
+     * @return array
+     */
+    private function setLogCount(): array {
         $logList = $this->setLogList();
         $count = isset($logList) ? count($logList) : 0;
         $result = array('log_count' => $count);
         return $result;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public function setLockStatus($status = true) {
+    
+    /**
+     * Creates or deletes the lock file depending on the status.
+     * @param bool $status
+     */
+    public function setLockStatus($status = true): void {
         if ($status === true) {
             $this->setLockFile();
         } else {
@@ -225,7 +224,11 @@ class LogHandler {
         }
     }
 
-    public function getResume() {
+     /**
+     * Gets a summary of the current configuration and logs.
+     * @return string
+     */
+    public function getResume(): bool|string {
         $result = array(
             'config' => $this->getValidateLockFile(),
             'log_dir' => $this->setLogDir(),
