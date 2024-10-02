@@ -190,14 +190,6 @@ class LogHandler {
         return $return;
     }
 
-    private function readLogByFile($filename) {
-        $var = file_get_contents($this->logDir."/".$filename);
-        $return = array(
-            'log_file' => $filename,
-            'log_content' => $var
-        );
-        return $return;
-    }
 
     private function setCountLogByFile($filename) {
         $fp = file($this->logDir."/".$filename);
