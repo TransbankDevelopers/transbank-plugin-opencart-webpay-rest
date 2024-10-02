@@ -38,7 +38,12 @@ class LogHandler {
         $this->logger->pushHandler(new RotatingFileHandler($this->logFile, 10, Logger::DEBUG));
     }
 
-    private function formatBytes($path) {
+    /**
+     * Formats the size of a file in readable format.
+     * @param string $path
+     * @return string
+     */
+    private function formatBytes($path): string {
         $bytes = sprintf('%u', filesize($path));
         if ($bytes > 0) {
             $unit = intval(log($bytes, 1024));
@@ -51,7 +56,11 @@ class LogHandler {
     }
 
 
-    private function setMakeLogDir() {
+
+    /**
+     * Create the log directory if it does not exist.
+     */
+    private function setMakeLogDir(): void {
         try {
             if (!file_exists($this->logDir)) {
                 mkdir($this->logDir, 0777, true);
@@ -60,7 +69,12 @@ class LogHandler {
         }
     }
 
-    private function setparamsconf($days, $weight) {
+    /**
+     * Configures the days and weight parameters for the logs.
+     * @param int $days
+     * @param string $weight
+     */
+    private function setparamsconf($days, $weight): void {
         if (file_exists($this->lockfile)) {
             $file = fopen($this->lockfile, "w") or die("No se puede truncar archivo");
             if (! is_numeric($days) or $days == null or $days == '' or $days === false) {
@@ -75,7 +89,11 @@ class LogHandler {
         }
     }
 
-    private function setLockFile() {
+    /**
+     * Creates a lock file if it does not exist.
+     * @return bool
+     */
+    private function setLockFile(): bool {
         if (! file_exists($this->lockfile)) {
             $file = fopen($this->lockfile, "w") or die("No se puede crear archivo de bloqueo");
             if (! is_numeric($this->confdays) or $this->confdays == null or $this->confdays == '' or $this->confdays === false) {
@@ -93,7 +111,11 @@ class LogHandler {
         }
     }
 
-    public function getValidateLockFile() {
+    /**
+     * Validates the lock file and gets its configuration.
+     * @return array
+     */
+    public function getValidateLockFile(): array {
         if (! file_exists($this->lockfile)) {
             $result = array(
                 'status' => false,
@@ -115,13 +137,20 @@ class LogHandler {
         return $result;
     }
 
-    private function delLockFile() {
+    /**
+     * Deletes the lock file if it exists.
+     */
+    private function delLockFile(): void {
         if (file_exists($this->lockfile)) {
             unlink($this->lockfile);
         }
     }
 
-    private function setLogList() {
+     /**
+     * Generates a list of log files.
+     * @return array|null
+     */
+    private function setLogList(): array {
         $arr = array_diff(scandir($this->logDir), array('.', '..'));
         foreach ($arr as $key => $value) {
             chmod($this->logDir."/".$value, 0660);
@@ -135,7 +164,11 @@ class LogHandler {
         return $this->logList;
     }
 
-    private function setLastLog() {
+    /**
+     * Gets the information of the last log file.
+     * @return array
+     */
+    private function getLastLog(): array {
         $files = glob($this->logDir."/*.log");
         if (!$files) {
             return array("No existen Logs disponibles");
