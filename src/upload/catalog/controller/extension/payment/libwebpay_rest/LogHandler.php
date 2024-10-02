@@ -1,5 +1,4 @@
 <?php
-require __DIR__ . '/../../../../../system/library/transbank/vendor/autoload.php';
 
 use Monolog\Logger;
 use Monolog\Handler\RotatingFileHandler;
