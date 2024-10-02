@@ -238,6 +238,12 @@ class LogHandler {
         );
         return json_encode($result);
     }
-
-    
+/**
+     * Update the log configuration with the new parameters.
+     * @param int $days
+     * @param string $weight
+     */
+    public function setnewconfig($days, $weight): void {
+        $this->setparamsconf($days, $weight);
+    }
 }
