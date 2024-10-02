@@ -1,5 +1,6 @@
 <?php
 
+require_once(DIR_SYSTEM . '/library/transbank/vendor/autoload.php');
 require_once(DIR_CATALOG.'controller/extension/payment/libwebpay_rest/HealthCheck.php');
 require_once(DIR_CATALOG.'controller/extension/payment/libwebpay_rest/LogHandler.php');
 
@@ -32,7 +33,7 @@ class ControllerExtensionPaymentWebpayRest extends Controller {
 
         $this->document->setTitle($this->language->get('heading_title'));;
 
-        
+
         $redirs = array('authorize', 'finish', 'error', 'reject');
         foreach ($redirs as $value) {
             $this->request->post['payment_webpay_rest_url_'.$value] = HTTP_CATALOG . 'index.php?route=extension/payment/webpay_rest/' .$value;
