@@ -50,13 +50,6 @@ class LogHandler {
         return $bytes;
     }
 
-    private function getIsLogDir() {
-        if (! file_exists($this->logDir)) {
-            return false;
-        } else {
-            return true;
-        }
-    }
 
     private function setMakeLogDir() {
         try {
