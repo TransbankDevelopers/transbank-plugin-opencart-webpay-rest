@@ -203,8 +203,6 @@ class LogHandler {
         return $result;
     }
 
-    /** Funciones de mantencion de directorio de logs**/
-    // limpieza total de directorio
 
     private function delAllLogs() {
         if (! file_exists($this->logDir)) {
@@ -302,26 +300,6 @@ class LogHandler {
         return json_encode($result);
     }
 
-    public function setnewconfig($days, $weight) {
-        $this->setparamsconf($days, $weight);
-    }
-
-    /**
-     * print DEBUG log
-     */
-    public function logDebug($msg) {
-        if (self::LOG_DEBUG_ENABLED) {
-            $this->logger->debug('DEBUG: ' . $msg);
-        }
-    }
-    /**
-     * print INFO log
-     */
-    public function logInfo($msg) {
-        if (self::LOG_INFO_ENABLED) {
-            $this->logger->info('INFO: ' . $msg);
-        }
-    }
     /**
      * print ERROR log
      */
