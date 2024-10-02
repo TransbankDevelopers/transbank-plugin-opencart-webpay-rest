@@ -34,30 +34,8 @@ class LogHandler {
 
         $this->setMakeLogDir();
 
-        $configuration =   array(
-            'appenders' => array(
-                'default' => array(
-                    'class' => 'LoggerAppenderRollingFile',
-                    'layout' => array(
-                        'class' => 'LoggerLayoutPattern',
-                        'params' => array(
-                            'conversionPattern' => '[%date{Y-m-d H:i:s}] [%-5level] %msg%n',
-                        )
-                    ),
-                    'params' => array(
-                        'file' => $this->logFile,
-                        'maxFileSize' => $this->confweight,
-                        'maxBackupIndex' => 10,
-                    ),
-                ),
-            ),
-            'rootLogger' => array(
-                'appenders' => array('default'),
-            )
-        );
-
-        Logger::configure($configuration);
-        $this->logger = Logger::getLogger('main');
+        $this->logger = new Logger('webpay_logger');
+        $this->logger->pushHandler(new RotatingFileHandler($this->logFile, 10, Logger::DEBUG));
     }
 
     private function formatBytes($path) {
