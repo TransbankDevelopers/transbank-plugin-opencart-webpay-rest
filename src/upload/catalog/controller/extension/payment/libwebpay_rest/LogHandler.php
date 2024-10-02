@@ -6,7 +6,8 @@ use Monolog\Handler\RotatingFileHandler;
 
 define('Webpay_ROOT', dirname(__DIR__));
 
-class LogHandler {
+class LogHandler
+{
 
     //constants for log handler
     const LOG_DEBUG_ENABLED = false; //enable or disable debug logs
@@ -18,17 +19,18 @@ class LogHandler {
     private $logDir;
     private $logURL;
 
-    public function __construct($ecommerce = 'opencart', $days = 7, $weight = '2MB') {
+    public function __construct($ecommerce = 'opencart', $days = 7, $weight = '2MB')
+    {
 
         $this->logFile = null;
         $this->logDir = null;
         $this->logURL = null;
-        $this->lockfile = Webpay_ROOT."/set_logs_activate.lock";
+        $this->lockfile = Webpay_ROOT . "/set_logs_activate.lock";
         $dia = date('Y-m-d');
         $this->confdays = $days;
         $this->confweight = $weight;
 
-        $this->logDir = DIR_IMAGE."logs/Transbank_webpay";
+        $this->logDir = DIR_IMAGE . "logs/Transbank_webpay";
         $this->logFile = "{$this->logDir}/log_transbank_{$ecommerce}_{$dia}.log";
         $this->logURL = str_replace($_SERVER['DOCUMENT_ROOT'], "", $this->logDir);
 
@@ -43,7 +45,8 @@ class LogHandler {
      * @param string $path
      * @return string
      */
-    private function formatBytes($path): string {
+    private function formatBytes($path): string
+    {
         $bytes = sprintf('%u', filesize($path));
         if ($bytes > 0) {
             $unit = intval(log($bytes, 1024));
@@ -60,12 +63,13 @@ class LogHandler {
     /**
      * Create the log directory if it does not exist.
      */
-    private function setMakeLogDir(): void {
+    private function setMakeLogDir(): void
+    {
         try {
             if (!file_exists($this->logDir)) {
                 mkdir($this->logDir, 0777, true);
             }
-        } catch(Exception $e) {
+        } catch (Exception $e) {
         }
     }
 
@@ -74,7 +78,8 @@ class LogHandler {
      * @param int $days
      * @param string $weight
      */
-    private function setparamsconf($days, $weight): void {
+    private function setparamsconf($days, $weight): void
+    {
         if (file_exists($this->lockfile)) {
             $file = fopen($this->lockfile, "w") or die("No se puede truncar archivo");
             if (! is_numeric($days) or $days == null or $days == '' or $days === false) {
@@ -93,7 +98,8 @@ class LogHandler {
      * Creates a lock file if it does not exist.
      * @return bool
      */
-    private function setLockFile(): bool {
+    private function setLockFile(): bool
+    {
         if (! file_exists($this->lockfile)) {
             $file = fopen($this->lockfile, "w") or die("No se puede crear archivo de bloqueo");
             if (! is_numeric($this->confdays) or $this->confdays == null or $this->confdays == '' or $this->confdays === false) {
@@ -115,7 +121,8 @@ class LogHandler {
      * Validates the lock file and gets its configuration.
      * @return array
      */
-    public function getValidateLockFile(): array {
+    public function getValidateLockFile(): array
+    {
         if (! file_exists($this->lockfile)) {
             $result = array(
                 'status' => false,
@@ -140,20 +147,22 @@ class LogHandler {
     /**
      * Deletes the lock file if it exists.
      */
-    private function delLockFile(): void {
+    private function delLockFile(): void
+    {
         if (file_exists($this->lockfile)) {
             unlink($this->lockfile);
         }
     }
 
-     /**
+    /**
      * Generates a list of log files.
      * @return array|null
      */
-    private function setLogList(): array {
+    private function setLogList(): array
+    {
         $arr = array_diff(scandir($this->logDir), array('.', '..'));
         foreach ($arr as $key => $value) {
-            chmod($this->logDir."/".$value, 0660);
+            chmod($this->logDir . "/" . $value, 0660);
             $var[] = "<a href='{$this->logURL}/{$value}' download>{$value}</a>";
         }
         if (isset($var)) {
@@ -168,8 +177,9 @@ class LogHandler {
      * Gets the information of the last log file.
      * @return array
      */
-    private function getLastLog(): array {
-        $files = glob($this->logDir."/*.log");
+    private function getLastLog(): array
+    {
+        $files = glob($this->logDir . "/*.log");
         if (!$files) {
             return array("No existen Logs disponibles");
         }
@@ -197,26 +207,29 @@ class LogHandler {
      * Returns the directory where the logs are stored.
      * @return string
      */
-    private function getLogDir(): string {
+    private function getLogDir(): string
+    {
         return $this->logDir;
     }
 
-     /**
+    /**
      * Count the number of logs in the directory.
      * @return array
      */
-    private function setLogCount(): array {
+    private function setLogCount(): array
+    {
         $logList = $this->setLogList();
         $count = isset($logList) ? count($logList) : 0;
         $result = array('log_count' => $count);
         return $result;
     }
-    
+
     /**
      * Creates or deletes the lock file depending on the status.
      * @param bool $status
      */
-    public function setLockStatus($status = true): void {
+    public function setLockStatus($status = true): void
+    {
         if ($status === true) {
             $this->setLockFile();
         } else {
@@ -224,11 +237,12 @@ class LogHandler {
         }
     }
 
-     /**
+    /**
      * Gets a summary of the current configuration and logs.
      * @return string
      */
-    public function getResume(): bool|string {
+    public function getResume(): bool|string
+    {
         $result = array(
             'config' => $this->getValidateLockFile(),
             'log_dir' => $this->getLogDir(),
@@ -238,12 +252,13 @@ class LogHandler {
         );
         return json_encode($result);
     }
-/**
+    /**
      * Update the log configuration with the new parameters.
      * @param int $days
      * @param string $weight
      */
-    public function setnewconfig($days, $weight): void {
+    public function setnewconfig($days, $weight): void
+    {
         $this->setparamsconf($days, $weight);
     }
 }
