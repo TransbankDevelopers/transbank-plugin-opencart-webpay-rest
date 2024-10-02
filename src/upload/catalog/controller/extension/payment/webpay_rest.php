@@ -3,6 +3,7 @@
 use OpencartWebpayRest\TransbankSdkWebpay;
 use Transbank\Webpay\WebpayPlus\Responses\TransactionCommitResponse;
 
+require_once(DIR_SYSTEM . '/library/transbank/vendor/autoload.php');
 require_once(DIR_SYSTEM . 'library/OpencartWebpayRest/TransbankSdkWebpay.php');
 require_once('libwebpay_rest/LogHandler.php');
 
