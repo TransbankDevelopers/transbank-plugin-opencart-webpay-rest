@@ -231,10 +231,10 @@ class LogHandler {
     public function getResume(): bool|string {
         $result = array(
             'config' => $this->getValidateLockFile(),
-            'log_dir' => $this->setLogDir(),
+            'log_dir' => $this->getLogDir(),
             'logs_count' => $this->setLogCount(),
             'logs_list' => $this->setLogList(),
-            'last_log' => $this->setLastLog(),
+            'last_log' => $this->getLastLog(),
         );
         return json_encode($result);
     }
