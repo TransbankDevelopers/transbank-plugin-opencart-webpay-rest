@@ -1,6 +1,6 @@
 <?php
 namespace Transbank\Utils;
-require_once('LogHandler.php');
+use Transbank\Utils\LogHandler;
 
 if (!isset($_POST['req']) or empty($_POST['req'])) {
   exit;

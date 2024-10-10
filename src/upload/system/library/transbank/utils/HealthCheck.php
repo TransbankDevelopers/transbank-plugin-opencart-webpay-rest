@@ -1,9 +1,7 @@
 <?php
 namespace Transbank\Utils;
-use OpencartWebpayRest\TransbankSdkWebpay;
-
-require_once(DIR_SYSTEM . 'library/OpencartWebpayRest/TransbankSdkWebpay.php');
-require_once('LogHandler.php');
+use Transbank\SDK\TransbankSdkWebpay;
+use Transbank\Utils\LogHandler;
 
 class HealthCheck {
 
