@@ -233,4 +233,4 @@ class HealthCheck {
         return json_encode($this->getFullResume());
     }
 }
-?>
+
