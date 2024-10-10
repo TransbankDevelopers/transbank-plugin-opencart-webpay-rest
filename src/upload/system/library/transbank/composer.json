@@ -3,6 +3,13 @@
         "transbank/transbank-sdk": "~2.0",
         "monolog/monolog": "^1.27"
     },
+    "autoload": {
+        "psr-4": {
+            "Transbank\\SDK\\": "system/library/Transbank/SDK/",
+            "Transbank\\Utils\\": "system/library/Transbank/utils/"
+
+        }
+    },
     "config": {
         "platform": {
             "php": "7.0"
