@@ -1,8 +1,8 @@
 <?php
 
 require_once DIR_SYSTEM . '/library/transbank/vendor/autoload.php';
-require_once DIR_CATALOG.'controller/extension/payment/libwebpay_rest/HealthCheck.php';
-require_once DIR_CATALOG.'controller/extension/payment/libwebpay_rest/LogHandler.php';
+use Transbank\Utils\HealthCheck;
+use Transbank\Utils\LogHandler;
 
 class ControllerExtensionPaymentWebpayRest extends Controller {
 
