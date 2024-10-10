@@ -1,5 +1,5 @@
 <?php
-require_once DIR_SYSTEM . '/library/transbank/vendor/autoload.php';
+require_once DIR_SYSTEM . '/library/Transbank/vendor/autoload.php';
 use Transbank\SDK\TransbankSdkWebpay;
 use Transbank\Webpay\WebpayPlus\Responses\TransactionCommitResponse;
 use Transbank\Utils\LogHandler;

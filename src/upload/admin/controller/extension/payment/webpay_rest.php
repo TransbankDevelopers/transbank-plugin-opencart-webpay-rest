@@ -1,6 +1,4 @@
 <?php
-
-require_once DIR_SYSTEM . '/library/transbank/vendor/autoload.php';
 use Transbank\Utils\HealthCheck;
 use Transbank\Utils\LogHandler;
 
