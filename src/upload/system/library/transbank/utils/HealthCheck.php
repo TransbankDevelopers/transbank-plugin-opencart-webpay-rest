@@ -1,5 +1,5 @@
 <?php
-
+namespace Transbank\Utils;
 use OpencartWebpayRest\TransbankSdkWebpay;
 
 require_once(DIR_SYSTEM . 'library/OpencartWebpayRest/TransbankSdkWebpay.php');

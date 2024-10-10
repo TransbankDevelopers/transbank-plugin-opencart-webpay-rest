@@ -1,4 +1,5 @@
 <?php
+namespace Transbank\Utils;
 session_start();
 
 if (!defined('DIR_SYSTEM')) {

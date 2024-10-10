@@ -1,5 +1,5 @@
 <?php
-
+namespace Transbank\Utils;
 require_once('LogHandler.php');
 
 if (!isset($_POST['req']) or empty($_POST['req'])) {

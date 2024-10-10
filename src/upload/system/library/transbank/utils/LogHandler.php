@@ -1,5 +1,5 @@
 <?php
-
+namespace Transbank\Utils;
 use Monolog\Logger;
 use Monolog\Handler\RotatingFileHandler;
 
