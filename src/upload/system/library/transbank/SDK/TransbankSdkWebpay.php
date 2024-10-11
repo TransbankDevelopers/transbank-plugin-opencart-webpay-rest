@@ -1,5 +1,5 @@
 <?php
-namespace OpencartWebpayRest;
+namespace Transbank\SDK;
 
 require_once(__DIR__ . '/../transbank/vendor/autoload.php');
 

@@ -1,9 +1,7 @@
 <?php
-
-use OpencartWebpayRest\TransbankSdkWebpay;
-
-require_once(DIR_SYSTEM . 'library/OpencartWebpayRest/TransbankSdkWebpay.php');
-require_once('LogHandler.php');
+namespace Transbank\Utils;
+use Transbank\SDK\TransbankSdkWebpay;
+use Transbank\Utils\LogHandler;
 
 class HealthCheck {
 
@@ -235,4 +233,4 @@ class HealthCheck {
         return json_encode($this->getFullResume());
     }
 }
-?>
+

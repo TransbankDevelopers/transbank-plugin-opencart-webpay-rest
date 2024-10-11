@@ -1,10 +1,8 @@
 <?php
-
-use OpencartWebpayRest\TransbankSdkWebpay;
+require_once DIR_SYSTEM . '/library/Transbank/vendor/autoload.php';
+use Transbank\SDK\TransbankSdkWebpay;
 use Transbank\Webpay\WebpayPlus\Responses\TransactionCommitResponse;
-
-require_once(DIR_SYSTEM . 'library/OpencartWebpayRest/TransbankSdkWebpay.php');
-require_once('libwebpay_rest/LogHandler.php');
+use Transbank\Utils\LogHandler;
 
 class ControllerExtensionPaymentWebpayRest extends Controller {
 

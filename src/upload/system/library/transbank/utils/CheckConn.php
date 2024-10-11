@@ -1,4 +1,5 @@
 <?php
+namespace Transbank\Utils;
 session_start();
 
 if (!defined('DIR_SYSTEM')) {
@@ -9,8 +10,7 @@ if (!defined('DIR_IMAGE')) {
     define("DIR_IMAGE", $_SESSION["DIR_IMAGE"]);
 }
 
-require_once('ReportPdfLog.php');
-require_once('HealthCheck.php');
+use Transbank\Utils\HealthCheck;
 
 $config = $_SESSION["config"];
 

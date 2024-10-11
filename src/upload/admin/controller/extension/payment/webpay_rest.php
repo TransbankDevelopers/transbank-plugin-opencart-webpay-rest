@@ -1,7 +1,6 @@
 <?php
-
-require_once(DIR_CATALOG.'controller/extension/payment/libwebpay_rest/HealthCheck.php');
-require_once(DIR_CATALOG.'controller/extension/payment/libwebpay_rest/LogHandler.php');
+use Transbank\Utils\HealthCheck;
+use Transbank\Utils\LogHandler;
 
 class ControllerExtensionPaymentWebpayRest extends Controller {
 
@@ -32,7 +31,7 @@ class ControllerExtensionPaymentWebpayRest extends Controller {
 
         $this->document->setTitle($this->language->get('heading_title'));;
 
-        
+
         $redirs = array('authorize', 'finish', 'error', 'reject');
         foreach ($redirs as $value) {
             $this->request->post['payment_webpay_rest_url_'.$value] = HTTP_CATALOG . 'index.php?route=extension/payment/webpay_rest/' .$value;
@@ -180,22 +179,13 @@ class ControllerExtensionPaymentWebpayRest extends Controller {
             $data['log_file_regs'] = $data['log_file'];
         }
 
-        if ($loghandler['config']['status'] === false) {
-            $data['estado_logs'] = "<span class='label label-warning'>Desactivado sistema de Registros</span>";
-        } else {
-            $data['estado_logs'] = "<span class='label label-success'>Activado sistema de Registros</span>";
-        }
-
         $data['log_list'] = $loghandler['logs_list'];
         $data['log_dir'] = stripslashes(json_encode($loghandler['log_dir']));
         $data['log_count'] = json_encode($loghandler['logs_count']['log_count']);
-        $data['tb_max_logs_days'] = $loghandler['config']['max_logs_days'];
-
-        $data['tb_max_logs_weight'] = $loghandler['config']['max_log_weight'];
 
         $data['url_create_pdf_report'] = '../catalog/controller/extension/payment/libwebpay_rest/CreatePdf.php?document=report';
         $data['url_create_pdf_php_info'] = '../catalog/controller/extension/payment/libwebpay_rest/CreatePdf.php?document=php_info';
-        $data['url_check_conn'] = '../catalog/controller/extension/payment/libwebpay_rest/CheckConn.php';
+        $data['url_check_conn'] = '../system/library/Transbank/utils/CheckConn.php';
 
         $data['header'] = $this->load->controller('common/header');
         $data['column_left'] = $this->load->controller('common/column_left');
