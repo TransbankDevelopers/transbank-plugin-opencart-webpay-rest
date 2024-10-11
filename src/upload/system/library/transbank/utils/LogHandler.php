@@ -74,7 +74,7 @@ class LogHandler
     {
         $arr = array_diff(scandir($this->logDir), array('.', '..'));
         foreach ($arr as $value) {
-            chmod($this->logDir . "/" . $value, 0777);
+            chmod($this->logDir . "/" . $value, 0660);
             $logList[] = "<a href='{$this->logURL}/{$value}' download>{$value}</a>";
         }
         return $logList ?? null;
