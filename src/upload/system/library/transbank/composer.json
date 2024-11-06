@@ -6,8 +6,8 @@
     "autoload": {
         "psr-4": {
             "Transbank\\SDK\\": "system/library/Transbank/SDK/",
-            "Transbank\\Utils\\": "system/library/Transbank/utils/"
-
+            "Transbank\\Utils\\": "system/library/Transbank/utils/",
+            "Transbank\\Exceptions\\": "system/library/Transbank/Exceptions/"
         }
     },
     "config": {
