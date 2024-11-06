@@ -3,8 +3,6 @@ namespace Transbank\Utils;
 use Monolog\Logger;
 use Monolog\Handler\RotatingFileHandler;
 
-define('Webpay_ROOT', dirname(__DIR__));
-
 class LogHandler
 {
     //constants for log handler
