@@ -16,7 +16,7 @@ class LogHandler
 
     public function __construct($ecommerce = 'opencart')
     {
-        $this->logDir = DIR_SYSTEM . "logs/Transbank_webpay";
+        $this->logDir = DIR_APPLICATION."logs/Transbank_webpay";
         $this->logURL = str_replace($_SERVER['DOCUMENT_ROOT'], "", $this->logDir);
         $this->setMakeLogDir();
         $this->logger = new Logger('webpay_logger');
