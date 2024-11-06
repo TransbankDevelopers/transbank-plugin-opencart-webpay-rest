@@ -1,7 +1,7 @@
 <?php
 namespace Transbank\SDK;
 
-require_once(__DIR__ . '/../transbank/vendor/autoload.php');
+require_once DIR_SYSTEM . '/library/Transbank/vendor/autoload.php';
 
 use Transbank\Webpay\Configuration;
 use Transbank\Webpay\Webpay;
