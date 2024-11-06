@@ -1,6 +1,7 @@
 <?php
 namespace Transbank\SDK;
-
+use Transbank\Exceptions\TransactionCreationException;
+use Transbank\Exceptions\TransactionCommitException;
 require_once DIR_SYSTEM . '/library/Transbank/vendor/autoload.php';
 
 use Transbank\Webpay\Configuration;
@@ -40,9 +41,9 @@ class TransbankSdkWebpay
                     "token_ws" => $response->token
                 ];
             } else {
-                throw new \Exception('No se ha creado la transacción para, amount: ' . $amount . ', sessionId: ' . $sessionId . ', buyOrder: ' . $buyOrder);
+                throw new TransactionCreationException();
             }
-        } catch (\Exception $e) {
+        } catch (TransactionCreationException $e) {
             $result = [
                 "error" => 'Error al crear la transacción',
                 "detail" => $e->getMessage()
@@ -59,11 +60,11 @@ class TransbankSdkWebpay
         try {
             $this->log->logInfo('getTransactionResult - tokenWs: ' . $tokenWs);
             if ($tokenWs == null) {
-                throw new \Exception("El token webpay es requerido");
+                throw new TransactionCommitException();
             }
 
             return (new Transaction)->commit($tokenWs);
-        } catch (\Exception $e) {
+        } catch (TransactionCommitException $e) {
             $result = [
                 "error" => 'Error al confirmar la transacción',
                 "detail" => $e->getMessage()
