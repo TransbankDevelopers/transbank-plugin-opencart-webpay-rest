@@ -444,9 +444,11 @@
                             </div>
                             <div class="info-column">
                                 <div class="info-value">
-                                    {% if loghandler.config.status == true %}
+                                    {% if log_status %}
                                     <span class='label label-success'>Activado sistema de Registros</span> {% else %}
-                                    <span class='label label-warning'>Desactivado sistema de Registros</span> {% endif %}
+                                    {% else %}
+                                    <span class='label label-warning'>Desactivado sistema de Registros</span>
+                                    {% endif %}
                                 </div>
                             </div>
                             <div class="info-column" >
