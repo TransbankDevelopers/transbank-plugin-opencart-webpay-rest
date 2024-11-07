@@ -1,13 +1,13 @@
 <?php
 namespace Transbank\SDK;
-use Transbank\Exceptions\TransactionCreationException;
-use Transbank\Exceptions\TransactionCommitException;
 require_once DIR_SYSTEM . '/library/Transbank/vendor/autoload.php';
 
 use Transbank\Webpay\Configuration;
 use Transbank\Webpay\Webpay;
 use Transbank\Webpay\WebpayPlus;
 use Transbank\Webpay\WebpayPlus\Transaction;
+use Transbank\Webpay\WebpayPlus\Exceptions\TransactionCreateException;
+use Transbank\Webpay\WebpayPlus\Exceptions\TransactionCommitException;
 
 class TransbankSdkWebpay
 {
@@ -41,14 +41,14 @@ class TransbankSdkWebpay
                     "token_ws" => $response->token
                 ];
             } else {
-                throw new TransactionCreationException();
+                $result = [
+                    "error" => 'Error al crear la transacción'
+                ];
             }
-        } catch (TransactionCreationException $e) {
-            $result = [
-                "error" => 'Error al crear la transacción',
-                "detail" => $e->getMessage()
-            ];
-            $this->log->logError(json_encode($result));
+        }  catch (TransactionCreateException $e) {
+
+            $this->log->logError(json_encode($e->getMessage()));
+            return ["error" => $e->getMessage()];
         }
 
         return $result;
@@ -59,17 +59,10 @@ class TransbankSdkWebpay
         $result = [];
         try {
             $this->log->logInfo('getTransactionResult - tokenWs: ' . $tokenWs);
-            if ($tokenWs == null) {
-                throw new TransactionCommitException();
-            }
-
             return (new Transaction)->commit($tokenWs);
         } catch (TransactionCommitException $e) {
-            $result = [
-                "error" => 'Error al confirmar la transacción',
-                "detail" => $e->getMessage()
-            ];
-            $this->log->logError(json_encode($result));
+            $this->log->logError(json_encode($e->getMessage()));
+            return ["error" => $e->getMessage()];
         }
 
         return $result;
