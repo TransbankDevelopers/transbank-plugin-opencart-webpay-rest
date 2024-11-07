@@ -1,6 +1,6 @@
 <?php
 namespace Transbank\Utils;
-use Transbank\SDK\TransbankSdkWebpay;
+use Transbank\Utils\TransbankSdkWebpay;
 use Transbank\Utils\LogHandler;
 
 class HealthCheck {
