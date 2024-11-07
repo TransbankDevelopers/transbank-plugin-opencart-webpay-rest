@@ -121,7 +121,14 @@ class LogHandler
         );
         return json_encode($result);
     }
-
+    /**
+     * Checks if the logging system is enabled.
+     * @return bool `true` if the logging system is enabled; `false` otherwise.
+     */
+    public function isLogEnabled()
+    {
+        return file_exists($this->logDir) && is_writable($this->logDir);
+    }
     /**
      * Print DEBUG log
      */
