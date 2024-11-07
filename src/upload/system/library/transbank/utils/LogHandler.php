@@ -5,10 +5,6 @@ use Monolog\Handler\RotatingFileHandler;
 
 class LogHandler
 {
-    //constants for log handler
-    const LOG_DEBUG_ENABLED = false; //enable or disable debug logs
-    const LOG_INFO_ENABLED = true; //enable or disable info logs
-    const LOG_ERROR_ENABLED = true; //enable or disable error logs
 
     private $logDir;
     private $logURL;
@@ -131,9 +127,9 @@ class LogHandler
      */
     public function logDebug($msg)
     {
-        if (self::LOG_DEBUG_ENABLED) {
+
             $this->logger->debug($msg);
-        }
+
     }
 
      /**
@@ -141,9 +137,9 @@ class LogHandler
      */
     public function logInfo($msg)
     {
-        if (self::LOG_INFO_ENABLED) {
+
             $this->logger->info($msg);
-        }
+
     }
 
     /**
@@ -151,8 +147,8 @@ class LogHandler
      */
     public function logError($msg)
     {
-        if (self::LOG_ERROR_ENABLED) {
+
             $this->logger->error($msg);
-        }
+
     }
 }
