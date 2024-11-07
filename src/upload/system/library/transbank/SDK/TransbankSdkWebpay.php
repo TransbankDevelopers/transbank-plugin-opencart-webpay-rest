@@ -40,10 +40,6 @@ class TransbankSdkWebpay
                     "url" => $response->url,
                     "token_ws" => $response->token
                 ];
-            } else {
-                $result = [
-                    "error" => 'Error al crear la transacción'
-                ];
             }
         }  catch (TransactionCreateException $e) {
 
