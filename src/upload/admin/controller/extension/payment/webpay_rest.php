@@ -166,6 +166,7 @@ class ControllerExtensionPaymentWebpayRest extends Controller {
         $data['healthcheck'] = $healthcheck;
         $data['lg_data'] = $lh->getResume();
         $data['loghandler'] = $loghandler;
+        $data['log_status'] = $lh->isLogEnabled();
 
         if (isset($loghandler['last_log']['log_content'])) {
             $data['res_logcontent'] = json_encode($loghandler['last_log']['log_content']);
