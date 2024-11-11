@@ -155,34 +155,29 @@ class ControllerExtensionPaymentWebpayRest extends Controller {
         }
 
         $_SESSION["config"] = $args;
-
         $hc = new HealthCheck($args);
         $healthcheck = json_decode($hc->printFullResume(), true);
-
-        $lh = new LogHandler();
-        $loghandler = json_decode($lh->getResume(), true);
-
+        $logHandler = new LogHandler();
         $data['hc_data'] = $hc->printFullResume();
         $data['healthcheck'] = $healthcheck;
-        $data['lg_data'] = $lh->getResume();
-        $data['loghandler'] = $loghandler;
-        $data['log_status'] = $lh->isLogEnabled();
+        $data['lg_data'] = json_decode($logHandler->getResume(), true);
 
-        if (isset($loghandler['last_log']['log_content'])) {
-            $data['res_logcontent'] = json_encode($loghandler['last_log']['log_content']);
-            $data['log_file'] = $loghandler['last_log']['log_file'];
-            $data['log_file_weight'] = $loghandler['last_log']['log_weight'];
-            $data['log_file_regs'] = $loghandler['last_log']['log_regs_lines'];
+
+        if (isset($data['lg_data']['last_log']['log_content'])) {
+            $data['res_logcontent'] = json_encode($data['lg_data']['last_log']['log_content']);
+            $data['log_file'] = $data['lg_data']['last_log']['log_file'];
+            $data['log_file_weight'] = $data['lg_data']['last_log']['log_weight'];
+            $data['log_file_regs'] = $data['lg_data']['last_log']['log_regs_lines'];
         } else {
-            $data['res_logcontent'] = $loghandler['last_log'][0];
+            $data['res_logcontent'] = $data['lg_data']['last_log'][0];
             $data['log_file'] = json_encode($data['res_logcontent']);
             $data['log_file_weight'] = $data['log_file'];
             $data['log_file_regs'] = $data['log_file'];
         }
 
-        $data['log_list'] = $loghandler['logs_list'];
-        $data['log_dir'] = stripslashes(json_encode($loghandler['log_dir']));
-        $data['log_count'] = json_encode($loghandler['logs_count']['log_count']);
+        $data['log_list'] = $data['lg_data']['logs_list'];
+        $data['log_dir'] = stripslashes(json_encode($data['lg_data']['log_dir']));
+        $data['log_count'] = json_encode($data['lg_data']['logs_count']['log_count']);
 
         $data['url_create_pdf_report'] = '../catalog/controller/extension/payment/libwebpay_rest/CreatePdf.php?document=report';
         $data['url_create_pdf_php_info'] = '../catalog/controller/extension/payment/libwebpay_rest/CreatePdf.php?document=php_info';
