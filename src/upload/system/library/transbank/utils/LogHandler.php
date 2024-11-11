@@ -14,7 +14,6 @@ class LogHandler
     {
         $this->logDir = DIR_APPLICATION."logs/Transbank_webpay";
         $this->logURL = str_replace($_SERVER['DOCUMENT_ROOT'], "", $this->logDir);
-        $this->setMakeLogDir();
         $this->logger = new Logger('webpay_logger');
         $this->logger->pushHandler(new RotatingFileHandler("{$this->logDir}/log_transbank_{$ecommerce}.log", 10, Logger::DEBUG));
     }
@@ -38,20 +37,6 @@ class LogHandler
     }
 
     /**
-     * Create the log directory if it does not exist.
-     */
-    private function setMakeLogDir(): void
-    {
-        try {
-            if (!file_exists($this->logDir)) {
-                mkdir($this->logDir, 0777, true);
-            }
-        } catch (\Exception $e) {
-            error_log('Error al crear la carpeta de logs ' . $e->getMessage());
-        }
-    }
-
-     /**
      * Returns the directory where the logs are stored.
      * @return string
      */
@@ -121,14 +106,7 @@ class LogHandler
         );
         return json_encode($result);
     }
-    /**
-     * Checks if the logging system is enabled.
-     * @return bool `true` if the logging system is enabled; `false` otherwise.
-     */
-    public function isLogEnabled()
-    {
-        return file_exists($this->logDir) && is_writable($this->logDir);
-    }
+
     /**
      * Print DEBUG log
      */
