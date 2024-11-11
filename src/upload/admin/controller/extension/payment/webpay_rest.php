@@ -1,6 +1,6 @@
 <?php
-use Transbank\Utils\HealthCheck;
-use Transbank\Utils\LogHandler;
+use Transbank\Opencart\Webpay\HealthCheck;
+use Transbank\Opencart\Webpay\LogHandler;
 
 class ControllerExtensionPaymentWebpayRest extends Controller {
 

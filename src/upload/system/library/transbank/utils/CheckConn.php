@@ -1,5 +1,6 @@
 <?php
-namespace Transbank\Utils;
+namespace Transbank\Opencart\Webpay;
+use Transbank\Opencart\Webpay\HealthCheck;
 session_start();
 
 if (!defined('DIR_SYSTEM')) {
@@ -10,7 +11,6 @@ if (!defined('DIR_IMAGE')) {
     define("DIR_IMAGE", $_SESSION["DIR_IMAGE"]);
 }
 
-use Transbank\Utils\HealthCheck;
 
 $config = $_SESSION["config"];
 

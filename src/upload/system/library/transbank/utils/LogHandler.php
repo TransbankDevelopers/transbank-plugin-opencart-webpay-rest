@@ -1,5 +1,5 @@
 <?php
-namespace Transbank\Utils;
+namespace Transbank\Opencart\Webpay;
 use Monolog\Logger;
 use Monolog\Handler\RotatingFileHandler;
 

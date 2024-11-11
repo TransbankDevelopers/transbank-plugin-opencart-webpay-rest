@@ -1,7 +1,7 @@
 <?php
-namespace Transbank\Utils;
-use Transbank\Utils\TransbankSdkWebpay;
-use Transbank\Utils\LogHandler;
+namespace Transbank\Opencart\Webpay;
+use Transbank\Opencart\Webpay\TransbankSdkWebpay;
+use Transbank\Opencart\Webpay\LogHandler;
 
 class HealthCheck {
 
