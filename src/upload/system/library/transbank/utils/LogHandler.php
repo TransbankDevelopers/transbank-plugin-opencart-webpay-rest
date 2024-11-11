@@ -12,7 +12,7 @@ class LogHandler
 
     public function __construct($ecommerce = 'opencart')
     {
-        $this->logDir = DIR_APPLICATION."logs/Transbank_webpay";
+        $this->logDir = DIR_STORAGE."logs/Transbank_webpay";
         $this->logURL = str_replace($_SERVER['DOCUMENT_ROOT'], "", $this->logDir);
         $this->logger = new Logger('webpay_logger');
         $this->logger->pushHandler(new RotatingFileHandler("{$this->logDir}/log_transbank_{$ecommerce}.log", 10, Logger::DEBUG));
