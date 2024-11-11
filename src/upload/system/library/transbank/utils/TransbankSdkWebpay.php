@@ -43,7 +43,7 @@ class TransbankSdkWebpay
             }
         }  catch (TransactionCreateException $e) {
 
-            $this->log->logError(json_encode($e->getMessage()));
+            $this->log->logError($e->getMessage());
             return ["error" => $e->getMessage()];
         }
 
@@ -57,7 +57,7 @@ class TransbankSdkWebpay
             $this->log->logInfo('getTransactionResult - tokenWs: ' . $tokenWs);
             return (new Transaction)->commit($tokenWs);
         } catch (TransactionCommitException $e) {
-            $this->log->logError(json_encode($e->getMessage()));
+            $this->log->logError($e->getMessage());
             return ["error" => $e->getMessage()];
         }
 
