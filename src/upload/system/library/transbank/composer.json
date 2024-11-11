@@ -5,7 +5,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Transbank\\Utils\\": "system/library/Transbank/utils/"
+            "Transbank\\Opencart\\Webpay\\": "Utils/"
         }
     },
     "config": {
