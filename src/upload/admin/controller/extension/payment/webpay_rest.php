@@ -179,8 +179,7 @@ class ControllerExtensionPaymentWebpayRest extends Controller {
         $data['log_dir'] = stripslashes(json_encode($data['log_data']['log_dir']));
         $data['log_count'] = json_encode($data['log_data']['logs_count']['log_count']);
 
-        $data['url_create_pdf_report'] = '../catalog/controller/extension/payment/libwebpay_rest/CreatePdf.php?document=report';
-        $data['url_create_pdf_php_info'] = '../catalog/controller/extension/payment/libwebpay_rest/CreatePdf.php?document=php_info';
+
         $data['url_check_conn'] = '../system/library/Transbank/utils/CheckConn.php';
 
         $data['header'] = $this->load->controller('common/header');
