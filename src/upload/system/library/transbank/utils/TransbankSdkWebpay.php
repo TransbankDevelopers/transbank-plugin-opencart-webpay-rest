@@ -27,7 +27,7 @@ class TransbankSdkWebpay
 
     public function initTransaction($amount, $sessionId, $buyOrder, $returnUrl)
     {
-        $result = [];
+        $result = ["error" => "Error al crear la transacción"];
         try {
             $txDate = date('d-m-Y');
             $txTime = date('H:i:s');
