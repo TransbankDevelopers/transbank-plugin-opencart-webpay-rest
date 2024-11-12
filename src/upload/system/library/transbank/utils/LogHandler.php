@@ -1,5 +1,7 @@
 <?php
+
 namespace Transbank\Opencart\Webpay;
+
 use Monolog\Logger;
 use Monolog\Handler\RotatingFileHandler;
 
@@ -108,7 +110,9 @@ class LogHandler
     }
 
     /**
-     * Print DEBUG log
+     * Logs a message at the DEBUG level.
+     * @param string $msg The message to be logged.
+     * @return void
      */
     public function logDebug($msg)
     {
@@ -117,8 +121,10 @@ class LogHandler
 
     }
 
-     /**
-     * Print INFO log
+    /**
+     * Logs a message at the INFO level.
+     * @param string $msg The message to be logged.
+     * @return void
      */
     public function logInfo($msg)
     {
@@ -128,7 +134,9 @@ class LogHandler
     }
 
     /**
-     * Print ERROR log
+     * Logs a message at the ERROR level.
+     * @param string $msg The message to be logged.
+     * @return void
      */
     public function logError($msg)
     {
