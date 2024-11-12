@@ -48,17 +48,18 @@ class LogHandler
     }
 
     /**
-     * Generates a list of log files.
-     * @return array|null
+     * Get a list of log files in the log directory with download links.
+     * @return array
      */
-    private function setLogList(): array
+    private function getLogList(): array
     {
         $arr = array_diff(scandir($this->logDir), array('.', '..'));
+        $logList = [];
         foreach ($arr as $value) {
             chmod($this->logDir . "/" . $value, 0660);
             $logList[] = "<a href='{$this->logURL}/{$value}' download>{$value}</a>";
         }
-        return $logList ?? null;
+        return $logList;
     }
 
     /**
@@ -89,7 +90,7 @@ class LogHandler
      */
     private function setLogCount(): array
     {
-        $logList = $this->setLogList();
+        $logList = $this->getLogList();
         $count = isset($logList) ? count($logList) : 0;
         return ['log_count' => $count];
     }
@@ -103,7 +104,7 @@ class LogHandler
         $result = array(
             'log_dir' => $this->getLogDir(),
             'logs_count' => $this->setLogCount(),
-            'logs_list' => $this->setLogList(),
+            'logs_list' => $this->getLogList(),
             'last_log' => $this->getLastLog(),
         );
         return json_encode($result);
