@@ -1,6 +1,7 @@
 <?php
-use Transbank\Opencart\Webpay\HealthCheck;
-use Transbank\Opencart\Webpay\LogHandler;
+require_once DIR_SYSTEM . '/library/Transbank/vendor/autoload.php';
+use Transbank\Opencart\Webpay\Utils\HealthCheck;
+use Transbank\Opencart\Webpay\Utils\LogHandler;
 
 class ControllerExtensionPaymentWebpayRest extends Controller {
 

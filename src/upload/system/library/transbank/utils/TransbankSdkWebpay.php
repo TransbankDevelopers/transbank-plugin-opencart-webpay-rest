@@ -1,5 +1,6 @@
 <?php
-namespace Transbank\Opencart\Webpay;
+namespace Transbank\Opencart\Webpay\Utils;
+
 require_once DIR_SYSTEM . '/library/Transbank/vendor/autoload.php';
 
 use Transbank\Webpay\Configuration;

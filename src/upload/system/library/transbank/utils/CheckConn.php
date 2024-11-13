@@ -1,5 +1,5 @@
 <?php
-namespace Transbank\Opencart\Webpay;
+namespace Transbank\Opencart\Webpay\Utils;
 use Transbank\Opencart\Webpay\HealthCheck;
 session_start();
 
