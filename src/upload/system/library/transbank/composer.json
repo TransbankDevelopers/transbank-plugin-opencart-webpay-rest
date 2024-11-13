@@ -1,6 +1,12 @@
 {
     "require": {
-        "transbank/transbank-sdk": "~2.0"
+        "transbank/transbank-sdk": "~2.0",
+        "monolog/monolog": "^1.27"
+    },
+    "autoload": {
+        "psr-4": {
+            "Transbank\\Opencart\\Webpay\\": "./"
+        }
     },
     "config": {
         "platform": {

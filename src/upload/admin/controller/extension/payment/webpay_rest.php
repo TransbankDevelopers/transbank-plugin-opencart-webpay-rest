@@ -1,7 +1,7 @@
 <?php
-
-require_once(DIR_CATALOG.'controller/extension/payment/libwebpay_rest/HealthCheck.php');
-require_once(DIR_CATALOG.'controller/extension/payment/libwebpay_rest/LogHandler.php');
+require_once DIR_SYSTEM . '/library/Transbank/vendor/autoload.php';
+use Transbank\Opencart\Webpay\Utils\HealthCheck;
+use Transbank\Opencart\Webpay\Utils\LogHandler;
 
 class ControllerExtensionPaymentWebpayRest extends Controller {
 
@@ -32,7 +32,7 @@ class ControllerExtensionPaymentWebpayRest extends Controller {
 
         $this->document->setTitle($this->language->get('heading_title'));;
 
-        
+
         $redirs = array('authorize', 'finish', 'error', 'reject');
         foreach ($redirs as $value) {
             $this->request->post['payment_webpay_rest_url_'.$value] = HTTP_CATALOG . 'index.php?route=extension/payment/webpay_rest/' .$value;
@@ -156,47 +156,30 @@ class ControllerExtensionPaymentWebpayRest extends Controller {
         }
 
         $_SESSION["config"] = $args;
-
         $hc = new HealthCheck($args);
         $healthcheck = json_decode($hc->printFullResume(), true);
-
-        $lh = new LogHandler();
-        $loghandler = json_decode($lh->getResume(), true);
-
+        $logHandler = new LogHandler();
         $data['hc_data'] = $hc->printFullResume();
         $data['healthcheck'] = $healthcheck;
-        $data['lg_data'] = $lh->getResume();
-        $data['loghandler'] = $loghandler;
+        $data['log_data'] = json_decode($logHandler->getResume(), true);
 
-        if (isset($loghandler['last_log']['log_content'])) {
-            $data['res_logcontent'] = json_encode($loghandler['last_log']['log_content']);
-            $data['log_file'] = $loghandler['last_log']['log_file'];
-            $data['log_file_weight'] = $loghandler['last_log']['log_weight'];
-            $data['log_file_regs'] = $loghandler['last_log']['log_regs_lines'];
+
+        if (isset($data['log_data']['last_log']['log_content'])) {
+            $data['res_logcontent'] = json_encode($data['log_data']['last_log']['log_content']);
+            $data['log_file'] = $data['log_data']['last_log']['log_file'];
+            $data['log_file_weight'] = $data['log_data']['last_log']['log_weight'];
+            $data['log_file_regs'] = $data['log_data']['last_log']['log_regs_lines'];
         } else {
-            $data['res_logcontent'] = $loghandler['last_log'][0];
+            $data['res_logcontent'] = $data['log_data']['last_log'][0];
             $data['log_file'] = json_encode($data['res_logcontent']);
             $data['log_file_weight'] = $data['log_file'];
             $data['log_file_regs'] = $data['log_file'];
         }
 
-        if ($loghandler['config']['status'] === false) {
-            $data['estado_logs'] = "<span class='label label-warning'>Desactivado sistema de Registros</span>";
-        } else {
-            $data['estado_logs'] = "<span class='label label-success'>Activado sistema de Registros</span>";
-        }
-
-        $data['log_list'] = $loghandler['logs_list'];
-        $data['log_dir'] = stripslashes(json_encode($loghandler['log_dir']));
-        $data['log_count'] = json_encode($loghandler['logs_count']['log_count']);
-        $data['tb_max_logs_days'] = $loghandler['config']['max_logs_days'];
-
-        $data['tb_max_logs_weight'] = $loghandler['config']['max_log_weight'];
-
-        $data['url_create_pdf_report'] = '../catalog/controller/extension/payment/libwebpay_rest/CreatePdf.php?document=report';
-        $data['url_create_pdf_php_info'] = '../catalog/controller/extension/payment/libwebpay_rest/CreatePdf.php?document=php_info';
-        $data['url_check_conn'] = '../catalog/controller/extension/payment/libwebpay_rest/CheckConn.php';
-
+        $data['log_list'] = $data['log_data']['logs_list'];
+        $data['log_dir'] = stripslashes(json_encode($data['log_data']['log_dir']));
+        $data['log_count'] = json_encode($data['log_data']['logs_count']['log_count']);
+        $data['url_check_conn']=html_entity_decode($this->url->link('extension/payment/webpay_rest/checkConnection', 'user_token=' .$this->session->data['user_token'] , true));
         $data['header'] = $this->load->controller('common/header');
         $data['column_left'] = $this->load->controller('common/column_left');
         $data['footer'] = $this->load->controller('common/footer');
@@ -217,5 +200,22 @@ class ControllerExtensionPaymentWebpayRest extends Controller {
         }
 
         return !$this->error;
+    }
+
+   /**
+    * Checks the connection with Webpay's API
+    *
+    * @return void
+    */
+    public function checkConnection(){
+        $args = array(
+            'MODO' => $this->config->get('payment_webpay_rest_test_mode'),
+            'COMMERCE_CODE' => $this->config->get('payment_webpay_rest_commerce_code'),
+            'API_KEY' => $this->config->get('payment_webpay_rest_api_key'),
+            'ECOMMERCE' => 'opencart'
+        );
+        $healthcheck = new HealthCheck($args);
+        $resp = $healthcheck->setInitTransaction();
+        $this->response->setOutput(json_encode($resp));
     }
 }

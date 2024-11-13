@@ -438,18 +438,6 @@
                         <h3 class="menu-head">Informaci&oacute;n de Registros</h3>
                         <div class="register-container">
                             <div class="info-column" >
-                                <span class="label label-info info-header" title="{{ label_regs_status }}">
-                                    {{ l_regs_status }}
-                                </span>
-                            </div>
-                            <div class="info-column">
-                                <div class="info-value">
-                                    {% if loghandler.config.status == true %}
-                                    <span class='label label-success'>Activado sistema de Registros</span> {% else %}
-                                    <span class='label label-warning'>Desactivado sistema de Registros</span> {% endif %}
-                                </div>
-                            </div>
-                            <div class="info-column" >
                                 <span class="label label-info info-header" title="{{ label_regs_dir }}">
                                     {{ l_regs_dir }}
                                 </span>

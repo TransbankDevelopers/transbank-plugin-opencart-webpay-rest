@@ -1,12 +1,14 @@
 <?php
-namespace OpencartWebpayRest;
+namespace Transbank\Opencart\Webpay\Utils;
 
-require_once(__DIR__ . '/../transbank/vendor/autoload.php');
+require_once DIR_SYSTEM . '/library/Transbank/vendor/autoload.php';
 
 use Transbank\Webpay\Configuration;
 use Transbank\Webpay\Webpay;
 use Transbank\Webpay\WebpayPlus;
 use Transbank\Webpay\WebpayPlus\Transaction;
+use Transbank\Webpay\WebpayPlus\Exceptions\TransactionCreateException;
+use Transbank\Webpay\WebpayPlus\Exceptions\TransactionCommitException;
 
 class TransbankSdkWebpay
 {
@@ -26,7 +28,7 @@ class TransbankSdkWebpay
 
     public function initTransaction($amount, $sessionId, $buyOrder, $returnUrl)
     {
-        $result = [];
+        $result = ["error" => "Error al crear la transacción"];
         try {
             $txDate = date('d-m-Y');
             $txTime = date('H:i:s');
@@ -39,15 +41,11 @@ class TransbankSdkWebpay
                     "url" => $response->url,
                     "token_ws" => $response->token
                 ];
-            } else {
-                throw new \Exception('No se ha creado la transacción para, amount: ' . $amount . ', sessionId: ' . $sessionId . ', buyOrder: ' . $buyOrder);
             }
-        } catch (\Exception $e) {
-            $result = [
-                "error" => 'Error al crear la transacción',
-                "detail" => $e->getMessage()
-            ];
-            $this->log->logError(json_encode($result));
+        }  catch (TransactionCreateException $e) {
+
+            $this->log->logError($e->getMessage());
+            return ["error" => $e->getMessage()];
         }
 
         return $result;
@@ -55,22 +53,12 @@ class TransbankSdkWebpay
 
     public function commitTransaction($tokenWs)
     {
-        $result = [];
         try {
             $this->log->logInfo('getTransactionResult - tokenWs: ' . $tokenWs);
-            if ($tokenWs == null) {
-                throw new \Exception("El token webpay es requerido");
-            }
-
             return (new Transaction)->commit($tokenWs);
-        } catch (\Exception $e) {
-            $result = [
-                "error" => 'Error al confirmar la transacción',
-                "detail" => $e->getMessage()
-            ];
-            $this->log->logError(json_encode($result));
+        } catch (TransactionCommitException $e) {
+            $this->log->logError($e->getMessage());
+            return ["error" => $e->getMessage()];
         }
-
-        return $result;
     }
 }

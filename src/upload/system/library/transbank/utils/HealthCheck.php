@@ -1,9 +1,7 @@
 <?php
-
-use OpencartWebpayRest\TransbankSdkWebpay;
-
-require_once(DIR_SYSTEM . 'library/OpencartWebpayRest/TransbankSdkWebpay.php');
-require_once('LogHandler.php');
+namespace Transbank\Opencart\Webpay\Utils;
+use Transbank\Opencart\Webpay\TransbankSdkWebpay;
+use Transbank\Opencart\Webpay\LogHandler;
 
 class HealthCheck {
 
@@ -176,22 +174,6 @@ class HealthCheck {
         ];
     }
 
-   /**
-    * Creates an array with PHP information.
-    *
-    * @return array Array containing the PHP information
-    */
-    private function getPhpInfo(): array {
-        ob_start();
-        phpinfo();
-        $info = ob_get_clean();
-        $newinfo = strstr($info, '<table>');
-        $newinfo = strstr($newinfo, '<h1>PHP Credits</h1>', true);
-        return [
-            'string' => ['content' => str_replace('</div></body></html>', '', $newinfo)]
-        ];
-    }
-
     /**
      * Initializes a transaction.
      *
@@ -235,4 +217,4 @@ class HealthCheck {
         return json_encode($this->getFullResume());
     }
 }
-?>
+
