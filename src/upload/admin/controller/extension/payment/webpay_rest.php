@@ -205,7 +205,7 @@ class ControllerExtensionPaymentWebpayRest extends Controller {
    /**
     * Checks the connection with Webpay's API
     *
-    * @return void Outputs the health check response as a JSON object.
+    * @return void
     */
     public function checkConnection(){
         $args = array(
