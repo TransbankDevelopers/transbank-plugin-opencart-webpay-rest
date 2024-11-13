@@ -53,7 +53,6 @@ class TransbankSdkWebpay
 
     public function commitTransaction($tokenWs)
     {
-        $result = [];
         try {
             $this->log->logInfo('getTransactionResult - tokenWs: ' . $tokenWs);
             return (new Transaction)->commit($tokenWs);
@@ -61,7 +60,5 @@ class TransbankSdkWebpay
             $this->log->logError($e->getMessage());
             return ["error" => $e->getMessage()];
         }
-
-        return $result;
     }
 }
