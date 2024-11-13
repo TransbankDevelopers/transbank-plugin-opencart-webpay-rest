@@ -179,10 +179,7 @@ class ControllerExtensionPaymentWebpayRest extends Controller {
         $data['log_list'] = $data['log_data']['logs_list'];
         $data['log_dir'] = stripslashes(json_encode($data['log_data']['log_dir']));
         $data['log_count'] = json_encode($data['log_data']['logs_count']['log_count']);
-
-
-        $data['url_check_conn'] = '../system/library/Transbank/utils/CheckConn.php';
-
+        $data['url_check_conn']=html_entity_decode($this->url->link('extension/payment/webpay_rest/checkConnection', 'user_token=' .$this->session->data['user_token'] , true));
         $data['header'] = $this->load->controller('common/header');
         $data['column_left'] = $this->load->controller('common/column_left');
         $data['footer'] = $this->load->controller('common/footer');
@@ -203,5 +200,22 @@ class ControllerExtensionPaymentWebpayRest extends Controller {
         }
 
         return !$this->error;
+    }
+
+   /**
+    * Checks the connection with Webpay's API
+    *
+    * @return void Outputs the health check response as a JSON object.
+    */
+    public function checkConnection(){
+        $args = array(
+            'MODO' => $this->config->get('payment_webpay_rest_test_mode'),
+            'COMMERCE_CODE' => $this->config->get('payment_webpay_rest_commerce_code'),
+            'API_KEY' => $this->config->get('payment_webpay_rest_api_key'),
+            'ECOMMERCE' => 'opencart'
+        );
+        $healthcheck = new HealthCheck($args);
+        $resp = $healthcheck->setInitTransaction();
+        $this->response->setOutput(json_encode($resp));
     }
 }
