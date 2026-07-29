@@ -1,5 +1,5 @@
 <?php
-require_once DIR_SYSTEM . '/library/Transbank/vendor/autoload.php';
+require_once DIR_SYSTEM . '/library/transbank/vendor/autoload.php';
 use Transbank\Opencart\Webpay\Utils\HealthCheck;
 use Transbank\Opencart\Webpay\Utils\LogHandler;
 

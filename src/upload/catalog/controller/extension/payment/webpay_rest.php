@@ -1,5 +1,5 @@
 <?php
-require_once DIR_SYSTEM . '/library/Transbank/vendor/autoload.php';
+require_once DIR_SYSTEM . '/library/transbank/vendor/autoload.php';
 use Transbank\Opencart\Webpay\Utils\TransbankSdkWebpay;
 use Transbank\Opencart\Webpay\Utils\LogHandler;
 use Transbank\Webpay\WebpayPlus\Responses\TransactionCommitResponse;
