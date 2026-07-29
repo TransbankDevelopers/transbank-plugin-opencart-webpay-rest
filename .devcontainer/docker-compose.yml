@@ -1,0 +1,60 @@
+services:
+  mariadb:
+    image: mariadb:10.11
+    container_name: webpay_opencart3_db
+    restart: on-failure:2
+    command: >
+      --default-time-zone='America/Santiago'
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uopencart", "-popencart"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    environment:
+      MYSQL_ROOT_PASSWORD: opencart
+      MYSQL_DATABASE: opencart
+      MYSQL_USER: opencart
+      MYSQL_PASSWORD: opencart
+    volumes:
+      - db_data:/var/lib/mysql
+
+  opencart:
+    build:
+      context: ..
+      dockerfile: .devcontainer/opencart.Dockerfile
+    container_name: webpay_opencart3_web
+    restart: on-failure:2
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    environment:
+      DB_HOST: mariadb
+      DB_PORT: "3306"
+      DB_NAME: opencart
+      DB_USER: opencart
+      DB_PASSWORD: opencart
+      OC_ADMIN_USER: admin
+      OC_ADMIN_PASSWORD: admin123
+      OC_ADMIN_EMAIL: admin@example.com
+      HTTP_SERVER: http://localhost:8080/
+    ports:
+      - "8080:80"
+    volumes:
+      - oc_data:/var/www/html
+
+  workspace:
+    build:
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
+    container_name: webpay_opencart3_workspace
+    restart: on-failure:2
+    depends_on:
+      - opencart
+    volumes:
+      - ..:/workspace:cached
+      - ${HOME}/.ssh:/root/.ssh:cached
+    command: sleep infinity
+
+volumes:
+  db_data:
+  oc_data:
