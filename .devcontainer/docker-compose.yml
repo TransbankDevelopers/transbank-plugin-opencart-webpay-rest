@@ -41,6 +41,8 @@ services:
       - "8080:80"
     volumes:
       - oc_data:/var/www/html
+      - ./logs/apache2:/var/log/apache2
+      - ./logs/opencart:/var/www/html/system/storage/logs
 
   workspace:
     build:
