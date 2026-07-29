@@ -99,7 +99,7 @@ class LogHandler
      * Gets a summary of the current configuration and logs.
      * @return string
      */
-    public function getResume(): bool|string
+    public function getResume()
     {
         $result = array(
             'log_dir' => $this->getLogDir(),

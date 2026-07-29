@@ -13,7 +13,7 @@ fi
 echo "Plugin tag: $TAG"
 
 SRC_DIR="src"
-FILE1="upload/system/library/transbank/utils/TransbankSdkWebpay.php"
+FILE1="upload/system/library/transbank/Utils/TransbankSdkWebpay.php"
 FILE2="install.xml"
 
 sed -i.bkp "s/PLUGIN_VERSION = '1.0.0';/PLUGIN_VERSION = '${TAG}';/g" "$SRC_DIR/$FILE1"
