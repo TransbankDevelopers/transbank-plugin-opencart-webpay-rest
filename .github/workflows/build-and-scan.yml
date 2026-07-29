@@ -1,0 +1,63 @@
+name: Build and Scan
+on:
+  workflow_dispatch:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  push:
+    branches:
+      - "master"
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build and Scan
+    runs-on: ubuntu-latest
+    outputs:
+      artifact_url: ${{ steps.artifact_upload.outputs.artifact-url }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
+      - name: Setup PHP
+        uses: shivammathur/setup-php@44454db4f0199b8b9685a5d763dc37cbf79108e1
+        with:
+          php-version: "7.4"
+      - name: Package Plugin
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          chmod +x config.sh package.sh
+          ./config.sh
+          ./package.sh
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarqube-scan-action@a31c9398be7ace6bbfaf30c0bd5d415f843d45e9
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      - name: Upload build artifact
+        id: artifact_upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: plugin-transbank-webpay-rest-opencart3.zip
+          path: ./plugin-transbank-webpay-rest-opencart3-1.0.0.ocmod.zip
+          if-no-files-found: error
+          retention-days: 7
+
+  comment:
+    name: Comment artifact link on PR
+    needs: build
+    if: github.event_name == 'pull_request'
+    permissions:
+      contents: read
+      issues: write
+      pull-requests: write
+    uses: transbankdevelopers/transbank-github-actions-templates/.github/workflows/plugin-pr-artifact.yml@f104ee093bb1edab2594a19a51bc8be5c201bc2e
+    with:
+      pr_number: ${{ github.event.pull_request.number }}
+      source_repo_full_name: ${{ github.event.pull_request.head.repo.full_name }}
+      artifact_url: ${{ needs.build.outputs.artifact_url }}
+      artifact_name: plugin-transbank-webpay-rest-opencart3.zip
+      comment_marker: "<!-- transbank-webpay-rest-opencart-artifact -->"
+      comment_prefix: Plugin Zip

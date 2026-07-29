@@ -1,0 +1,41 @@
+name: Release
+on:
+  release:
+    types: [created]
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup PHP
+        uses: shivammathur/setup-php@44454db4f0199b8b9685a5d763dc37cbf79108e1
+        with:
+          php-version: "7.4"
+      - name: Install SDK dependencies
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          chmod +x config.sh
+          ./config.sh
+      - name: Package
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          chmod +x package.sh
+          ./package.sh
+        env:
+          TAG: ${{ github.event.release.tag_name }}
+      - name: Upload plugin zip to release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: plugin-transbank-webpay-rest-opencart3-${{ github.event.release.tag_name }}.ocmod.zip
+          asset_name: plugin-transbank-webpay-rest-opencart3-${{ github.event.release.tag_name }}.ocmod.zip
+          asset_content_type: application/zip
