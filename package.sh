@@ -1,21 +1,25 @@
 #!/usr/bin/env bash
 
-#Script for create the plugin artifact
-echo "Travis tag: $TRAVIS_TAG"
+set -Eeuo pipefail
 
-if [ "$TRAVIS_TAG" = "" ]
+#Script for create the plugin artifact
+TAG="${TAG:-}"
+
+if [ "$TAG" = "" ]
 then
-   TRAVIS_TAG='1.0.0'
+   TAG='1.0.0'
 fi
 
+echo "Plugin tag: $TAG"
+
 SRC_DIR="src"
-FILE1="upload/system/library/OpencartWebpayRest/TransbankSdkWebpay.php"
+FILE1="upload/system/library/transbank/utils/TransbankSdkWebpay.php"
 FILE2="install.xml"
 
-sed -i.bkp "s/PLUGIN_VERSION = '1.0.0';/PLUGIN_VERSION = '${TRAVIS_TAG}';/g" "$SRC_DIR/$FILE1"
-sed -i.bkp "s/<version>1.0.0/<version>${TRAVIS_TAG}/g" "$SRC_DIR/$FILE2"
+sed -i.bkp "s/PLUGIN_VERSION = '1.0.0';/PLUGIN_VERSION = '${TAG}';/g" "$SRC_DIR/$FILE1"
+sed -i.bkp "s/<version>1.0.0/<version>${TAG}/g" "$SRC_DIR/$FILE2"
 
-PLUGIN_FILE="plugin-transbank-webpay-rest-opencart3-$TRAVIS_TAG.ocmod.zip"
+PLUGIN_FILE="plugin-transbank-webpay-rest-opencart3-$TAG.ocmod.zip"
 
 cp CHANGELOG.md $SRC_DIR
 cp LICENSE $SRC_DIR
@@ -30,5 +34,5 @@ cp "$SRC_DIR/$FILE2.bkp" "$SRC_DIR/$FILE2"
 rm "$SRC_DIR/$FILE1.bkp"
 rm "$SRC_DIR/$FILE2.bkp"
 
-echo "Plugin version: $TRAVIS_TAG"
+echo "Plugin version: $TAG"
 echo "Plugin file: $PLUGIN_FILE"
