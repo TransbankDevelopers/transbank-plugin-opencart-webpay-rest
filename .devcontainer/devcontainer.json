@@ -46,6 +46,7 @@
                 "extensions.ignoreRecommendations": true,
                 "remote.containers.installRecommendedExtensions": false,
                 "settingsSync.enabled": false,
+                "todo-tree.ripgrep.ripgrep": "/usr/bin/rg",
                 "remote.extensionKind": {
                     "github.copilot": ["ui"],
                     "github.copilot-chat": ["ui"]
@@ -82,18 +83,30 @@
                 ],
                 "[php]": {
                     "editor.defaultFormatter": "bmewburn.vscode-intelephense-client"
-                }
+                },
+                "[jsonc]": {
+                    "editor.defaultFormatter": "esbenp.prettier-vscode"
+                },
+                "prettier.trailingComma": "none"
             },
             "extensions": [
-                "ms-vsliveshare.vsliveshare",
-                "github.vscode-github-actions",
-                "usernamehw.errorlens",
-                "editorconfig.editorconfig",
-                "gruntfuggly.todo-tree",
-                "mtxr.sqltools",
-                "mtxr.sqltools-driver-mysql",
-                "DEVSENSE.phptools-vscode",
-                "bmewburn.vscode-intelephense-client"
+                "ms-vsliveshare.vsliveshare", // Live Share
+                "ms-vscode.vscode-json", // JSON Support
+                "github.vscode-github-actions", // GitHub Actions
+                "fill-labs.dependi", // Dependi
+                "usernamehw.errorlens", // Error Lens
+                "esbenp.prettier-vscode", // Prettier
+                "editorconfig.editorconfig", // EditorConfig
+                "kisstkondoros.vscode-gutter-preview", // Gutter Preview
+                "gruntfuggly.todo-tree", // TODO Tree
+                "mtxr.sqltools", // SQLTools
+                "mtxr.sqltools-driver-mysql", // SQLTools MySQL Driver
+                "DEVSENSE.phptools-vscode", // PHP Tools
+                "bmewburn.vscode-intelephense-client", // Intelephense
+                "hakcorp.php-awesome-snippets", // PHP Awesome Snippets
+                "formulahendry.auto-rename-tag", // Auto Rename Tag
+                "bradgashler.htmltagwrap", // HTML Tag Wrap
+                "adpyke.codesnap" // CodeSnap
             ]
         }
     }

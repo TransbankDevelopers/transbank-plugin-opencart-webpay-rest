@@ -19,6 +19,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     less \
     libzip-dev \
     mariadb-client \
+    ripgrep \
     ssh \
     unzip \
     wget \
