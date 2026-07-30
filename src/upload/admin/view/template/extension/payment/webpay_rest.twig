@@ -78,7 +78,7 @@
                             <input type="text" name="payment_webpay_rest_commerce_code"
                                    placeholder="{{ webpay_rest_commerce_code_placeholder }}"
                                    id="payment_webpay_rest_commerce_code"
-                                   value="{{ payment_webpay_rest_commerce_code }}" class="form-control"
+                                   value="{{ payment_webpay_rest_commerce_code|escape }}" class="form-control"
                                    style="font-family:monospace;"/>
                             {% if error_commerce_code %}
                                 <div class="text-danger">{{ error_commerce_code }}</div>
@@ -94,7 +94,7 @@
                             <input type="text" name="payment_webpay_rest_api_key"
                                    placeholder="{{ webpay_rest_api_key_placeholder }}"
                                    id="payment_webpay_rest_api_key"
-                                   value="{{ payment_webpay_rest_api_key }}" class="form-control"
+                                   value="{{ payment_webpay_rest_api_key|escape }}" class="form-control"
                                    style="font-family:monospace;"/>
                             {% if error_api_key %}
                                 <div class="text-danger">{{ error_api_key }}</div>
@@ -144,7 +144,7 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label" for="payment_webpay_rest_sort_order">{{ entry_sort_order }}</label>
                         <div class="col-sm-5">
-                            <input type="text" name="payment_webpay_rest_sort_order" value="{{ payment_webpay_rest_sort_order }}" placeholder="{{ entry_sort_order }}" id="payment_webpay_rest_sort_order" class="form-control" />
+                            <input type="text" name="payment_webpay_rest_sort_order" value="{{ payment_webpay_rest_sort_order|escape }}" placeholder="{{ entry_sort_order }}" id="payment_webpay_rest_sort_order" class="form-control" />
                         </div>
                     </div>
 
@@ -287,7 +287,7 @@
                         </div>
                         <div class="info-column">
                             <div class="info-value">
-                                {{ healthcheck.server_resume.plugin_info.last_plugin_version }}
+                                {{ healthcheck.server_resume.plugin_info.last_plugin_version|escape }}
                             </div>
                         </div>
                     </div>
@@ -475,7 +475,7 @@
                         <hr>
                         <b>{{ l_last_log }}</b>
                         <div class="log_content">
-                            <code>{{ res_logcontent }}</code>
+                            <code>{{ res_logcontent|escape }}</code>
                         </div>
                     </div>
                 </div>
@@ -524,7 +524,7 @@
 
                     $("#response_status_text").addClass("label-success").text("OK").show();
                     $("#response_url_text").text(response.response.url);
-                    $("#response_token_text").html('<pre>'+response.response.token_ws+'</pre>');
+                    $("#response_token_text").empty().append($('<pre>').text(response.response.token_ws));
 
                     $("#div_response_url").removeClass("tbk-hide");
                     $("#div_response_token").removeClass("tbk-hide");
@@ -533,7 +533,7 @@
 
                     $("#response_status_text").addClass("label-danger").text("ERROR").show();
                     $("#error_response_text").text(response.response.error);
-                    $("#error_detail_response_text").html('<pre>'+response.response.detail+'</pre>');
+                    $("#error_detail_response_text").empty().append($('<pre>').text(response.response.detail));
 
                     $("#div_error_response").removeClass("tbk-hide");
                     $("#div_error_detail_response").removeClass("tbk-hide");

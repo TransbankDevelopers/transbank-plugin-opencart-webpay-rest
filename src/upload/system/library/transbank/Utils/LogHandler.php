@@ -96,6 +96,21 @@ class LogHandler
     }
 
     /**
+     * Strips markup and normalizes whitespace in log messages, preventing markup
+     * injection and forged log lines (via injected newlines) regardless of how
+     * the caller obtained the value.
+     * @param string $msg
+     * @return string
+     */
+    private function sanitizeMessage($msg): string
+    {
+        $msg = strip_tags((string) $msg);
+        $msg = preg_replace('/[\r\n]+/', ' ', $msg);
+
+        return trim($msg);
+    }
+
+    /**
      * Gets a summary of the current configuration and logs.
      * @return string
      */
@@ -117,7 +132,7 @@ class LogHandler
      */
     public function logDebug($msg)
     {
-        $this->logger->debug($msg);
+        $this->logger->debug($this->sanitizeMessage($msg));
     }
 
     /**
@@ -127,7 +142,7 @@ class LogHandler
      */
     public function logInfo($msg)
     {
-        $this->logger->info($msg);
+        $this->logger->info($this->sanitizeMessage($msg));
     }
 
     /**
@@ -137,6 +152,6 @@ class LogHandler
      */
     public function logError($msg)
     {
-        $this->logger->error($msg);
+        $this->logger->error($this->sanitizeMessage($msg));
     }
 }
