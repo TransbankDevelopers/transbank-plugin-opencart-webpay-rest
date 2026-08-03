@@ -6,8 +6,6 @@ use Transbank\Webpay\WebpayPlus\Responses\TransactionCommitResponse;
 
 class ControllerExtensionPaymentWebpayRest extends Controller {
 
-    private $transbankSdkWebpay = null;
-
     private function loadResources() {
         $this->load->language('extension/payment/webpay_rest');
         $this->load->model('setting/setting'); //load model in: $this->model_setting_setting
@@ -42,8 +40,6 @@ class ControllerExtensionPaymentWebpayRest extends Controller {
         $this->loadResources();
 
         $transbankSdk = $this->getTransbankSdkWebpay();
-
-        $config = $this->getConfig();
 
         $itemsId = [];
         foreach ($this->cart->getProducts() as $product) {
@@ -187,7 +183,7 @@ class ControllerExtensionPaymentWebpayRest extends Controller {
                 $this->model_checkout_order->addOrderHistory($orderId, $orderStatusId, $orderComment, $orderNotifyToUser);
 
                 $this->successView();
-                exit;
+                return;
 
             } else {
 
@@ -329,16 +325,5 @@ class ControllerExtensionPaymentWebpayRest extends Controller {
         $data['tbk_numero_cuotas'] = $result['installmentsNumber'];
         $this->session->data['transbank_webpay_rest_result'] = $this->load->view('extension/payment/webpay_rest_success', $data);
         $this->response->redirect($this->url->link('checkout/success', 'language=' . $this->config->get('config_language'), 'SSL'));
-    }
-
-    private function toRedirect($url, $data) {
-        echo  "<form action='$url' method='POST' name='webpayRestForm'>";
-        foreach ($data as $name => $value) {
-            echo "<input type='hidden' name='".htmlentities($name)."' value='".htmlentities($value)."'>";
-        }
-        echo "</form>";
-        echo "<script language='JavaScript'>"
-            ."document.webpayRestForm.submit();"
-            ."</script>";
     }
 }

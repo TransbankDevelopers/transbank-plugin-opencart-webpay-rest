@@ -106,11 +106,9 @@
                         <label class="col-sm-2 control-label" for="payment_webpay_rest_completed_order_status">{{ entry_completed_order_status }}</label>
                         <div class="col-sm-5">
                             <select name="payment_webpay_rest_completed_order_status" id="payment_webpay_rest_completed_order_status" class="form-control">
-                                {% for order_status in order_statuses %} {% if order_status.order_status_id == payment_webpay_rest_completed_order_status %}
-                                <option value="{{ order_status.order_status_id }}" selected="selected">{{ order_status.name }}</option>
-                                {% else %}
-                                <option value="{{ order_status.order_status_id }}">{{ order_status.name }}</option>
-                                {% endif %} {% endfor %}
+                                {% for order_status in order_statuses_completed %}
+                                <option value="{{ order_status.order_status_id }}" {% if order_status.selected %}selected="selected"{% endif %}>{{ order_status.name }}</option>
+                                {% endfor %}
                             </select>
                         </div>
                     </div>
@@ -119,11 +117,9 @@
                         <label class="col-sm-2 control-label" for="payment_webpay_rest_rejected_order_status">{{ entry_rejected_order_status }}</label>
                         <div class="col-sm-5">
                             <select name="payment_webpay_rest_rejected_order_status" id="payment_webpay_rest_rejected_order_status" class="form-control">
-                                {% for order_status in order_statuses %} {% if order_status.order_status_id == payment_webpay_rest_rejected_order_status %}
-                                <option value="{{ order_status.order_status_id }}" selected="selected">{{ order_status.name }}</option>
-                                {% else %}
-                                <option value="{{ order_status.order_status_id }}">{{ order_status.name }}</option>
-                                {% endif %} {% endfor %}
+                                {% for order_status in order_statuses_rejected %}
+                                <option value="{{ order_status.order_status_id }}" {% if order_status.selected %}selected="selected"{% endif %}>{{ order_status.name }}</option>
+                                {% endfor %}
                             </select>
                         </div>
                     </div>
@@ -132,11 +128,9 @@
                         <label class="col-sm-2 control-label" for="payment_webpay_rest_canceled_order_status">{{ entry_canceled_order_status }}</label>
                         <div class="col-sm-5">
                             <select name="payment_webpay_rest_canceled_order_status" id="payment_webpay_rest_canceled_order_status" class="form-control">
-                                {% for order_status in order_statuses %} {% if order_status.order_status_id == payment_webpay_rest_canceled_order_status %}
-                                <option value="{{ order_status.order_status_id }}" selected="selected">{{ order_status.name }}</option>
-                                {% else %}
-                                <option value="{{ order_status.order_status_id }}">{{ order_status.name }}</option>
-                                {% endif %} {% endfor %}
+                                {% for order_status in order_statuses_canceled %}
+                                <option value="{{ order_status.order_status_id }}" {% if order_status.selected %}selected="selected"{% endif %}>{{ order_status.name }}</option>
+                                {% endfor %}
                             </select>
                         </div>
                     </div>

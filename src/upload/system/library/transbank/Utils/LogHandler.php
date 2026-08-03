@@ -10,7 +10,7 @@ class LogHandler
 
     private $logDir;
     private $logURL;
-    private $logger;
+    private Logger $logger;
 
     public function __construct($ecommerce = 'opencart')
     {
@@ -27,7 +27,7 @@ class LogHandler
      */
     private function formatBytes($path): string
     {
-        $bytes = @filesize($path);
+        $bytes = is_readable($path) ? filesize($path) : 0;
         if ($bytes > 0) {
             $unit = intval(log($bytes, 1024));
             $units = array('B', 'KB', 'MB', 'GB');
@@ -75,7 +75,7 @@ class LogHandler
         $files = array_combine($files, array_map("filemtime", $files));
         arsort($files);
         $this->lastLog = key($files);
-        $logContent = @file_get_contents($this->lastLog) ?: null;
+        $logContent = is_readable($this->lastLog) ? (file_get_contents($this->lastLog) ?: null) : null;
         return [
             'log_file' => basename($this->lastLog),
             'log_weight' => $this->formatBytes($this->lastLog),

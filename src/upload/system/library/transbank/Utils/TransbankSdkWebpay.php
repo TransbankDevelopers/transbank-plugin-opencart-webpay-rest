@@ -3,8 +3,6 @@ namespace Transbank\Opencart\Webpay\Utils;
 
 require_once DIR_SYSTEM . '/library/transbank/vendor/autoload.php';
 
-use Transbank\Webpay\Configuration;
-use Transbank\Webpay\Webpay;
 use Transbank\Webpay\WebpayPlus;
 use Transbank\Webpay\WebpayPlus\Transaction;
 use Transbank\Webpay\WebpayPlus\Exceptions\TransactionCreateException;

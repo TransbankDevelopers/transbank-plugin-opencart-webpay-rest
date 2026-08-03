@@ -8,7 +8,7 @@ class ModelExtensionPaymentWebpayRest extends Model {
 
         $status = false;
 
-		if (intval($total) > 0) {
+		if (intval($total) > 0 && isset($address['iso_code_2']) && $address['iso_code_2'] == 'CL') {
 			$status = true;
         }
 
