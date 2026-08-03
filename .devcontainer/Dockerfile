@@ -48,7 +48,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
  && corepack prepare pnpm@11.5.2 --activate \
  && rm -rf /var/lib/apt/lists/* \
  && php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
- && EXPECTED_SIGNATURE="$(curl -fsSL https://composer.github.io/installer.sig)" \
+ && EXPECTED_SIGNATURE="$(curl --proto "=https" -fsSL https://composer.github.io/installer.sig)" \
  && ACTUAL_SIGNATURE="$(php -r "echo hash_file('sha384', 'composer-setup.php');")" \
  && if [ "$EXPECTED_SIGNATURE" != "$ACTUAL_SIGNATURE" ]; then \
         echo "ERROR: Invalid Composer installer signature" >&2; \
