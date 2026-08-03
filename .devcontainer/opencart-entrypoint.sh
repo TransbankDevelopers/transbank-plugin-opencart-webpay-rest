@@ -13,7 +13,7 @@ OC_ADMIN_PASSWORD="${OC_ADMIN_PASSWORD:-admin123}"
 OC_ADMIN_EMAIL="${OC_ADMIN_EMAIL:-admin@example.com}"
 HTTP_SERVER="${HTTP_SERVER:-http://localhost:8080/}"
 
-if [ ! -f "$WEBROOT/config.php" ]; then
+if [[ ! -f "$WEBROOT/config.php" ]]; then
   echo "Copiando código fuente de OpenCart ${OPENCART_VERSION} a ${WEBROOT}..."
   cp -rn /opt/opencart-src/. "$WEBROOT/"
 

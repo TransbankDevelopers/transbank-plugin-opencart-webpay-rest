@@ -5,7 +5,7 @@ set -Eeuo pipefail
 #Script for create the plugin artifact
 TAG="${TAG:-}"
 
-if [ "$TAG" = "" ]
+if [[ "$TAG" = "" ]]
 then
    TAG='1.0.0'
 fi

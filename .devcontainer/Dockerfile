@@ -1,22 +1,28 @@
 ############################
 # image with
-# PHP 7.4 CLI
+# OpenCart 3.0.2.0 (official release from github.com/opencart/opencart)
+# PHP 7.4 + Apache
 # Composer 2.x
 # Node 22.x + pnpm
 # mariadb-client
 ############################
-FROM php:7.4-cli
+FROM php:7.4-apache
 
 ENV COMPOSER_ALLOW_SUPERUSER=1
 ENV TZ=America/Santiago
+ENV OPENCART_VERSION=3.0.2.0
 
-# install utilities
+# install utilities + PHP extensions needed by OpenCart / the Webpay plugin
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
     curl \
     git \
     gnupg \
     less \
+    libcurl4-openssl-dev \
+    libfreetype6-dev \
+    libjpeg62-turbo-dev \
+    libpng-dev \
     libzip-dev \
     mariadb-client \
     ripgrep \
@@ -24,12 +30,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     unzip \
     wget \
     zip \
- && docker-php-ext-install zip \
+ && docker-php-ext-configure gd --with-freetype --with-jpeg \
+ && docker-php-ext-install -j"$(nproc)" curl gd mysqli pdo_mysql zip \
+ && a2enmod rewrite \
+ && ln -snf /usr/share/zoneinfo/"$TZ" /etc/localtime \
+ && echo "$TZ" > /etc/timezone \
  && rm -rf /var/lib/apt/lists/*
-
-# Time zone settings
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
- && echo "$TZ" > /etc/timezone
 
 # Install node 22.x (active LTS) without executing remote setup scripts
 # (used to generate docs/INSTALLATION.pdf with markdown-pdf)
@@ -50,11 +56,27 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
  && php -r "unlink('composer-setup.php');" \
  && composer --version
 
+# PHP settings needed by OpenCart / the Webpay plugin (uploads, execution time)
+COPY .devcontainer/php-opencart.ini /usr/local/etc/php/conf.d/zz-opencart.ini
+
+# Download the official OpenCart release into a template directory.
+# The entrypoint copies it into the (persisted) webroot volume on first boot,
+# the same way the official "wordpress" image seeds /var/www/html.
+ADD https://github.com/opencart/opencart/releases/download/${OPENCART_VERSION}/${OPENCART_VERSION}-OpenCart.zip /tmp/opencart.zip
+RUN unzip -q /tmp/opencart.zip "upload/*" -d /tmp/opencart \
+ && mkdir -p /opt/opencart-src \
+ && cp -r /tmp/opencart/upload/. /opt/opencart-src/ \
+ && rm -rf /tmp/opencart /tmp/opencart.zip
+
 # Set the workspace directory as a safe directory in Git
 RUN git config --global --add safe.directory /workspace
 
-# Copy the shell settings to make the shop available
+# Copy the shell settings / entrypoint to make the shop available
+COPY .devcontainer/opencart-entrypoint.sh /usr/local/bin/opencart-entrypoint.sh
 COPY .devcontainer/oc-setup.sh /usr/local/bin/oc-setup.sh
-RUN chmod +x /usr/local/bin/oc-setup.sh
+RUN chmod +x /usr/local/bin/opencart-entrypoint.sh /usr/local/bin/oc-setup.sh
 
 WORKDIR /workspace
+
+ENTRYPOINT ["opencart-entrypoint.sh"]
+CMD ["apache2-foreground"]

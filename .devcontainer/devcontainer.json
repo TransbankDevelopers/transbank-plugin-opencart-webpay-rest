@@ -1,9 +1,9 @@
 {
     "name": "OpenCart Plugin Development Container",
     "dockerComposeFile": ["./docker-compose.yml"],
-    "service": "workspace",
+    "service": "opencart",
     "workspaceFolder": "/workspace",
-    "runServices": ["mariadb", "opencart", "workspace"],
+    "runServices": ["mariadb", "opencart"],
     "remoteUser": "root",
     "forwardPorts": [8080],
     "portsAttributes": {

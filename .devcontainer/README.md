@@ -11,10 +11,14 @@ Este devcontainer proporciona un entorno completo de desarrollo para el plugin W
 
 ## 📋 Servicios incluidos
 
-- **OpenCart 3.0.2.0** (release oficial de [opencart/opencart](https://github.com/opencart/opencart)) con PHP 7.4 + Apache. Se instala automáticamente la primera vez que se levanta el contenedor `opencart` (usa el `cli_install.php` que trae el propio OpenCart).
+- **OpenCart 3.0.2.0** (release oficial de [opencart/opencart](https://github.com/opencart/opencart)) con PHP 7.4.
+- **Apache** para servir el contenido.
 - **MariaDB 10.11** como base de datos.
-- **Contenedor de trabajo** (`workspace`) con PHP 7.4, Composer y Node 22.x (con pnpm vía corepack) para editar y empaquetar el plugin.
+- **Node 22.x** (con pnpm vía corepack).
 - **Extensiones de VS Code** para trabajar con PHP.
+- **Composer** para gestión de dependencias PHP.
+
+OpenCart se instala automáticamente la primera vez que se levanta el contenedor (usa el `cli_install.php` que trae el propio OpenCart).
 
 ## 🔗 URLs de acceso
 
@@ -38,17 +42,26 @@ El devcontainer incluye una extensión para trabajar con la base de datos:
 
 ### Estructura del proyecto en el contenedor
 
+Todo vive en el mismo contenedor (`opencart`):
+
 ```
-/workspace/                 # Código fuente de este repo (montado desde el host, contenedor "workspace")
-/var/www/html/              # Instalación de OpenCart (contenedor "opencart", persistida en el volumen oc_data)
+/workspace/                 # Código fuente de este repo (montado desde el host)
+/var/www/html/              # Instalación de OpenCart (persistida en el volumen oc_data)
 ```
+
+## 🔧 Configuración del módulo
+
+OpenCart no soporta montar ni enlazar extensiones directamente desde el código fuente: el plugin se prueba empaquetándolo como `.ocmod.zip` e instalándolo desde el panel de administración.
+
+### Desarrollo del módulo
+
+1. Los cambios en el plugin **no se reflejan automáticamente** en la tienda — hay que volver a empaquetar e instalar el `.zip` (ver sección siguiente).
+2. Los logs se guardan en `.devcontainer/logs/`.
+3. Se ha incluido la carpeta `vendor` del plugin en Intelephense para tener las referencias de código del SDK de Transbank.
 
 ## 📦 Empaquetar e instalar el plugin
 
-A diferencia de WordPress/WooCommerce, OpenCart no soporta symlinks de plugins: los cambios se prueban empaquetando
-el plugin como `.ocmod.zip` e instalándolo desde el panel de administración.
-
-Desde el contenedor `workspace`:
+Desde el contenedor `opencart`:
 
 ```bash
 ./config.sh   # instala las dependencias del SDK de Transbank (composer)
@@ -63,6 +76,15 @@ Luego, en http://localhost:8080/admin:
 
 Ver [docs/INSTALLATION.md](../docs/INSTALLATION.md) para el detalle con capturas.
 
+## 📚 Dependencias
+
+Las dependencias de Composer (SDK de Transbank) se instalan ejecutando `./config.sh`. Para instalar una nueva dependencia manualmente:
+
+```bash
+cd src/upload/system/library/transbank
+composer require nueva-dependencia
+```
+
 ## 🗄️ Base de datos
 
 ### Configuración por defecto
@@ -75,10 +97,11 @@ Ver [docs/INSTALLATION.md](../docs/INSTALLATION.md) para el detalle con capturas
 
 ## 📝 Notas de desarrollo
 
-1. **Permisos**: El usuario del contenedor `workspace` es root, por lo que tiene acceso completo.
+1. **Permisos**: El usuario del contenedor `opencart` es root, por lo que tiene acceso completo. Apache y el script de instalación necesitan root para arrancar y ajustar permisos, por eso no se define un usuario no privilegiado (mismo criterio que las imágenes oficiales de Apache/WordPress).
 2. **Persistencia**: Los datos de OpenCart y la base de datos **persisten** entre reinicios (volúmenes `oc_data` y `db_data`, gestionados por Docker).
-3. **Logs del plugin**: revisa `system/storage/logs/webpay-log.log` dentro del contenedor `opencart`: `docker compose -f .devcontainer/docker-compose.yml exec opencart bash`.
-4. **Reinstalar desde cero**: `docker compose -f .devcontainer/docker-compose.yml down -v` borra los volúmenes y fuerza una instalación limpia de OpenCart la próxima vez que se levante.
+3. **Refresco de código**: los cambios no se reflejan automáticamente — hay que reempaquetar e instalar el `.zip` (ver [Empaquetar e instalar el plugin](#-empaquetar-e-instalar-el-plugin)).
+4. **Logs del plugin**: revisa `system/storage/logs/webpay-log.log` dentro del contenedor: `docker compose -f .devcontainer/docker-compose.yml exec opencart bash`.
+5. **Reinstalar desde cero**: `docker compose -f .devcontainer/docker-compose.yml down -v` borra los volúmenes y fuerza una instalación limpia de OpenCart la próxima vez que se levante.
 
 ## Edición del devcontainer
 

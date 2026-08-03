@@ -21,8 +21,8 @@ services:
   opencart:
     build:
       context: ..
-      dockerfile: .devcontainer/opencart.Dockerfile
-    container_name: webpay_opencart3_web
+      dockerfile: .devcontainer/Dockerfile
+    container_name: webpay_opencart3_workspace
     restart: on-failure:2
     depends_on:
       mariadb:
@@ -41,21 +41,10 @@ services:
       - "8080:80"
     volumes:
       - oc_data:/var/www/html
-      - ./logs/apache2:/var/log/apache2
-      - ./logs/opencart:/var/www/html/system/storage/logs
-
-  workspace:
-    build:
-      context: ..
-      dockerfile: .devcontainer/Dockerfile
-    container_name: webpay_opencart3_workspace
-    restart: on-failure:2
-    depends_on:
-      - opencart
-    volumes:
       - ..:/workspace:cached
       - ${HOME}/.ssh:/root/.ssh:cached
-    command: sleep infinity
+      - ./logs/apache2:/var/log/apache2
+      - ./logs/opencart:/var/www/html/system/storage/logs
 
 volumes:
   db_data:
