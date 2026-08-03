@@ -9,15 +9,13 @@ class LogHandler
 {
 
     private $logDir;
-    private $logURL;
-    private Logger $monologLogger;
+    private $logger;
 
     public function __construct($ecommerce = 'opencart')
     {
         $this->logDir = DIR_STORAGE . "logs/Transbank_webpay";
-        $this->logURL = str_replace($_SERVER['DOCUMENT_ROOT'], "", $this->logDir);
-        $this->monologLogger = new Logger('webpay_logger');
-        $this->monologLogger->pushHandler(new RotatingFileHandler("{$this->logDir}/log_transbank_{$ecommerce}.log", 10, Logger::DEBUG));
+        $this->logger = new Logger('webpay_logger');
+        $this->logger->pushHandler(new RotatingFileHandler("{$this->logDir}/log_transbank_{$ecommerce}.log", 10, Logger::DEBUG));
     }
 
     /**
@@ -48,18 +46,12 @@ class LogHandler
     }
 
     /**
-     * Get a list of log files in the log directory with download links.
+     * Get the list of log file names in the log directory.
      * @return array
      */
     private function getLogList(): array
     {
-        $arr = array_diff(scandir($this->logDir), array('.', '..'));
-        $logList = [];
-        foreach ($arr as $value) {
-            chmod($this->logDir . "/" . $value, 0640);
-            $logList[] = "<a href='{$this->logURL}/{$value}' download>{$value}</a>";
-        }
-        return $logList;
+        return array_values(array_diff(scandir($this->logDir), array('.', '..')));
     }
 
     /**
@@ -137,7 +129,7 @@ class LogHandler
      */
     public function logDebug($msg)
     {
-        $this->monologLogger->debug($this->sanitizeMessage($msg));
+        $this->logger->debug($this->sanitizeMessage($msg));
     }
 
     /**
@@ -147,7 +139,7 @@ class LogHandler
      */
     public function logInfo($msg)
     {
-        $this->monologLogger->info($this->sanitizeMessage($msg));
+        $this->logger->info($this->sanitizeMessage($msg));
     }
 
     /**
@@ -157,6 +149,6 @@ class LogHandler
      */
     public function logError($msg)
     {
-        $this->monologLogger->error($this->sanitizeMessage($msg));
+        $this->logger->error($this->sanitizeMessage($msg));
     }
 }

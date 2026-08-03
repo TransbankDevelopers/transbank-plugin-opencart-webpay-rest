@@ -173,7 +173,14 @@ class ControllerExtensionPaymentWebpayRest extends Controller {
             $data['log_file_regs'] = $data['log_file'];
         }
 
-        $data['log_list'] = $data['log_data']['logs_list'];
+        $data['log_list'] = array();
+
+        foreach ($data['log_data']['logs_list'] as $logFile) {
+            $data['log_list'][] = array(
+                'name' => $logFile,
+                'url' => $this->url->link('extension/payment/webpay_rest/downloadLog', 'user_token=' . $this->session->data['user_token'] . '&file=' . urlencode($logFile), true),
+            );
+        }
         $data['log_dir'] = stripslashes(json_encode($data['log_data']['log_dir']));
         $data['log_count'] = json_encode($data['log_data']['logs_count']['log_count']);
         $data['url_check_conn']=html_entity_decode($this->url->link('extension/payment/webpay_rest/checkConnection', 'user_token=' .$this->session->data['user_token'] , true));
@@ -216,6 +223,29 @@ class ControllerExtensionPaymentWebpayRest extends Controller {
         }
 
         return !$this->error;
+    }
+
+   /**
+    * Streams a plugin log file as a download.
+    *
+    * system/storage is never web-accessible (OpenCart's own system/.htaccess
+    * blocks it), so the file has to be read and streamed from here instead
+    * of linking to it directly.
+    *
+    * @return void
+    */
+    public function downloadLog(){
+        $filename = isset($this->request->get['file']) ? basename($this->request->get['file']) : '';
+        $path = DIR_STORAGE . 'logs/Transbank_webpay/' . $filename;
+
+        if ($filename === '' || !preg_match('/^log_transbank_[A-Za-z0-9_\-]+\.log$/', $filename) || !is_file($path)) {
+            $this->response->addHeader('HTTP/1.1 404 Not Found');
+            return;
+        }
+
+        $this->response->addHeader('Content-Type: text/plain');
+        $this->response->addHeader('Content-Disposition: attachment; filename="' . $filename . '"');
+        $this->response->setOutput(file_get_contents($path));
     }
 
    /**
