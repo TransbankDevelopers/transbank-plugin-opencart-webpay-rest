@@ -1,7 +1,7 @@
 <?php
 class ModelExtensionPaymentWebpayRest extends Model {
 
-	public function getMethod($_address, $total) {
+	public function getMethod($address, $total) {
 
         $this->load->language('extension/payment/webpay_rest');
         $this->load->model('setting/setting');
