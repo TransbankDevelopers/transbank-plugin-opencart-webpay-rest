@@ -235,6 +235,12 @@ class ControllerExtensionPaymentWebpayRest extends Controller {
     * @return void
     */
     public function downloadLog(){
+        if (!$this->user->hasPermission('access', 'extension/payment/webpay_rest')) {
+            $this->response->addHeader('HTTP/1.1 403 Forbidden');
+
+            return;
+        }
+
         $filename = isset($this->request->get['file']) ? basename($this->request->get['file']) : '';
         $path = DIR_STORAGE . 'logs/Transbank_webpay/' . $filename;
 

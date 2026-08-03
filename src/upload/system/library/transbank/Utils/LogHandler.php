@@ -51,6 +51,10 @@ class LogHandler
      */
     private function getLogList(): array
     {
+        if (!is_dir($this->logDir)) {
+            return [];
+        }
+
         return array_values(array_diff(scandir($this->logDir), array('.', '..')));
     }
 
