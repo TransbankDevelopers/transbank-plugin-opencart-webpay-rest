@@ -13,6 +13,8 @@ class ControllerExtensionPaymentWebpayRest extends Controller {
         'api_key' => "579B532A7440BB0C9079DED94D31EA1615BACEB56610332264630D42D0A36B1C"
     );
 
+    private const MAX_DOWNLOADABLE_LOG_SIZE = 10 * 1024 * 1024;
+
     private $sections = array('commerce_code', 'api_key', 'test_mode');
 
     private function loadResources() {
@@ -246,6 +248,11 @@ class ControllerExtensionPaymentWebpayRest extends Controller {
 
         if ($filename === '' || !preg_match('/^log_transbank_[A-Za-z0-9_\-]+\.log$/', $filename) || !is_file($path)) {
             $this->response->addHeader('HTTP/1.1 404 Not Found');
+            return;
+        }
+
+        if (filesize($path) > self::MAX_DOWNLOADABLE_LOG_SIZE) {
+            $this->response->addHeader('HTTP/1.1 413 Payload Too Large');
             return;
         }
 
