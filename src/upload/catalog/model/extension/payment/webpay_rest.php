@@ -1,14 +1,14 @@
 <?php
 class ModelExtensionPaymentWebpayRest extends Model {
 
-	public function getMethod($address, $total) {
+	public function getMethod($_address, $total) {
 
         $this->load->language('extension/payment/webpay_rest');
         $this->load->model('setting/setting');
 
         $status = false;
 
-		if (intval($total) > 0 && isset($address['iso_code_2']) && $address['iso_code_2'] == 'CL') {
+		if (intval($total) > 0) {
 			$status = true;
         }
 
