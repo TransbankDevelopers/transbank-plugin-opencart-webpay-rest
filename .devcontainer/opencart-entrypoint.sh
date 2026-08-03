@@ -38,8 +38,8 @@ if [[ ! -f "$WEBROOT/config.php" ]]; then
       --http_server "$HTTP_SERVER"
   )
 
-  # El instalador no borra este directorio; se elimina para no dejar
-  # la reinstalación expuesta, igual que en una instalación real.
+  # The installer doesn't remove this directory; delete it so the
+  # reinstall wizard isn't left exposed, same as a real installation.
   rm -rf "$WEBROOT/install"
 fi
 
