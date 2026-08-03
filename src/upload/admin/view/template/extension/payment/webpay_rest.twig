@@ -41,13 +41,8 @@
                         <label class="col-sm-2 control-label" for="payment_webpay_rest_status">{{ entry_status }}</label>
                         <div class="col-sm-5">
                             <select name="payment_webpay_rest_status" id="payment_webpay_rest_status" class="form-control">
-                                {% if payment_webpay_rest_status %}
-                                <option value="1" selected="selected">{{ text_enabled }}</option>
-                                <option value="0">{{ text_disabled }}</option>
-                                {% else %}
-                                <option value="1">{{ text_enabled }}</option>
-                                <option value="0" selected="selected">{{ text_disabled }}</option>
-                                {% endif %}
+                                <option value="1" {% if payment_webpay_rest_status %}selected="selected"{% endif %}>{{ text_enabled }}</option>
+                                <option value="0" {% if not payment_webpay_rest_status %}selected="selected"{% endif %}>{{ text_disabled }}</option>
                             </select>
                         </div>
                     </div>
@@ -58,13 +53,8 @@
                         </label>
                         <div class="col-sm-5">
                             <select class="form-control" name="payment_webpay_rest_test_mode" id="payment_webpay_rest_test_mode">
-                                {% if payment_webpay_rest_test_mode == 'LIVE' %}
-                                <option value="TEST">Integración</option>
-                                <option value="LIVE" selected="selected">Producción</option>
-                                {% else %}
-                                <option value="TEST" selected="selected">Integración</option>
-                                <option value="LIVE">Producción</option>
-                                {% endif %}
+                                <option value="TEST" {% if payment_webpay_rest_test_mode != 'LIVE' %}selected="selected"{% endif %}>Integración</option>
+                                <option value="LIVE" {% if payment_webpay_rest_test_mode == 'LIVE' %}selected="selected"{% endif %}>Producción</option>
                             </select>
                         </div>
                     </div>
@@ -218,11 +208,6 @@
 
 </style>
 
-{% macro class_response(string) %} {% if string == 'OK' %}
-<span class='label label-success'>OK</span> {% elseif string == null %}
-<span class='label label-warning'>Vac&iacute;o</span> {% else %}
-<span class='label label-danger'>{{ string }}</span> {% endif %} {% endmacro %}
-
 <!-- Modal con la informacion para desplegar -->
 <div class="modal fade" id="tb_commerce_mod_info" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -310,7 +295,7 @@
                         </div>
                         <div class="info-column">
                             <div class="info-value">
-                                {{ _self.class_response(healthcheck.server_resume.php_version.status) }}
+                                {{ php_validate_label|raw }}
                             </div>
                         </div>
                         <div class="info-column" >
@@ -337,22 +322,22 @@
                         <tbody>
                             <tr>
                                 <th>OpenSSL</th>
-                                <td>{{ _self.class_response(healthcheck.php_extensions_status.openssl.status) }}</td>
+                                <td>{{ openssl_label|raw }}</td>
                                 <td>{{ healthcheck.php_extensions_status.openssl.version }}</td>
                             </tr>
                             <tr>
                                 <th>SimpleXML</th>
-                                <td>{{ _self.class_response(healthcheck.php_extensions_status.SimpleXML.status) }}</td>
+                                <td>{{ simplexml_label|raw }}</td>
                                 <td>{{ healthcheck.php_extensions_status.SimpleXML.version }}</td>
                             </tr>
                             <tr>
                                 <th>soap</th>
-                                <td>{{ _self.class_response(healthcheck.php_extensions_status.soap.status) }}</td>
+                                <td>{{ soap_label|raw }}</td>
                                 <td>{{ healthcheck.php_extensions_status.soap.version }}</td>
                             </tr>
                             <tr>
                                 <th>dom</th>
-                                <td>{{ _self.class_response(healthcheck.php_extensions_status.dom.status) }}</td>
+                                <td>{{ dom_label|raw }}</td>
                                 <td>{{ healthcheck.php_extensions_status.dom.version }}</td>
                             </tr>
                         </tbody>

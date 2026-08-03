@@ -158,6 +158,11 @@ class ControllerExtensionPaymentWebpayRest extends Controller {
         $logHandler = new LogHandler();
         $data['hc_data'] = $hc->printFullResume();
         $data['healthcheck'] = $healthcheck;
+        $data['php_validate_label'] = $this->classResponseLabel($healthcheck['server_resume']['php_version']['status'] ?? null);
+        $data['openssl_label'] = $this->classResponseLabel($healthcheck['php_extensions_status']['openssl']['status'] ?? null);
+        $data['simplexml_label'] = $this->classResponseLabel($healthcheck['php_extensions_status']['SimpleXML']['status'] ?? null);
+        $data['soap_label'] = $this->classResponseLabel($healthcheck['php_extensions_status']['soap']['status'] ?? null);
+        $data['dom_label'] = $this->classResponseLabel($healthcheck['php_extensions_status']['dom']['status'] ?? null);
         $data['log_data'] = json_decode($logHandler->getResume(), true);
 
 
@@ -182,6 +187,24 @@ class ControllerExtensionPaymentWebpayRest extends Controller {
         $data['footer'] = $this->load->controller('common/footer');
 
         $this->response->setOutput($this->load->view('extension/payment/webpay_rest', $data));
+    }
+
+    /**
+     * Builds the OK/empty/error status badge markup, moving the branching
+     * out of the Twig template into the controller.
+     * @param string|null $string
+     * @return string
+     */
+    private function classResponseLabel($string) {
+        if ($string === 'OK') {
+            return "<span class='label label-success'>OK</span>";
+        }
+
+        if ($string === null) {
+            return "<span class='label label-warning'>Vac&iacute;o</span>";
+        }
+
+        return "<span class='label label-danger'>" . htmlspecialchars($string) . "</span>";
     }
 
     /**

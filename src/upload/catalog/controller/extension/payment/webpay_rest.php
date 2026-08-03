@@ -183,8 +183,6 @@ class ControllerExtensionPaymentWebpayRest extends Controller {
                 $this->model_checkout_order->addOrderHistory($orderId, $orderStatusId, $orderComment, $orderNotifyToUser);
 
                 $this->successView();
-                return;
-
             } else {
 
                 $this->session->data['paymentOk'] = 'FAIL';

@@ -10,14 +10,14 @@ class LogHandler
 
     private $logDir;
     private $logURL;
-    private Logger $logger;
+    private Logger $monologLogger;
 
     public function __construct($ecommerce = 'opencart')
     {
         $this->logDir = DIR_STORAGE . "logs/Transbank_webpay";
         $this->logURL = str_replace($_SERVER['DOCUMENT_ROOT'], "", $this->logDir);
-        $this->logger = new Logger('webpay_logger');
-        $this->logger->pushHandler(new RotatingFileHandler("{$this->logDir}/log_transbank_{$ecommerce}.log", 10, Logger::DEBUG));
+        $this->monologLogger = new Logger('webpay_logger');
+        $this->monologLogger->pushHandler(new RotatingFileHandler("{$this->logDir}/log_transbank_{$ecommerce}.log", 10, Logger::DEBUG));
     }
 
     /**
@@ -56,7 +56,7 @@ class LogHandler
         $arr = array_diff(scandir($this->logDir), array('.', '..'));
         $logList = [];
         foreach ($arr as $value) {
-            chmod($this->logDir . "/" . $value, 0660);
+            chmod($this->logDir . "/" . $value, 0640);
             $logList[] = "<a href='{$this->logURL}/{$value}' download>{$value}</a>";
         }
         return $logList;
@@ -75,7 +75,12 @@ class LogHandler
         $files = array_combine($files, array_map("filemtime", $files));
         arsort($files);
         $this->lastLog = key($files);
-        $logContent = is_readable($this->lastLog) ? (file_get_contents($this->lastLog) ?: null) : null;
+        $logContent = null;
+
+        if (is_readable($this->lastLog)) {
+            $logContent = file_get_contents($this->lastLog) ?: null;
+        }
+
         return [
             'log_file' => basename($this->lastLog),
             'log_weight' => $this->formatBytes($this->lastLog),
@@ -132,7 +137,7 @@ class LogHandler
      */
     public function logDebug($msg)
     {
-        $this->logger->debug($this->sanitizeMessage($msg));
+        $this->monologLogger->debug($this->sanitizeMessage($msg));
     }
 
     /**
@@ -142,7 +147,7 @@ class LogHandler
      */
     public function logInfo($msg)
     {
-        $this->logger->info($this->sanitizeMessage($msg));
+        $this->monologLogger->info($this->sanitizeMessage($msg));
     }
 
     /**
@@ -152,6 +157,6 @@ class LogHandler
      */
     public function logError($msg)
     {
-        $this->logger->error($this->sanitizeMessage($msg));
+        $this->monologLogger->error($this->sanitizeMessage($msg));
     }
 }
