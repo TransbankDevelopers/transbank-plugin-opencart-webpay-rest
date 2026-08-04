@@ -1,7 +1,7 @@
 ############################
 # image with
 # OpenCart 3.0.2.0 (official release from github.com/opencart/opencart)
-# PHP 7.4 + Apache
+# PHP 7.4 + Apache — EOL, no longer receives upstream security patches
 # Composer 2.x
 # Node 22.x + pnpm
 # mariadb-client
@@ -13,8 +13,9 @@ ENV TZ=America/Santiago
 ENV OPENCART_VERSION=3.0.2.0
 
 # Install utilities + PHP extensions needed by OpenCart / the Webpay plugin,
-# Node 22.x (active LTS, used to generate docs/INSTALLATION.pdf with
-# markdown-pdf) without executing remote setup scripts, and Composer
+# Node 22.x (used only as a build-time tool to generate
+# docs/INSTALLATION.pdf with markdown-pdf, without executing remote setup
+# scripts, and Composer
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
     curl \
