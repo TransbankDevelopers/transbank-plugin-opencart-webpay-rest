@@ -3,7 +3,6 @@
 # OpenCart 3.0.2.0 (official release from github.com/opencart/opencart)
 # PHP 7.4 + Apache — EOL, no longer receives upstream security patches
 # Composer 2.x
-# Node 22.x + pnpm
 # mariadb-client
 ############################
 FROM php:7.4-apache
@@ -12,41 +11,26 @@ ENV COMPOSER_ALLOW_SUPERUSER=1
 ENV TZ=America/Santiago
 ENV OPENCART_VERSION=3.0.2.0
 
-# Install utilities + PHP extensions needed by OpenCart / the Webpay plugin,
-# Node 22.x (used only as a build-time tool to generate
-# docs/INSTALLATION.pdf with markdown-pdf, without executing remote setup
-# scripts, and Composer
+# Install utilities + PHP extensions needed by OpenCart / the Webpay plugin, and Composer
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
     curl \
     git \
-    gnupg \
-    less \
     libcurl4-openssl-dev \
     libfreetype6-dev \
     libjpeg62-turbo-dev \
     libpng-dev \
     libzip-dev \
     mariadb-client \
+    openssh-client \
     ripgrep \
-    ssh \
     unzip \
-    wget \
     zip \
  && docker-php-ext-configure gd --with-freetype --with-jpeg \
  && docker-php-ext-install -j"$(nproc)" curl gd mysqli pdo_mysql zip \
  && a2enmod rewrite \
  && ln -snf /usr/share/zoneinfo/"$TZ" /etc/localtime \
  && echo "$TZ" > /etc/timezone \
- && mkdir -p /etc/apt/keyrings \
- && curl --proto "=https" -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key \
-    | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg \
- && echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_22.x nodistro main" \
-    > /etc/apt/sources.list.d/nodesource.list \
- && apt-get update \
- && apt-get install -y --no-install-recommends nodejs \
- && corepack enable \
- && corepack prepare pnpm@11.5.2 --activate \
  && rm -rf /var/lib/apt/lists/* \
  && php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
  && EXPECTED_SIGNATURE="$(curl --proto "=https" -fsSL https://composer.github.io/installer.sig)" \

@@ -14,7 +14,6 @@ Este devcontainer proporciona un entorno completo de desarrollo para el plugin W
 - **OpenCart 3.0.2.0** (release oficial de [opencart/opencart](https://github.com/opencart/opencart)) con PHP 7.4.
 - **Apache** para servir el contenido.
 - **MariaDB 10.11** como base de datos.
-- **Node 22.x** (con pnpm vía corepack).
 - **Extensiones de VS Code** para trabajar con PHP.
 - **Composer** para gestión de dependencias PHP.
 
