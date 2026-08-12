@@ -1,5 +1,5 @@
 <?php
-require_once DIR_SYSTEM . '/library/Transbank/vendor/autoload.php';
+require_once DIR_SYSTEM . '/library/transbank/vendor/autoload.php';
 use Transbank\Opencart\Webpay\Utils\HealthCheck;
 use Transbank\Opencart\Webpay\Utils\LogHandler;
 
@@ -7,7 +7,7 @@ class ControllerExtensionPaymentWebpayRest extends Controller {
 
     private $error = array();
 
-    private $default_config = array(
+    private const DEFAULT_CONFIG = array(
         'test_mode' => "TEST",
         'commerce_code' => "597055555532",
         'api_key' => "579B532A7440BB0C9079DED94D31EA1615BACEB56610332264630D42D0A36B1C"
@@ -22,11 +22,6 @@ class ControllerExtensionPaymentWebpayRest extends Controller {
     }
 
     public function index() {
-
-        session_start();
-
-        $_SESSION["DIR_SYSTEM"] = DIR_SYSTEM;
-        $_SESSION["DIR_IMAGE"] = DIR_IMAGE;
 
         $this->loadResources();
 
@@ -111,7 +106,7 @@ class ControllerExtensionPaymentWebpayRest extends Controller {
             } else if ($this->config->get('payment_webpay_rest_'.$value)) {
                 $data['payment_webpay_rest_'.$value] = $this->config->get('payment_webpay_rest_'.$value);
             } else {
-                $data['payment_webpay_rest_'.$value] = $this->default_config[$value];
+                $data['payment_webpay_rest_'.$value] = self::DEFAULT_CONFIG[$value];
             }
         }
 
@@ -127,15 +122,18 @@ class ControllerExtensionPaymentWebpayRest extends Controller {
 
         $this->load->model('localisation/order_status');
         $data['order_statuses'] = $this->model_localisation_order_status->getOrderStatuses();
+        $data['order_statuses_completed'] = $this->buildOrderStatusOptions($data['order_statuses'], $data['payment_webpay_rest_completed_order_status']);
+        $data['order_statuses_rejected'] = $this->buildOrderStatusOptions($data['order_statuses'], $data['payment_webpay_rest_rejected_order_status']);
+        $data['order_statuses_canceled'] = $this->buildOrderStatusOptions($data['order_statuses'], $data['payment_webpay_rest_canceled_order_status']);
         $this->load->model('localisation/geo_zone');
         $data['geo_zones'] = $this->model_localisation_geo_zone->getGeoZones();
 
         // si desde la instalacion inicial no toma los parametros por defecto
 
         $args = array(
-            'MODO' => $this->default_config['test_mode'],
-            'COMMERCE_CODE' => $this->default_config['commerce_code'],
-            'API_KEY' => $this->default_config['api_key'],
+            'MODO' => self::DEFAULT_CONFIG['test_mode'],
+            'COMMERCE_CODE' => self::DEFAULT_CONFIG['commerce_code'],
+            'API_KEY' => self::DEFAULT_CONFIG['api_key'],
             'ECOMMERCE' => 'opencart'
         );
 
@@ -155,7 +153,6 @@ class ControllerExtensionPaymentWebpayRest extends Controller {
             );
         }
 
-        $_SESSION["config"] = $args;
         $hc = new HealthCheck($args);
         $healthcheck = json_decode($hc->printFullResume(), true);
         $logHandler = new LogHandler();
@@ -176,7 +173,6 @@ class ControllerExtensionPaymentWebpayRest extends Controller {
             $data['log_file_regs'] = $data['log_file'];
         }
 
-        $data['log_list'] = $data['log_data']['logs_list'];
         $data['log_dir'] = stripslashes(json_encode($data['log_data']['log_dir']));
         $data['log_count'] = json_encode($data['log_data']['logs_count']['log_count']);
         $data['url_check_conn']=html_entity_decode($this->url->link('extension/payment/webpay_rest/checkConnection', 'user_token=' .$this->session->data['user_token'] , true));
@@ -185,6 +181,25 @@ class ControllerExtensionPaymentWebpayRest extends Controller {
         $data['footer'] = $this->load->controller('common/footer');
 
         $this->response->setOutput($this->load->view('extension/payment/webpay_rest', $data));
+    }
+
+    /**
+     * Builds the option list for an order status select, flagging which one
+     * is currently selected so the template doesn't need to compare values.
+     * @param array $order_statuses
+     * @param int|string $selectedId
+     * @return array
+     */
+    private function buildOrderStatusOptions($order_statuses, $selectedId) {
+        $options = array();
+        foreach ($order_statuses as $order_status) {
+            $options[] = array(
+                'order_status_id' => $order_status['order_status_id'],
+                'name' => $order_status['name'],
+                'selected' => ($order_status['order_status_id'] == $selectedId),
+            );
+        }
+        return $options;
     }
 
     private function validate() {

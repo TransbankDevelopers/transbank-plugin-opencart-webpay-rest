@@ -9,13 +9,11 @@ class LogHandler
 {
 
     private $logDir;
-    private $logURL;
     private $logger;
 
     public function __construct($ecommerce = 'opencart')
     {
         $this->logDir = DIR_STORAGE . "logs/Transbank_webpay";
-        $this->logURL = str_replace($_SERVER['DOCUMENT_ROOT'], "", $this->logDir);
         $this->logger = new Logger('webpay_logger');
         $this->logger->pushHandler(new RotatingFileHandler("{$this->logDir}/log_transbank_{$ecommerce}.log", 10, Logger::DEBUG));
     }
@@ -27,7 +25,7 @@ class LogHandler
      */
     private function formatBytes($path): string
     {
-        $bytes = @filesize($path);
+        $bytes = is_readable($path) ? filesize($path) : 0;
         if ($bytes > 0) {
             $unit = intval(log($bytes, 1024));
             $units = array('B', 'KB', 'MB', 'GB');
@@ -48,18 +46,16 @@ class LogHandler
     }
 
     /**
-     * Get a list of log files in the log directory with download links.
+     * Get the list of log file names in the log directory.
      * @return array
      */
     private function getLogList(): array
     {
-        $arr = array_diff(scandir($this->logDir), array('.', '..'));
-        $logList = [];
-        foreach ($arr as $value) {
-            chmod($this->logDir . "/" . $value, 0660);
-            $logList[] = "<a href='{$this->logURL}/{$value}' download>{$value}</a>";
+        if (!is_dir($this->logDir) || ($entries = scandir($this->logDir)) === false) {
+            return [];
         }
-        return $logList;
+
+        return array_values(array_diff($entries, array('.', '..')));
     }
 
     /**
@@ -75,7 +71,12 @@ class LogHandler
         $files = array_combine($files, array_map("filemtime", $files));
         arsort($files);
         $this->lastLog = key($files);
-        $logContent = @file_get_contents($this->lastLog) ?: null;
+        $logContent = null;
+
+        if (is_readable($this->lastLog)) {
+            $logContent = file_get_contents($this->lastLog) ?: null;
+        }
+
         return [
             'log_file' => basename($this->lastLog),
             'log_weight' => $this->formatBytes($this->lastLog),
@@ -96,10 +97,25 @@ class LogHandler
     }
 
     /**
+     * Strips markup and normalizes whitespace in log messages, preventing markup
+     * injection and forged log lines (via injected newlines) regardless of how
+     * the caller obtained the value.
+     * @param string $msg
+     * @return string
+     */
+    private function sanitizeMessage($msg): string
+    {
+        $msg = strip_tags((string) $msg);
+        $msg = preg_replace('/[\r\n]+/', ' ', $msg);
+
+        return trim($msg);
+    }
+
+    /**
      * Gets a summary of the current configuration and logs.
      * @return string
      */
-    public function getResume(): bool|string
+    public function getResume()
     {
         $result = array(
             'log_dir' => $this->getLogDir(),
@@ -117,7 +133,7 @@ class LogHandler
      */
     public function logDebug($msg)
     {
-        $this->logger->debug($msg);
+        $this->logger->debug($this->sanitizeMessage($msg));
     }
 
     /**
@@ -127,7 +143,7 @@ class LogHandler
      */
     public function logInfo($msg)
     {
-        $this->logger->info($msg);
+        $this->logger->info($this->sanitizeMessage($msg));
     }
 
     /**
@@ -137,6 +153,6 @@ class LogHandler
      */
     public function logError($msg)
     {
-        $this->logger->error($msg);
+        $this->logger->error($this->sanitizeMessage($msg));
     }
 }

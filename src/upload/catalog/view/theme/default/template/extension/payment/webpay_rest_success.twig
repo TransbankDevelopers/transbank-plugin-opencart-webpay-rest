@@ -16,11 +16,11 @@
                 </tr>
                 <tr>
                     <td>Orden de Compra:</td>
-                    <td>{{ tbk_orden_compra }}</td>
+                    <td>{{ tbk_orden_compra|escape }}</td>
                 </tr>
                 <tr>
                     <td>Codigo de Autorizaci&oacute;n:</td>
-                    <td>{{ tbk_codigo_autorizacion }}</td>
+                    <td>{{ tbk_codigo_autorizacion|escape }}</td>
                 </tr>
                 <tr>
                     <td>Fecha Transacci&oacute;n:</td>
@@ -32,11 +32,11 @@
                 </tr>
                 <tr>
                     <td>Tarjeta de Cr&eacute;dito:</td>
-                    <td>{{ tbk_final_numero_tarjeta  }}</td>
+                    <td>{{ tbk_final_numero_tarjeta|escape }}</td>
                 </tr>
                 <tr>
                     <td>Monto Compra:</td>
-                    <td>${{ tbk_monto  }}</td>
+                    <td>${{ tbk_monto|escape }}</td>
                 </tr>
                 <tr>
                     <td>Tipo de Pago:</td>
@@ -48,7 +48,7 @@
                 </tr>
                 <tr>
                     <td>Número de Cuotas:</td>
-                    <td>{{ tbk_numero_cuotas }}</td>
+                    <td>{{ tbk_numero_cuotas|escape }}</td>
                 </tr>
             </table>
         </div>
