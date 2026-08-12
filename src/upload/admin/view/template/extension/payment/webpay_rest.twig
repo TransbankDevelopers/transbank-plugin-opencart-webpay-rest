@@ -451,20 +451,6 @@
                                     {{ log_count }}
                                 </div>
                             </div>
-                            <div class="info-column" >
-                                <span class="label label-info info-header" title="{{ label_regs_list }}">
-                                    {{ l_regs_list }}
-                                </span>
-                            </div>
-                            <div class="info-column">
-                                <div class="info-value">
-                                    <ul>
-                                        {% for item in log_list %}
-                                        <li><a href="{{ item.url|escape }}" download>{{ item.name|escape }}</a></li>
-                                        {% endfor %}
-                                    </ul>
-                                </div>
-                            </div>
                         </div>
                         <hr>
                         <b>{{ l_last_log }}</b>
