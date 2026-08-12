@@ -9,7 +9,7 @@ class ModelExtensionPaymentWebpayRest extends Model {
         $this->load->language('extension/payment/webpay_rest');
         $this->load->model('setting/setting');
 
-        (new LogHandler())->logDebug('getMethod - address: ' . json_encode($address) . ', total: ' . $total);
+        (new LogHandler())->logDebug('getMethod - country_id: ' . ($address['country_id'] ?? 'n/a') . ', total: ' . $total);
 
         $status = false;
 
