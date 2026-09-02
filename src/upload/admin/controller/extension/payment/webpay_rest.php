@@ -10,6 +10,10 @@ class ControllerExtensionPaymentWebpayRest extends Controller
 
     private const ROUTE = 'extension/payment/webpay_rest';
 
+    private const PARAM_USER_TOKEN = 'user_token';
+
+    private const PARAM_TYPE_PAYMENT = 'type=payment';
+
     private const DEFAULT_CONFIG = array(
         'test_mode' => "TEST",
         'commerce_code' => "597055555532",
@@ -38,7 +42,7 @@ class ControllerExtensionPaymentWebpayRest extends Controller
         if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
             $this->model_setting_setting->editSetting('payment_webpay_rest', $this->request->post);
             $this->session->data['success'] = $this->language->get('text_success');
-            $this->response->redirect($this->url->link(self::ROUTE, 'user_token=' . $this->session->data['user_token'] . '&type=payment', true));
+            $this->response->redirect($this->url->link(self::ROUTE, self::PARAM_USER_TOKEN . '=' . $this->session->data['user_token'] . '&' . self::PARAM_TYPE_PAYMENT, true));
         }
 
         foreach ($this->buildErrorData() as $key => $value) {
@@ -51,8 +55,8 @@ class ControllerExtensionPaymentWebpayRest extends Controller
 
         $data['breadcrumbs'] = $this->buildBreadcrumbs();
 
-        $data['action'] = $this->url->link(self::ROUTE, 'user_token=' . $this->session->data['user_token'], true);
-        $data['cancel'] = $this->url->link('marketplace/extension', 'user_token=' . $this->session->data['user_token'] . '&type=payment', true);
+        $data['action'] = $this->url->link(self::ROUTE, self::PARAM_USER_TOKEN . '=' . $this->session->data['user_token'], true);
+        $data['cancel'] = $this->url->link('marketplace/extension', self::PARAM_USER_TOKEN . '=' . $this->session->data['user_token'] . '&' . self::PARAM_TYPE_PAYMENT, true);
 
         foreach ($this->resolveSectionValues() as $key => $value) {
             $data[$key] = $value;
@@ -92,7 +96,7 @@ class ControllerExtensionPaymentWebpayRest extends Controller
             $data[$key] = $value;
         }
 
-        $data['url_check_conn'] = html_entity_decode($this->url->link(self::ROUTE . '/checkConnection', 'user_token=' . $this->session->data['user_token'], true));
+        $data['url_check_conn'] = html_entity_decode($this->url->link(self::ROUTE . '/checkConnection', self::PARAM_USER_TOKEN . '=' . $this->session->data['user_token'], true));
         $data['header'] = $this->load->controller('common/header');
         $data['column_left'] = $this->load->controller('common/column_left');
         $data['footer'] = $this->load->controller('common/footer');
@@ -208,17 +212,17 @@ class ControllerExtensionPaymentWebpayRest extends Controller
 
         $breadcrumbs[] = array(
             'text' => $this->language->get('text_home'),
-            'href' => $this->url->link('common/dashboard', 'user_token=' . $this->session->data['user_token'], true),
+            'href' => $this->url->link('common/dashboard', self::PARAM_USER_TOKEN . '=' . $this->session->data['user_token'], true),
         );
 
         $breadcrumbs[] = array(
             'text' => $this->language->get('text_webpay_rest'),
-            'href' => $this->url->link('marketplace/extension', 'user_token=' . $this->session->data['user_token'] . '&type=payment', true),
+            'href' => $this->url->link('marketplace/extension', self::PARAM_USER_TOKEN . '=' . $this->session->data['user_token'] . '&' . self::PARAM_TYPE_PAYMENT, true),
         );
 
         $breadcrumbs[] = array(
             'text' => $this->language->get('heading_title'),
-            'href' => $this->url->link(self::ROUTE, 'user_token=' . $this->session->data['user_token'], true),
+            'href' => $this->url->link(self::ROUTE, self::PARAM_USER_TOKEN . '=' . $this->session->data['user_token'], true),
         );
 
         return $breadcrumbs;
