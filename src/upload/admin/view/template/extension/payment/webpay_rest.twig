@@ -41,13 +41,9 @@
                         <label class="col-sm-2 control-label" for="payment_webpay_rest_status">{{ entry_status }}</label>
                         <div class="col-sm-5">
                             <select name="payment_webpay_rest_status" id="payment_webpay_rest_status" class="form-control">
-                                {% if payment_webpay_rest_status %}
-                                <option value="1" selected="selected">{{ text_enabled }}</option>
-                                <option value="0">{{ text_disabled }}</option>
-                                {% else %}
-                                <option value="1">{{ text_enabled }}</option>
-                                <option value="0" selected="selected">{{ text_disabled }}</option>
-                                {% endif %}
+                                {% for option in status_options %}
+                                <option value="{{ option.value }}"{{ option.selected ? ' selected="selected"' : '' }}>{{ option.label }}</option>
+                                {% endfor %}
                             </select>
                         </div>
                     </div>
@@ -58,13 +54,9 @@
                         </label>
                         <div class="col-sm-5">
                             <select class="form-control" name="payment_webpay_rest_test_mode" id="payment_webpay_rest_test_mode">
-                                {% if payment_webpay_rest_test_mode == 'LIVE' %}
-                                <option value="TEST">Integración</option>
-                                <option value="LIVE" selected="selected">Producción</option>
-                                {% else %}
-                                <option value="TEST" selected="selected">Integración</option>
-                                <option value="LIVE">Producción</option>
-                                {% endif %}
+                                {% for option in test_mode_options %}
+                                <option value="{{ option.value }}"{{ option.selected ? ' selected="selected"' : '' }}>{{ option.label }}</option>
+                                {% endfor %}
                             </select>
                         </div>
                     </div>

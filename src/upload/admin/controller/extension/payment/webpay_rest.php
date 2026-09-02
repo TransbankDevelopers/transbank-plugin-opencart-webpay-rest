@@ -1,9 +1,11 @@
 <?php
 require_once DIR_SYSTEM . '/library/transbank/vendor/autoload.php';
+
 use Transbank\Opencart\Webpay\Utils\HealthCheck;
 use Transbank\Opencart\Webpay\Utils\LogHandler;
 
-class ControllerExtensionPaymentWebpayRest extends Controller {
+class ControllerExtensionPaymentWebpayRest extends Controller
+{
 
     private $error = array();
 
@@ -15,13 +17,15 @@ class ControllerExtensionPaymentWebpayRest extends Controller {
 
     private $sections = array('commerce_code', 'api_key', 'test_mode');
 
-    private function loadResources() {
+    private function loadResources()
+    {
         $this->load->language('extension/payment/webpay_rest');
         $this->load->model('setting/setting'); //load model in: $this->model_setting_setting
         $this->load->model('localisation/order_status'); //load model in: $this->model_localisation_order_status
     }
 
-    public function index() {
+    public function index()
+    {
 
         $this->loadResources();
 
@@ -30,7 +34,7 @@ class ControllerExtensionPaymentWebpayRest extends Controller {
 
         $redirs = array('authorize', 'finish', 'error', 'reject');
         foreach ($redirs as $value) {
-            $this->request->post['payment_webpay_rest_url_'.$value] = HTTP_CATALOG . 'index.php?route=extension/payment/webpay_rest/' .$value;
+            $this->request->post['payment_webpay_rest_url_' . $value] = HTTP_CATALOG . 'index.php?route=extension/payment/webpay_rest/' . $value;
         }
 
         // validacion de modificaciones
@@ -40,7 +44,7 @@ class ControllerExtensionPaymentWebpayRest extends Controller {
 
             $this->session->data['success'] = $this->language->get('text_success');
 
-            $this->response->redirect($this->url->link('extension/payment/webpay_rest', 'user_token=' .$this->session->data['user_token'] . '&type=payment', true));
+            $this->response->redirect($this->url->link('extension/payment/webpay_rest', 'user_token=' . $this->session->data['user_token'] . '&type=payment', true));
         }
 
         // se imprimen errores si existen
@@ -52,10 +56,10 @@ class ControllerExtensionPaymentWebpayRest extends Controller {
         }
 
         foreach ($this->sections as $value) {
-            if (isset($this->error['payment_webpay_rest_'.$value])) {
-                $data['error_'.$value] = $this->error['payment_webpay_rest_'.$value];
+            if (isset($this->error['payment_webpay_rest_' . $value])) {
+                $data['error_' . $value] = $this->error['payment_webpay_rest_' . $value];
             } else {
-                $data['error_'.$value] = '';
+                $data['error_' . $value] = '';
             }
         }
 
@@ -101,24 +105,36 @@ class ControllerExtensionPaymentWebpayRest extends Controller {
         $data['cancel'] = $this->url->link('marketplace/extension', 'user_token=' . $this->session->data['user_token'] . '&type=payment', true);
 
         foreach ($this->sections as $value) {
-            if (isset($this->request->post['payment_webpay_rest_'.$value])) {
-                $data['payment_webpay_rest_'.$value] = $this->request->post['payment_webpay_rest_'.$value];
-            } else if ($this->config->get('payment_webpay_rest_'.$value)) {
-                $data['payment_webpay_rest_'.$value] = $this->config->get('payment_webpay_rest_'.$value);
+            if (isset($this->request->post['payment_webpay_rest_' . $value])) {
+                $data['payment_webpay_rest_' . $value] = $this->request->post['payment_webpay_rest_' . $value];
+            } else if ($this->config->get('payment_webpay_rest_' . $value)) {
+                $data['payment_webpay_rest_' . $value] = $this->config->get('payment_webpay_rest_' . $value);
             } else {
-                $data['payment_webpay_rest_'.$value] = self::DEFAULT_CONFIG[$value];
+                $data['payment_webpay_rest_' . $value] = self::DEFAULT_CONFIG[$value];
             }
         }
 
         $selects = array('total', 'completed_order_status', 'rejected_order_status', 'canceled_order_status', 'geo_zone', 'sort_order', 'status');
 
         foreach ($selects as $value) {
-            if (isset($this->request->post['payment_webpay_rest_'.$value])) {
-                $data['payment_webpay_rest_'.$value] = $this->request->post['payment_webpay_rest_'.$value];
+            if (isset($this->request->post['payment_webpay_rest_' . $value])) {
+                $data['payment_webpay_rest_' . $value] = $this->request->post['payment_webpay_rest_' . $value];
             } else {
-                $data['payment_webpay_rest_'.$value] = $this->config->get('payment_webpay_rest_'.$value);
+                $data['payment_webpay_rest_' . $value] = $this->config->get('payment_webpay_rest_' . $value);
             }
         }
+
+        $isEnabled = (bool) $data['payment_webpay_rest_status'];
+        $data['status_options'] = array(
+            array('value' => '1', 'label' => $this->language->get('text_enabled'), 'selected' => $isEnabled),
+            array('value' => '0', 'label' => $this->language->get('text_disabled'), 'selected' => !$isEnabled),
+        );
+
+        $isLive = ($data['payment_webpay_rest_test_mode'] === 'LIVE');
+        $data['test_mode_options'] = array(
+            array('value' => 'TEST', 'label' => 'Integración', 'selected' => !$isLive),
+            array('value' => 'LIVE', 'label' => 'Producción', 'selected' => $isLive),
+        );
 
         $this->load->model('localisation/order_status');
         $data['order_statuses'] = $this->model_localisation_order_status->getOrderStatuses();
@@ -175,7 +191,7 @@ class ControllerExtensionPaymentWebpayRest extends Controller {
 
         $data['log_dir'] = stripslashes(json_encode($data['log_data']['log_dir']));
         $data['log_count'] = json_encode($data['log_data']['logs_count']['log_count']);
-        $data['url_check_conn']=html_entity_decode($this->url->link('extension/payment/webpay_rest/checkConnection', 'user_token=' .$this->session->data['user_token'] , true));
+        $data['url_check_conn'] = html_entity_decode($this->url->link('extension/payment/webpay_rest/checkConnection', 'user_token=' . $this->session->data['user_token'], true));
         $data['header'] = $this->load->controller('common/header');
         $data['column_left'] = $this->load->controller('common/column_left');
         $data['footer'] = $this->load->controller('common/footer');
@@ -190,7 +206,8 @@ class ControllerExtensionPaymentWebpayRest extends Controller {
      * @param int|string $selectedId
      * @return array
      */
-    private function buildOrderStatusOptions($order_statuses, $selectedId) {
+    private function buildOrderStatusOptions($order_statuses, $selectedId)
+    {
         $options = array();
         foreach ($order_statuses as $order_status) {
             $options[] = array(
@@ -202,27 +219,29 @@ class ControllerExtensionPaymentWebpayRest extends Controller {
         return $options;
     }
 
-    private function validate() {
+    private function validate()
+    {
 
         if (!$this->user->hasPermission('modify', 'extension/payment/webpay_rest')) {
             $this->error['warning'] = $this->language->get('error_permission');
         }
 
         foreach ($this->sections as $value) {
-            if (!$this->request->post['payment_webpay_rest_'.$value]) {
-                $this->error[$value] = $this->language->get('error_'.$value);
+            if (!$this->request->post['payment_webpay_rest_' . $value]) {
+                $this->error[$value] = $this->language->get('error_' . $value);
             }
         }
 
         return !$this->error;
     }
 
-   /**
-    * Checks the connection with Webpay's API
-    *
-    * @return void
-    */
-    public function checkConnection(){
+    /**
+     * Checks the connection with Webpay's API
+     *
+     * @return void
+     */
+    public function checkConnection()
+    {
         $args = array(
             'MODO' => $this->config->get('payment_webpay_rest_test_mode'),
             'COMMERCE_CODE' => $this->config->get('payment_webpay_rest_commerce_code'),
