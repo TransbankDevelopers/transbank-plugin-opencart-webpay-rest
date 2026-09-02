@@ -37,29 +37,9 @@
             <div class="panel-body">
                 <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-webpay_rest" class="form-horizontal">
 
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label" for="payment_webpay_rest_status">{{ entry_status }}</label>
-                        <div class="col-sm-5">
-                            <select name="payment_webpay_rest_status" id="payment_webpay_rest_status" class="form-control">
-                                {% for option in status_options %}
-                                <option value="{{ option.value }}"{{ option.selected ? ' selected="selected"' : '' }}>{{ option.label }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                    </div>
+                    {% include 'extension/payment/webpay_rest_form_select.twig' with {'id': 'payment_webpay_rest_status', 'label': entry_status, 'help': '', 'required': false, 'options': status_options} %}
 
-                    <div class="form-group required">
-                        <label class="col-sm-2 control-label" for="payment_webpay_rest_test_mode">
-                            <span data-toggle="tooltip" title="{{ help_test_mode }}"></span> {{ entry_test_mode }}
-                        </label>
-                        <div class="col-sm-5">
-                            <select class="form-control" name="payment_webpay_rest_test_mode" id="payment_webpay_rest_test_mode">
-                                {% for option in test_mode_options %}
-                                <option value="{{ option.value }}"{{ option.selected ? ' selected="selected"' : '' }}>{{ option.label }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                    </div>
+                    {% include 'extension/payment/webpay_rest_form_select.twig' with {'id': 'payment_webpay_rest_test_mode', 'label': entry_test_mode, 'help': help_test_mode, 'required': true, 'options': test_mode_options} %}
 
                     {# Commerce Code #}
                     <div class="form-group required">
@@ -79,7 +59,7 @@
                     </div>
                     {# API Key #}
                     <div class="form-group required">
-                        <label class="col-sm-2 control-label" for="payment_webpay_rest_commerce_code">
+                        <label class="col-sm-2 control-label" for="payment_webpay_rest_api_key">
                             <span data-toggle="tooltip" title="{{ help_api_key }}"></span> {{entry_api_key}}
                         </label>
                         <div class="col-sm-5">
@@ -94,38 +74,11 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label" for="payment_webpay_rest_completed_order_status">{{ entry_completed_order_status }}</label>
-                        <div class="col-sm-5">
-                            <select name="payment_webpay_rest_completed_order_status" id="payment_webpay_rest_completed_order_status" class="form-control">
-                                {% for order_status in order_statuses_completed %}
-                                <option value="{{ order_status.order_status_id }}" {% if order_status.selected %}selected="selected"{% endif %}>{{ order_status.name }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                    </div>
+                    {% include 'extension/payment/webpay_rest_form_order_status_select.twig' with {'id': 'payment_webpay_rest_completed_order_status', 'label': entry_completed_order_status, 'options': order_statuses_completed} %}
 
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label" for="payment_webpay_rest_rejected_order_status">{{ entry_rejected_order_status }}</label>
-                        <div class="col-sm-5">
-                            <select name="payment_webpay_rest_rejected_order_status" id="payment_webpay_rest_rejected_order_status" class="form-control">
-                                {% for order_status in order_statuses_rejected %}
-                                <option value="{{ order_status.order_status_id }}" {% if order_status.selected %}selected="selected"{% endif %}>{{ order_status.name }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                    </div>
+                    {% include 'extension/payment/webpay_rest_form_order_status_select.twig' with {'id': 'payment_webpay_rest_rejected_order_status', 'label': entry_rejected_order_status, 'options': order_statuses_rejected} %}
 
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label" for="payment_webpay_rest_canceled_order_status">{{ entry_canceled_order_status }}</label>
-                        <div class="col-sm-5">
-                            <select name="payment_webpay_rest_canceled_order_status" id="payment_webpay_rest_canceled_order_status" class="form-control">
-                                {% for order_status in order_statuses_canceled %}
-                                <option value="{{ order_status.order_status_id }}" {% if order_status.selected %}selected="selected"{% endif %}>{{ order_status.name }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                    </div>
+                    {% include 'extension/payment/webpay_rest_form_order_status_select.twig' with {'id': 'payment_webpay_rest_canceled_order_status', 'label': entry_canceled_order_status, 'options': order_statuses_canceled} %}
 
                     <div class="form-group">
                         <label class="col-sm-2 control-label" for="payment_webpay_rest_sort_order">{{ entry_sort_order }}</label>
