@@ -147,7 +147,7 @@ class ControllerExtensionPaymentWebpayRest extends Controller
 
         foreach ($this->sections as $value) {
             if (!$this->request->post['payment_webpay_rest_' . $value]) {
-                $this->error[$value] = $this->language->get('error_' . $value);
+                $this->error['payment_webpay_rest_' . $value] = $this->language->get('error_' . $value);
             }
         }
 
