@@ -1,12 +1,12 @@
 {% import 'extension/payment/webpay_rest_macros.twig' as helpers %}
 
 <!-- Modal con la informacion para desplegar -->
-<div class="modal fade" id="tb_commerce_mod_info" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+<dialog id="tb_commerce_mod_info" aria-labelledby="tb_commerce_mod_info_label">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="">
+                <button type="button" class="close close_commerce_modal" aria-label="Cerrar">&times;</button>
+                <h4 class="modal-title" id="tb_commerce_mod_info_label">
                     <ul class="nav nav-tabs">
                         <li class="active">
                             <a href="#tb_main_info" data-toggle="tab" class="tabInfo">Informacion</a>
@@ -239,6 +239,6 @@
             </div>
         </div>
     </div>
-</div>
+</dialog>
 
 <script src="view/javascript/webpay_rest/webpay_rest.js" type="text/javascript"></script>

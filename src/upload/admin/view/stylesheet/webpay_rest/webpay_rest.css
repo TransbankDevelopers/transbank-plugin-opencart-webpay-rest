@@ -3,6 +3,19 @@ H3.menu-head {
     color: #ffffff;
 }
 
+#tb_commerce_mod_info {
+    border: none;
+    padding: 0;
+    background: transparent;
+    max-width: none;
+    max-height: none;
+    overflow: visible;
+}
+
+#tb_commerce_mod_info::backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
 .invisible {
     visibility: hidden;
 }
