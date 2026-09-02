@@ -8,6 +8,8 @@ class ControllerExtensionPaymentWebpayRest extends Controller
 {
     private $error = array();
 
+    private const ROUTE = 'extension/payment/webpay_rest';
+
     private const DEFAULT_CONFIG = array(
         'test_mode' => "TEST",
         'commerce_code' => "597055555532",
@@ -30,13 +32,13 @@ class ControllerExtensionPaymentWebpayRest extends Controller
         $redirs = array('authorize', 'finish', 'error', 'reject');
 
         foreach ($redirs as $value) {
-            $this->request->post['payment_webpay_rest_url_' . $value] = HTTP_CATALOG . 'index.php?route=extension/payment/webpay_rest/' . $value;
+            $this->request->post['payment_webpay_rest_url_' . $value] = HTTP_CATALOG . 'index.php?route=' . self::ROUTE . '/' . $value;
         }
 
         if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
             $this->model_setting_setting->editSetting('payment_webpay_rest', $this->request->post);
             $this->session->data['success'] = $this->language->get('text_success');
-            $this->response->redirect($this->url->link('extension/payment/webpay_rest', 'user_token=' . $this->session->data['user_token'] . '&type=payment', true));
+            $this->response->redirect($this->url->link(self::ROUTE, 'user_token=' . $this->session->data['user_token'] . '&type=payment', true));
         }
 
         foreach ($this->buildErrorData() as $key => $value) {
@@ -49,7 +51,7 @@ class ControllerExtensionPaymentWebpayRest extends Controller
 
         $data['breadcrumbs'] = $this->buildBreadcrumbs();
 
-        $data['action'] = $this->url->link('extension/payment/webpay_rest', 'user_token=' . $this->session->data['user_token'], true);
+        $data['action'] = $this->url->link(self::ROUTE, 'user_token=' . $this->session->data['user_token'], true);
         $data['cancel'] = $this->url->link('marketplace/extension', 'user_token=' . $this->session->data['user_token'] . '&type=payment', true);
 
         foreach ($this->resolveSectionValues() as $key => $value) {
@@ -90,12 +92,12 @@ class ControllerExtensionPaymentWebpayRest extends Controller
             $data[$key] = $value;
         }
 
-        $data['url_check_conn'] = html_entity_decode($this->url->link('extension/payment/webpay_rest/checkConnection', 'user_token=' . $this->session->data['user_token'], true));
+        $data['url_check_conn'] = html_entity_decode($this->url->link(self::ROUTE . '/checkConnection', 'user_token=' . $this->session->data['user_token'], true));
         $data['header'] = $this->load->controller('common/header');
         $data['column_left'] = $this->load->controller('common/column_left');
         $data['footer'] = $this->load->controller('common/footer');
 
-        $this->response->setOutput($this->load->view('extension/payment/webpay_rest', $data));
+        $this->response->setOutput($this->load->view(self::ROUTE, $data));
     }
 
     /**
@@ -123,7 +125,7 @@ class ControllerExtensionPaymentWebpayRest extends Controller
      */
     private function loadResources()
     {
-        $this->load->language('extension/payment/webpay_rest');
+        $this->load->language(self::ROUTE);
         $this->load->model('setting/setting');
         $this->load->model('localisation/order_status');
     }
@@ -135,7 +137,7 @@ class ControllerExtensionPaymentWebpayRest extends Controller
      */
     private function validate()
     {
-        if (!$this->user->hasPermission('modify', 'extension/payment/webpay_rest')) {
+        if (!$this->user->hasPermission('modify', self::ROUTE)) {
             $this->error['warning'] = $this->language->get('error_permission');
         }
 
@@ -216,7 +218,7 @@ class ControllerExtensionPaymentWebpayRest extends Controller
 
         $breadcrumbs[] = array(
             'text' => $this->language->get('heading_title'),
-            'href' => $this->url->link('extension/payment/webpay_rest', 'user_token=' . $this->session->data['user_token'], true),
+            'href' => $this->url->link(self::ROUTE, 'user_token=' . $this->session->data['user_token'], true),
         );
 
         return $breadcrumbs;
