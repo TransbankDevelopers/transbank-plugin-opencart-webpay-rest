@@ -1,11 +1,8 @@
 $(document).ready(function() {
-
     $('.open_commerce_modal').click(onOpenModalClick);
     $('.close_commerce_modal').click(onCloseModalClick);
     $('#tb_commerce_mod_info').on('click', onModalBackdropClick);
-
     $('#tb_logs').hide();
-
     $('.tabInfo').click(onTabClick);
     $(".check_conn").click(onCheckConnClick);
 });
@@ -29,6 +26,7 @@ function onModalBackdropClick(e) {
 
 function onTabClick() {
     const target = $(this).attr("href");
+
     if (target == '#tb_main_info') {
         $('#tb_main_info').show();
         $('#tb_logs').hide();
@@ -40,10 +38,8 @@ function onTabClick() {
 
 function onCheckConnClick() {
     const url = $(this).data('url');
-
     $(".check_conn").text("Verificando ...");
     $(".tbk_table_trans").empty();
-
     $.post(url, {}, onCheckConnResponse, 'json');
 }
 
@@ -64,7 +60,6 @@ function showCheckConnSuccess(data) {
     $("#response_status_text").addClass("label-success").text("OK").show();
     $("#response_url_text").text(data.url);
     $("#response_token_text").empty().append($('<pre>').text(data.token_ws));
-
     $("#div_response_url").removeClass("tbk-hide");
     $("#div_response_token").removeClass("tbk-hide");
 }
@@ -73,7 +68,6 @@ function showCheckConnError(data) {
     $("#response_status_text").addClass("label-danger").text("ERROR").show();
     $("#error_response_text").text(data.error);
     $("#error_detail_response_text").empty().append($('<pre>').text(data.detail));
-
     $("#div_error_response").removeClass("tbk-hide");
     $("#div_error_detail_response").removeClass("tbk-hide");
 }
