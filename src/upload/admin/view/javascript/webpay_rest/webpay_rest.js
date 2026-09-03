@@ -39,22 +39,38 @@ function onTabClick(e) {
 
 function onCheckConnClick() {
     const url = $(this).data('url');
+
     $(".check_conn").text("Verificando ...");
     $(".tbk_table_trans").empty();
-    $.post(url, {}, onCheckConnResponse, 'json');
+
+    $.post(url, {}, onCheckConnResponse, 'json').fail(onCheckConnFail);
 }
 
 function onCheckConnResponse(response) {
-    $(".check_conn").text("Verificar Conexión");
-    $("#div_response_status").removeClass("tbk-hide");
-    $("#response_title").removeClass("tbk-hide");
-    $("#response_status_text").removeClass("label-success").removeClass("label-danger");
+    resetCheckConnResult();
+
+    if (!response || !response.status) {
+        showCheckConnError({error: "Respuesta inesperada del servidor", detail: ""});
+        return;
+    }
 
     if (response.status.string == "OK") {
         showCheckConnSuccess(response.response);
     } else {
         showCheckConnError(response.response);
     }
+}
+
+function onCheckConnFail() {
+    resetCheckConnResult();
+    showCheckConnError({error: "No se pudo contactar al servidor", detail: ""});
+}
+
+function resetCheckConnResult() {
+    $(".check_conn").text("Verificar Conexión");
+    $("#div_response_status").removeClass("tbk-hide");
+    $("#response_title").removeClass("tbk-hide");
+    $("#response_status_text").removeClass("label-success").removeClass("label-danger");
 }
 
 function showCheckConnSuccess(data) {
