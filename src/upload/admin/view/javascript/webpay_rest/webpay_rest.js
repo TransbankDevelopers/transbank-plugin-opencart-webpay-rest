@@ -49,15 +49,10 @@ function onCheckConnClick() {
 function onCheckConnResponse(response) {
     resetCheckConnResult();
 
-    if (!response?.status || !response?.response) {
-        showCheckConnError({error: "Respuesta inesperada del servidor", detail: ""});
-        return;
-    }
-
-    if (response.status.string == "OK") {
+    if (response?.status?.string === "OK" && response?.response) {
         showCheckConnSuccess(response.response);
     } else {
-        showCheckConnError(response.response);
+        showCheckConnError(response?.response || {error: "Respuesta inesperada del servidor", detail: ""});
     }
 }
 
