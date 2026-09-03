@@ -1,0 +1,12 @@
+<div class="form-group{{ required ? ' required' : '' }}">
+    <label class="col-sm-2 control-label" for="{{ id }}">
+        <span data-toggle="tooltip" title="{{ help }}"></span>{{ help ? ' ' : '' }}{{ label }}
+    </label>
+    <div class="col-sm-5">
+        <select class="form-control" name="{{ id }}" id="{{ id }}">
+            {% for option in options %}
+            <option value="{{ option.value }}"{{ option.selected ? ' selected="selected"' : '' }}>{{ option.label }}</option>
+            {% endfor %}
+        </select>
+    </div>
+</div>

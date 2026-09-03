@@ -1,10 +1,15 @@
 <?php
+require_once DIR_SYSTEM . '/library/transbank/vendor/autoload.php';
+use Transbank\Opencart\Webpay\Utils\LogHandler;
+
 class ModelExtensionPaymentWebpayRest extends Model {
 
 	public function getMethod($address, $total) {
 
         $this->load->language('extension/payment/webpay_rest');
         $this->load->model('setting/setting');
+
+        (new LogHandler())->logDebug('getMethod - country_id: ' . ($address['country_id'] ?? 'n/a') . ', total: ' . $total);
 
         $status = false;
 

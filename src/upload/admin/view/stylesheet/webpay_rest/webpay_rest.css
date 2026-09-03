@@ -1,0 +1,77 @@
+H3.menu-head {
+    background-color: #d6012f;
+    color: #ffffff;
+}
+
+#tb_commerce_mod_info {
+    border: none;
+    padding: 0;
+    background: transparent;
+    max-width: none;
+    max-height: none;
+    overflow: visible;
+}
+
+#tb_commerce_mod_info::backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.invisible {
+    visibility: hidden;
+}
+
+.modal-content {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 13px;
+    line-height: 18px;
+    color: #333;
+}
+
+.table-borderless > tbody > tr > td,
+.table-borderless > tbody > tr > th,
+.table-borderless > tfoot > tr > td,
+.table-borderless > tfoot > tr > th,
+.table-borderless > thead > tr > td,
+.table-borderless > thead > tr > th {
+    border: none;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 5px;
+}
+
+.info-column {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.info-header {
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.info-value {
+    text-align: left;
+}
+
+.tbk-response-container {
+    display: grid;
+    grid-template-columns: 20px 80px 1fr;
+    grid-gap: 5px;
+}
+
+.register-container {
+    display: grid;
+    grid-template-columns: 30% 1fr;
+    grid-gap: 5px;
+}
+
+.tbk-hide {
+    display: none !important;
+}
+
+.highlight-text {
+    font-weight: bold;
+}

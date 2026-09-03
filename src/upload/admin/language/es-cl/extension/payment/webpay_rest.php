@@ -77,7 +77,6 @@ $_['label_last_log_regs'] = 'Cantidad de l&iacute;neas que posee el &uacute;ltim
 $_['label_regs_status'] = 'Informa si actualmente se guarda la información de cada compra mediante Webpay';
 $_['label_regs_dir'] = 'Carpeta en el servidor en donde se guardan los archivos con la informacón de cada compra mediante Webpay';
 $_['label_regs_count'] = 'Cantidad de archivos que guardan la información de cada compra mediante Webpay';
-$_['label_regs_list'] = 'Lista los archivos archivos que guardan la información de cada compra mediante Webpay';
 
 
 $_['l_ecommerce'] = 'Software E-commerce';
@@ -104,10 +103,7 @@ $_['l_lastregs'] = 'Cantidad de Lineas';
 $_['l_regs_status'] = 'Estado de Registros';
 $_['l_regs_dir'] = 'Directorio de Registros';
 $_['l_regs_count'] = 'Cantidad de registros en directorio';
-$_['l_regs_list'] = 'Listado de registros';
 $_['l_last_log'] = 'Contenido Ultimo Log';
 
 $_['btn_params'] = 'Actualizar Par&aacute;metros';
 $_['btn_close'] = 'Cerrar';
-$_['btn_pdfmain'] = 'Crear Reporte';
-$_['button_pdfinfo'] = 'Crear PHP info';

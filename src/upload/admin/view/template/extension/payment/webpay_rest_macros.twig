@@ -1,0 +1,4 @@
+{% macro class_response(string) %} {% if string == 'OK' %}
+<span class='label label-success'>OK</span> {% elseif string == null %}
+<span class='label label-warning'>Vac&iacute;o</span> {% else %}
+<span class='label label-danger'>{{ string }}</span> {% endif %} {% endmacro %}
