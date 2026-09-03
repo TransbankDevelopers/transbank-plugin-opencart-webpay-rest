@@ -24,7 +24,8 @@ function onModalBackdropClick(e) {
     }
 }
 
-function onTabClick() {
+function onTabClick(e) {
+    e.preventDefault();
     const target = $(this).attr("href");
 
     if (target == '#tb_main_info') {
