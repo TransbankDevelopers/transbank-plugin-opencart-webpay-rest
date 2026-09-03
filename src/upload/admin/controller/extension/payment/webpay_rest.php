@@ -92,7 +92,7 @@ class ControllerExtensionPaymentWebpayRest extends Controller
             $data[$key] = $value;
         }
 
-        $data['url_check_conn'] = html_entity_decode($this->url->link(self::ROUTE . '/checkConnection', self::PARAM_USER_TOKEN . '=' . $this->session->data['user_token'], true));
+        $data['url_check_conn'] = $this->url->link(self::ROUTE . '/checkConnection', self::PARAM_USER_TOKEN . '=' . $this->session->data['user_token'], true);
         $data['header'] = $this->load->controller('common/header');
         $data['column_left'] = $this->load->controller('common/column_left');
         $data['footer'] = $this->load->controller('common/footer');
@@ -142,7 +142,7 @@ class ControllerExtensionPaymentWebpayRest extends Controller
         }
 
         foreach ($this->sections as $value) {
-            if (!$this->request->post['payment_webpay_rest_' . $value]) {
+            if (empty($this->request->post['payment_webpay_rest_' . $value])) {
                 $this->error['payment_webpay_rest_' . $value] = $this->language->get('error_' . $value);
             }
         }
