@@ -49,7 +49,7 @@ function onCheckConnClick() {
 function onCheckConnResponse(response) {
     resetCheckConnResult();
 
-    if (!response || !response.status) {
+    if (!response?.status) {
         showCheckConnError({error: "Respuesta inesperada del servidor", detail: ""});
         return;
     }
@@ -71,6 +71,10 @@ function resetCheckConnResult() {
     $("#div_response_status").removeClass("tbk-hide");
     $("#response_title").removeClass("tbk-hide");
     $("#response_status_text").removeClass("label-success").removeClass("label-danger");
+    $("#div_response_url").addClass("tbk-hide");
+    $("#div_response_token").addClass("tbk-hide");
+    $("#div_error_response").addClass("tbk-hide");
+    $("#div_error_detail_response").addClass("tbk-hide");
 }
 
 function showCheckConnSuccess(data) {
