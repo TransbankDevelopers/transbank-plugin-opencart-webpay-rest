@@ -78,7 +78,6 @@ class ControllerExtensionPaymentWebpayRest extends Controller
             array('value' => 'LIVE', 'label' => 'Producción', 'selected' => $isLive),
         );
 
-        $this->load->model('localisation/order_status');
         $data['order_statuses'] = $this->model_localisation_order_status->getOrderStatuses();
         $data['order_statuses_completed'] = $this->buildOrderStatusOptions($data['order_statuses'], $data['payment_webpay_rest_completed_order_status']);
         $data['order_statuses_rejected'] = $this->buildOrderStatusOptions($data['order_statuses'], $data['payment_webpay_rest_rejected_order_status']);
@@ -336,11 +335,11 @@ class ControllerExtensionPaymentWebpayRest extends Controller
     private function buildHealthCheckData($args)
     {
         $hc = new HealthCheck($args);
-        $healthcheck = json_decode($hc->printFullResume(), true);
+        $resume = $hc->printFullResume();
 
         return array(
-            'hc_data' => $hc->printFullResume(),
-            'healthcheck' => $healthcheck,
+            'hc_data' => $resume,
+            'healthcheck' => json_decode($resume, true),
         );
     }
 
