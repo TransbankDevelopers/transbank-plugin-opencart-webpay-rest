@@ -30,7 +30,6 @@ class ControllerExtensionPaymentWebpayRest extends Controller
     public function index()
     {
         $this->loadResources();
-
         $this->document->setTitle($this->language->get('heading_title'));;
 
         $redirs = array('authorize', 'finish', 'error', 'reject');
@@ -54,7 +53,6 @@ class ControllerExtensionPaymentWebpayRest extends Controller
         }
 
         $data['breadcrumbs'] = $this->buildBreadcrumbs();
-
         $data['action'] = $this->url->link(self::ROUTE, self::PARAM_USER_TOKEN . '=' . $this->session->data['user_token'], true);
         $data['cancel'] = $this->url->link('marketplace/extension', self::PARAM_USER_TOKEN . '=' . $this->session->data['user_token'] . '&' . self::PARAM_TYPE_PAYMENT, true);
 
@@ -84,7 +82,6 @@ class ControllerExtensionPaymentWebpayRest extends Controller
         $data['order_statuses_canceled'] = $this->buildOrderStatusOptions($data['order_statuses'], $data['payment_webpay_rest_canceled_order_status']);
         $this->load->model('localisation/geo_zone');
         $data['geo_zones'] = $this->model_localisation_geo_zone->getGeoZones();
-
         $args = $this->resolveHealthCheckArgs();
 
         foreach ($this->buildHealthCheckData($args) as $key => $value) {
@@ -257,7 +254,6 @@ class ControllerExtensionPaymentWebpayRest extends Controller
     private function resolveConfigValues()
     {
         $fields = array('total', 'completed_order_status', 'rejected_order_status', 'canceled_order_status', 'geo_zone', 'sort_order', 'status');
-
         $values = array();
 
         foreach ($fields as $value) {
@@ -351,7 +347,6 @@ class ControllerExtensionPaymentWebpayRest extends Controller
     private function buildLogData()
     {
         $logHandler = new LogHandler();
-
         $data = array();
         $data['log_data'] = json_decode($logHandler->getResume(), true);
 
